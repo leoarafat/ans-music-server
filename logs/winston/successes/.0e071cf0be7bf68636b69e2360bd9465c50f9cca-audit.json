@@ -1,0 +1,65 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\music-distribution\\server\\logs\\winston\\successes\\.0e071cf0be7bf68636b69e2360bd9465c50f9cca-audit.json",
+    "files": [
+        {
+            "date": 1704808759934,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-09-19-success.log",
+            "hash": "cbc720b01f8921df10101ac6dd4614527eded5ebe8085ef2452a525e50fafe84"
+        },
+        {
+            "date": 1704808941853,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-09-20-success.log",
+            "hash": "85d43000b7fb79b386e177e7d6b09f6d665e59e7d26104b80c9fb0cce3ff10d2"
+        },
+        {
+            "date": 1704812441892,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-09-21-success.log",
+            "hash": "f693b6a4e14a619b669d73af5c08b599680ba183c60697bc6a641e30b2921479"
+        },
+        {
+            "date": 1705037121553,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-12-11-success.log",
+            "hash": "d69ae6fbea4b2de6280b10487d87514ba27ce9bf32a3a6c9b0e1f1e20d6b42ca"
+        },
+        {
+            "date": 1705039361427,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-12-12-success.log",
+            "hash": "e73079a9830214b9763b0e9dddca13daabdc00766b665ce7912fab620b440c45"
+        },
+        {
+            "date": 1705044177592,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-12-13-success.log",
+            "hash": "2c167b15b51a41df7665b7c31d760fec1fd6d7b006e986488cf87081f76b2158"
+        },
+        {
+            "date": 1705331851641,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-15-21-success.log",
+            "hash": "ef4dfaf4aa8903efe9c537bf3655efd7344d52c67a5203d9c66f23d3c2d60223"
+        },
+        {
+            "date": 1705335066541,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-15-22-success.log",
+            "hash": "7452a46daf8ac5f107897643919b1e5b6564e90cd2e45e8c72d9c7df8deb5337"
+        },
+        {
+            "date": 1705338024804,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-15-23-success.log",
+            "hash": "1f8c5b00db38586a736d914f4a1fc8439942cbfe6224eda5d1415efdcf38cfc1"
+        },
+        {
+            "date": 1705647944507,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-19-13-success.log",
+            "hash": "ed2597d336ea26d208a6c49629822e6e0753bfc55f9152904487af3160bcea15"
+        },
+        {
+            "date": 1705652352713,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\successes\\um-2024-01-19-14-success.log",
+            "hash": "1e78080c4c7bb16bd74e7f0c6ebfcd3717f1ffe01f418bc3df9952f0812dac1b"
+        }
+    ],
+    "hashType": "sha256"
+}

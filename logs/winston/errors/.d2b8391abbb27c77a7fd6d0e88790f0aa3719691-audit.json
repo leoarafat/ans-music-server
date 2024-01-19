@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\next-level\\Assignment-9\\server\\logs\\winston\\errors\\.d2b8391abbb27c77a7fd6d0e88790f0aa3719691-audit.json",
+    "files": [
+        {
+            "date": 1696943617715,
+            "name": "D:\\next-level\\Assignment-9\\server\\logs\\winston\\errors\\um-2023-10-10-19-error.log",
+            "hash": "85da23cf1b658e5ef8ef54126f9a7ebb1bf92b501d4064d77a1bc14070f42d10"
+        }
+    ],
+    "hashType": "sha256"
+}

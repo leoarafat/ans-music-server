@@ -1,0 +1,27 @@
+Tue Oct 10 2023 19:33 44 [AP] error: globalErrorHandler [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "body",
+      "email"
+    ],
+    "message": "Email number is required"
+  }
+]
+Tue Oct 10 2023 19:38 58 [AP] error: globalErrorHandler [
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "body",
+      "id"
+    ],
+    "message": "ID is required"
+  }
+]
+Tue Oct 10 2023 19:39 23 [AP] error: globalErrorHandler User does not exist
+Tue Oct 10 2023 19:40 23 [AP] error: globalErrorHandler User does not exist
+Tue Oct 10 2023 19:41 13 [AP] error: globalErrorHandler User does not exist

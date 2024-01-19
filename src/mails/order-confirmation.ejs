@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Details</title>
+    <style>
+        /* Reset some default styles */
+        body, h1, p, table {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Page container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading styles */
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Text styles */
+        p {
+            color: #777;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Footer styles */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your StudySync Order is Confirmed</h1>
+        <p>We're just as excited as you are!</p>
+
+        <div class="course-info">
+            <h4>Here's What You Ordered:</h4>
+            <table>
+                <tr>
+                    <td>Order:</td>
+                    <td><%= order._id %></td>
+                </tr>
+                <tr>
+                    <td>Order Date:</td>
+                    <td><%= order.date %></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
+                </tr>
+                <tr>
+                    <td><%= order.name %></td>
+                    <td>1</td>
+                    <td>$<%= order.price %></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td>Subtotal:</td>
+                    <td>$<%= order.price %></td>
+                </tr>
+                <tr>
+                    <td>Total:</td>
+                    <td>$<%= order.price %></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>If you have any questions, please contact our team at <a href="mailto:yeasinarafat1734@gmail.com">yeasinarafat1734@gmail.com</a></p>
+            <p>&copy; 2023 StudySync. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

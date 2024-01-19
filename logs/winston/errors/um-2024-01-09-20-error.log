@@ -1,0 +1,3 @@
+Tue Jan 09 2024 20:20 15 [AP] error: globalErrorHandler secretOrPrivateKey must have a value
+Tue Jan 09 2024 20:22 50 [AP] error: globalErrorHandler ENOENT: no such file or directory, open 'D:\music-distribution\server\src\mails\activation-mail.ejs'
+Tue Jan 09 2024 20:35 3 [AP] error: globalErrorHandler User validation failed: role: Path `role` is required., address: Path `address` is required., phoneNumber: Path `phoneNumber` is required., name.lastName: Path `name.lastName` is required., name.firstName: Path `name.firstName` is required.
