@@ -45,6 +45,7 @@ export type IUser = {
   dashboardScreenShot: string;
   balance: number;
   isVerified: false;
+  subUsers: [];
 
   // test: Types.ObjectId | ITest
 };

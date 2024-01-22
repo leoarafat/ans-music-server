@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
-import { IUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../../config';
+import { ISubUser, SubUserModel } from './sub-user.interface';
 
-const UserSchema = new Schema<IUser, UserModel>(
+const SubUserSchema = new Schema<ISubUser, SubUserModel>(
   {
     name: {
       type: String,
@@ -29,8 +29,7 @@ const UserSchema = new Schema<IUser, UserModel>(
     },
     role: {
       type: String,
-      enum: ['admin', 'super-admin', 'user', 'sub-user'],
-      default: 'user',
+      default: 'sub-user',
     },
     image: {
       type: String,
@@ -92,31 +91,27 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: Boolean,
       default: false,
     },
-    subUsers: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'SubUser',
-      },
-    ],
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   {
     timestamps: true,
     toJSON: {
       virtuals: true,
-      transform: function (_doc, ret) {
-        delete ret.password;
-        return ret;
-      },
+      // transform: function (_doc, ret) {
+      //   delete ret.password;
+      //   return ret;
+      // },
     },
   },
 );
 
-// Create a unique index for phoneNumber field
-// Check if User exists
-UserSchema.statics.isUserExist = async function (
+SubUserSchema.statics.isSubUserExist = async function (
   email: string,
-): Promise<Pick<IUser, '_id' | 'password' | 'phoneNumber' | 'role'> | null> {
-  return await User.findOne(
+): Promise<Pick<ISubUser, '_id' | 'password' | 'phoneNumber' | 'role'> | null> {
+  return await SubUser.findOne(
     { email },
     {
       _id: 1,
@@ -129,7 +124,7 @@ UserSchema.statics.isUserExist = async function (
 };
 
 // Check password match
-UserSchema.statics.isPasswordMatched = async function (
+SubUserSchema.statics.isPasswordMatched = async function (
   givenPassword: string,
   savedPassword: string,
 ): Promise<boolean> {
@@ -137,7 +132,7 @@ UserSchema.statics.isPasswordMatched = async function (
 };
 
 // Hash the password
-UserSchema.pre('save', async function (next) {
+SubUserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
@@ -150,6 +145,6 @@ UserSchema.pre('save', async function (next) {
 });
 
 // Statics
-const User = model<IUser, UserModel>('User', UserSchema);
+const SubUser = model<ISubUser, SubUserModel>('SubUser', SubUserSchema);
 
-export default User;
+export default SubUser;

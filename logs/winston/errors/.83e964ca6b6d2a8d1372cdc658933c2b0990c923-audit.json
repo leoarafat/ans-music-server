@@ -59,6 +59,21 @@
             "date": 1705652352717,
             "name": "D:\\music-distribution\\server\\logs\\winston\\errors\\um-2024-01-19-14-error.log",
             "hash": "09607ee178953da9302fa9053abea86e4b92f72665b55032365a80d202579389"
+        },
+        {
+            "date": 1705724546018,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\errors\\um-2024-01-20-10-error.log",
+            "hash": "23b0b176bc7bdbd391028e80d6ab4cdf78b9caca8c165fd715bcf6f197e1e9ac"
+        },
+        {
+            "date": 1705769473970,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\errors\\um-2024-01-20-22-error.log",
+            "hash": "875fc85803dd0e6e3329a0fb983ea9a5b9d683ae74ec106e92c64d32a39a9c4d"
+        },
+        {
+            "date": 1705770363111,
+            "name": "D:\\music-distribution\\server\\logs\\winston\\errors\\um-2024-01-20-23-error.log",
+            "hash": "87e2ed147b8180a066b85fcc3ca4322ff6277af3b45eaff88e8fa6b498d45b45"
         }
     ],
     "hashType": "sha256"

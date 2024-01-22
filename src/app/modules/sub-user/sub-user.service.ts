@@ -3,18 +3,18 @@
 import path from 'path';
 import ejs from 'ejs';
 import ApiError from '../../../errors/ApiError';
-import {
-  IActivationRequest,
-  IActivationToken,
-  IRegistration,
-  IUser,
-} from './user.interface';
-import User from './user.model';
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import sendEmail from '../../../utils/sendEmail';
 import { Request } from 'express';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
+import {
+  IActivationRequest,
+  IActivationToken,
+  IRegistration,
+} from '../user/user.interface';
+import SubUser from './sub-user.model';
+import { ISubUser } from './sub-user.interface';
 import {
   IChangePassword,
   ILoginUser,
@@ -23,7 +23,7 @@ import {
 } from '../auth/auth.interface';
 
 //!
-const registrationUser = async (payload: IRegistration) => {
+const registrationSubUser = async (payload: IRegistration) => {
   const { name, email, password } = payload;
   const user = {
     name,
@@ -31,7 +31,7 @@ const registrationUser = async (payload: IRegistration) => {
     password,
   };
 
-  const isEmailExist = await User.findOne({ email });
+  const isEmailExist = await SubUser.findOne({ email });
   if (isEmailExist) {
     throw new ApiError(400, 'Email already exist');
   }
@@ -77,19 +77,19 @@ const createActivationToken = (user: IRegistration): IActivationToken => {
 //!
 const activateUser = async (payload: IActivationRequest) => {
   const { activation_code, activation_token } = payload;
-  const newUser: { user: IUser; activationCode: string } = jwt.verify(
+  const newUser: { user: ISubUser; activationCode: string } = jwt.verify(
     activation_token,
     config.activation_secret as string,
-  ) as { user: IUser; activationCode: string };
+  ) as { user: ISubUser; activationCode: string };
   if (newUser.activationCode !== activation_code) {
     throw new ApiError(400, 'Activation code is not valid');
   }
   const { name, email, password } = newUser.user;
-  const existUser = await User.findOne({ email });
+  const existUser = await SubUser.findOne({ email });
   if (existUser) {
     throw new ApiError(400, 'Email is already exist');
   }
-  const user = await User.create({
+  const user = await SubUser.create({
     name,
     email,
     password,
@@ -111,25 +111,22 @@ const activateUser = async (payload: IActivationRequest) => {
   };
 };
 //!
-const createUser = async (userData: IUser): Promise<IUser | null> => {
-  const newUser = await User.create(userData);
-
-  return newUser;
-};
-//!
-const getAllUsers = async (): Promise<IUser[]> => {
-  const users = await User.find({});
+const getAllUsers = async (id: string): Promise<ISubUser[]> => {
+  const users = await SubUser.find({ user: id });
   return users;
 };
 //!
-const getSingleUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findById(id);
+const getSingleUser = async (id: string): Promise<ISubUser | null> => {
+  const result = await SubUser.findById(id);
 
   return result;
 };
 //!
-const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
-  const isExist = await User.findOne({ _id: id });
+const updateUser = async (
+  id: string,
+  req: Request,
+): Promise<ISubUser | null> => {
+  const isExist = await SubUser.findOne({ _id: id });
   const { files } = req;
   const data = JSON.parse(req.body.data);
   //@ts-ignore
@@ -144,7 +141,7 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
 
   const { ...userData } = data;
 
-  const result = await User.findOneAndUpdate(
+  const result = await SubUser.findOneAndUpdate(
     { _id: id },
     {
       ...userData,
@@ -185,24 +182,24 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
   return result;
 };
 //!
-const deleteUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findByIdAndDelete(id);
+const deleteUser = async (id: string): Promise<ISubUser | null> => {
+  const result = await SubUser.findByIdAndDelete(id);
 
   return result;
 };
 //!
-const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
+const login = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { email, password } = payload;
 
-  const isUserExist = await User.isUserExist(email);
+  const isUserExist = await SubUser.isSubUserExist(email);
 
   if (!isUserExist) {
-    throw new ApiError(404, 'User does not exist');
+    throw new ApiError(404, 'SUb User does not exist');
   }
 
   if (
     isUserExist.password &&
-    !(await User.isPasswordMatched(password, isUserExist.password))
+    !(await SubUser.isPasswordMatched(password, isUserExist.password))
   ) {
     throw new ApiError(402, 'Password is incorrect');
   }
@@ -245,15 +242,15 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
 
   // checking deleted user's refresh token
 
-  const isUserExist = await User.isUserExist(userId);
+  const isUserExist = await SubUser.isSubUserExist(userId);
   if (!isUserExist) {
-    throw new ApiError(403, 'User does not exist');
+    throw new ApiError(403, 'Sub User does not exist');
   }
   //generate new token
 
   const newAccessToken = jwtHelpers.createToken(
     {
-      _id: isUserExist._id,
+      id: isUserExist._id,
       role: isUserExist.role,
     },
     config.jwt.secret as Secret,
@@ -269,33 +266,30 @@ const changePassword = async (
   user: JwtPayload | null,
   payload: IChangePassword,
 ): Promise<void> => {
-  const { oldPassword, newPassword } = payload;
-
-  const isUserExist = await User.findOne({ _id: user?.userId }).select(
+  const { oldPassword } = payload;
+  const isUserExist = await SubUser.findOne({ _id: user?.userId }).select(
     '+password',
   );
-
   if (!isUserExist) {
     throw new ApiError(404, 'User does not exist');
   }
   if (
     isUserExist.password &&
-    !(await User.isPasswordMatched(oldPassword, isUserExist.password))
+    !(await SubUser.isPasswordMatched(oldPassword, isUserExist.password))
   ) {
     throw new ApiError(402, 'Old password is incorrect');
   }
-  isUserExist.password = newPassword;
-  await isUserExist.save();
+
+  isUserExist.save();
 };
-export const UserService = {
-  createUser,
+export const SubUserService = {
   getAllUsers,
   getSingleUser,
   updateUser,
   deleteUser,
-  registrationUser,
+  registrationSubUser,
   activateUser,
-  loginUser,
+  login,
   refreshToken,
   changePassword,
 };

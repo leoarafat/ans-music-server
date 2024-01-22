@@ -1,9 +1,9 @@
 import { Request, RequestHandler, Response } from 'express';
-import { UserService } from './user.service';
-import sendResponse from '../../../shared/sendResponse';
-import { IUser } from './user.interface';
 import catchAsync from '../../../shared/catchasync';
 import config from '../../../config';
+import sendResponse from '../../../shared/sendResponse';
+import { SubUserService } from './sub-user.service';
+import { ISubUser } from './sub-user.interface';
 import {
   ILoginUserResponse,
   IRefreshTokenResponse,
@@ -11,7 +11,7 @@ import {
 
 const registrationUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await UserService.registrationUser(req.body);
+    const result = await SubUserService.registrationSubUser(req.body);
 
     sendResponse(res, {
       statusCode: 200,
@@ -23,7 +23,7 @@ const registrationUser: RequestHandler = catchAsync(
 );
 const activateUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await UserService.activateUser(req.body);
+    const result = await SubUserService.activateUser(req.body);
     const { refreshToken } = result;
     // set refresh token into cookie
     const cookieOptions = {
@@ -31,73 +31,60 @@ const activateUser: RequestHandler = catchAsync(
       httpOnly: true,
     };
     res.cookie('refreshToken', refreshToken, cookieOptions);
-    // await UserService.activateUser(req.body);
+    // await SubUserService.activateUser(req.body);
 
     sendResponse(res, {
       statusCode: 201,
       success: true,
-      message: 'User activate successful',
+      message: 'Sub User activate successful',
       data: result,
     });
   },
 );
 
-const createUser: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const { ...userData } = req.body;
-
-    const result = await UserService.createUser(userData);
-
-    sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: 'User created successfully',
-      data: result,
-    });
-  },
-);
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getAllUsers();
-  sendResponse<IUser[]>(res, {
+  const id = req.params.id;
+  const result = await SubUserService.getAllUsers(id);
+  sendResponse<ISubUser[]>(res, {
     statusCode: 200,
     success: true,
-    message: 'User retrieved successfully',
+    message: 'SUb User retrieved successfully',
     data: result,
   });
 });
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.getSingleUser(id);
-  sendResponse<IUser>(res, {
+  const result = await SubUserService.getSingleUser(id);
+  sendResponse<ISubUser>(res, {
     statusCode: 200,
     success: true,
-    message: 'User retrieved successfully',
+    message: 'Sub User retrieved successfully',
     data: result,
   });
 });
 const updateUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.updateUser(id, req);
-  sendResponse<IUser>(res, {
+  const result = await SubUserService.updateUser(id, req);
+  sendResponse<ISubUser>(res, {
     statusCode: 200,
     success: true,
-    message: 'User updated successfully',
+    message: 'SUb User updated successfully',
     data: result,
   });
 });
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.deleteUser(id);
-  sendResponse<IUser>(res, {
+  const result = await SubUserService.deleteUser(id);
+  sendResponse<ISubUser>(res, {
     statusCode: 200,
     success: true,
-    message: 'User deleted successfully',
+    message: 'SUb User deleted successfully',
     data: result,
   });
 });
 const login = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
-  const result = await UserService.loginUser(loginData);
+  const result = await SubUserService.login(loginData);
   const { refreshToken } = result;
   // set refresh token into cookie
   const cookieOptions = {
@@ -108,14 +95,14 @@ const login = catchAsync(async (req: Request, res: Response) => {
   sendResponse<ILoginUserResponse>(res, {
     statusCode: 200,
     success: true,
-    message: 'User loggedin successfully !',
+    message: 'SUb User loggedin successfully !',
     data: result,
   });
 });
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
-  const result = await UserService.refreshToken(refreshToken);
+  const result = await SubUserService.refreshToken(refreshToken);
   // set refresh token into cookie
   const cookieOptions = {
     secure: config.env === 'production',
@@ -127,22 +114,21 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IRefreshTokenResponse>(res, {
     statusCode: 200,
     success: true,
-    message: 'User lohggedin successfully !',
+    message: 'Sub User lohggedin successfully !',
     data: result,
   });
 });
 const changePassword = catchAsync(async (req: Request, res: Response) => {
   const { ...passwordData } = req.body;
   const user = req.user;
-  await UserService.changePassword(user, passwordData);
+  await SubUserService.changePassword(user, passwordData);
   sendResponse<ILoginUserResponse>(res, {
     statusCode: 200,
     success: true,
     message: 'Password change successfully !',
   });
 });
-export const UserController = {
-  createUser,
+export const SubUserController = {
   getAllUsers,
   getSingleUser,
   updateUser,

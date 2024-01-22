@@ -1,8 +1,8 @@
 import { Request, RequestHandler, Response } from 'express';
-import { UserService } from './user.service';
-import sendResponse from '../../../shared/sendResponse';
-import { IUser } from './user.interface';
 import catchAsync from '../../../shared/catchasync';
+import sendResponse from '../../../shared/sendResponse';
+import { AdminService } from './admin.service';
+import { IUser } from '../user/user.interface';
 import config from '../../../config';
 import {
   ILoginUserResponse,
@@ -11,32 +11,12 @@ import {
 
 const registrationUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await UserService.registrationUser(req.body);
+    const result = await AdminService.registrationUser(req.body);
 
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: `Please check your email: ${result?.user?.email} to active your account`,
-      activationToken: result.activationToken,
-    });
-  },
-);
-const activateUser: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const result = await UserService.activateUser(req.body);
-    const { refreshToken } = result;
-    // set refresh token into cookie
-    const cookieOptions = {
-      secure: config.env === 'production',
-      httpOnly: true,
-    };
-    res.cookie('refreshToken', refreshToken, cookieOptions);
-    // await UserService.activateUser(req.body);
-
-    sendResponse(res, {
-      statusCode: 201,
-      success: true,
-      message: 'User activate successful',
+      message: `Admin Created`,
       data: result,
     });
   },
@@ -46,7 +26,7 @@ const createUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { ...userData } = req.body;
 
-    const result = await UserService.createUser(userData);
+    const result = await AdminService.createUser(userData);
 
     sendResponse(res, {
       statusCode: 200,
@@ -57,7 +37,7 @@ const createUser: RequestHandler = catchAsync(
   },
 );
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getAllUsers();
+  const result = await AdminService.getAllUsers();
   sendResponse<IUser[]>(res, {
     statusCode: 200,
     success: true,
@@ -67,7 +47,7 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 });
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.getSingleUser(id);
+  const result = await AdminService.getSingleUser(id);
   sendResponse<IUser>(res, {
     statusCode: 200,
     success: true,
@@ -75,19 +55,10 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-const updateUser = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const result = await UserService.updateUser(id, req);
-  sendResponse<IUser>(res, {
-    statusCode: 200,
-    success: true,
-    message: 'User updated successfully',
-    data: result,
-  });
-});
+
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.deleteUser(id);
+  const result = await AdminService.deleteUser(id);
   sendResponse<IUser>(res, {
     statusCode: 200,
     success: true,
@@ -97,7 +68,7 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
 });
 const login = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
-  const result = await UserService.loginUser(loginData);
+  const result = await AdminService.login(loginData);
   const { refreshToken } = result;
   // set refresh token into cookie
   const cookieOptions = {
@@ -108,14 +79,14 @@ const login = catchAsync(async (req: Request, res: Response) => {
   sendResponse<ILoginUserResponse>(res, {
     statusCode: 200,
     success: true,
-    message: 'User loggedin successfully !',
+    message: 'Admin loggedin successfully !',
     data: result,
   });
 });
 
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
-  const result = await UserService.refreshToken(refreshToken);
+  const result = await AdminService.refreshToken(refreshToken);
   // set refresh token into cookie
   const cookieOptions = {
     secure: config.env === 'production',
@@ -127,29 +98,50 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IRefreshTokenResponse>(res, {
     statusCode: 200,
     success: true,
-    message: 'User lohggedin successfully !',
+    message: 'Admin lohggedin successfully !',
     data: result,
   });
 });
 const changePassword = catchAsync(async (req: Request, res: Response) => {
   const { ...passwordData } = req.body;
   const user = req.user;
-  await UserService.changePassword(user, passwordData);
+  await AdminService.changePassword(user, passwordData);
   sendResponse<ILoginUserResponse>(res, {
     statusCode: 200,
     success: true,
     message: 'Password change successfully !',
   });
 });
-export const UserController = {
+const approveSingleMusic = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await AdminService.approveSingleMusic(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Song approved successful!',
+    data: result,
+  });
+});
+const rejectMusic = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const data = req.body;
+  const result = await AdminService.rejectMusic(id, data);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Song rejected successful!',
+    data: result,
+  });
+});
+export const AdminController = {
   createUser,
   getAllUsers,
   getSingleUser,
-  updateUser,
   deleteUser,
   registrationUser,
-  activateUser,
   login,
   changePassword,
   refreshToken,
+  approveSingleMusic,
+  rejectMusic,
 };
