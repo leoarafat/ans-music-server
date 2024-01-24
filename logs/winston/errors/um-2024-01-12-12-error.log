@@ -1,5 +1,0 @@
-Fri Jan 12 2024 12:25 40 [AP] error: globalErrorHandler Cannot read properties of undefined (reading 'uploadSingle')
-Fri Jan 12 2024 12:26 59 [AP] error: globalErrorHandler Cannot read properties of undefined (reading 'uploadSingle')
-Fri Jan 12 2024 12:28 46 [AP] error: globalErrorHandler Cannot read properties of undefined (reading 'uploadSingle')
-Fri Jan 12 2024 12:30 35 [AP] error: globalErrorHandler Both audio and image files are required
-Fri Jan 12 2024 12:33 47 [AP] error: globalErrorHandler SingleTrack validation failed: audio.duration: Cast to Number failed for value "04:44" (type string) at path "audio.duration"
