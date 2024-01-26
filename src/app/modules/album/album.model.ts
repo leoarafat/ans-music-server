@@ -107,4 +107,4 @@ const multipleMusicSchema = new Schema(
   },
 );
 
-export const MultipleTrack = model('MultipleTrack', multipleMusicSchema);
+export const Album = model('Album', multipleMusicSchema);
