@@ -6,17 +6,17 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     audio: {
       path: {
         type: String,
-        required: true,
+        // required: true,
       },
       duration: {
         type: String,
-        required: true,
+        // required: true,
       },
     },
 
     image: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     status: {
@@ -27,171 +27,171 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     trackType: {
       type: String,
       enum: ['music', 'classic-music', 'jazz-music'],
-      required: true,
+      // required: true,
     },
 
     isRelease: {
       type: String,
       enum: ['yes', 'no'],
-      required: true,
+      // required: true,
     },
 
     instrumental: {
       type: String,
       enum: ['yes', 'no'],
-      required: true,
+      // required: true,
     },
 
     secondaryTrackType: {
       type: String,
       enum: ['original', 'karaoke', 'melody', 'cover', 'cover-by-band'],
-      required: true,
+      // required: true,
     },
 
     parentalAdvisory: {
       type: String,
       enum: ['explicit', 'no-explicit', 'edited'],
-      required: true,
+      // required: true,
     },
 
     releaseTitle: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     subtitle: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     line: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     primaryArtist: {
       type: [String],
-      required: true,
+      // required: true,
     },
 
     primaryArtistSpotifyId: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     primaryArtistAppleId: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     primaryArtistFacebookId: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     primaryArtistYoutubeId: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     writer: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     composer: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     musicDirector: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     producer: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     actor: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     filmDirector: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     genre: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     upcEan: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     subGenre: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     producerCatalogNumber: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     productionYear: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     labelName: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     publisher: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     youtubeUrl: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     isrc: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     catalogNumber: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     tiktokStartInSecond: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     trackLanguage: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     releaseDate: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     isAdvancePurchase: {
       type: Boolean,
-      required: true,
+      // required: true,
     },
 
     advancePurchaseDate: {

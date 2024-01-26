@@ -31,7 +31,7 @@ const fs = __importStar(require("fs"));
 const multer_1 = __importDefault(require("multer"));
 const uploadsDirectory = './src/uploads/';
 if (!fs.existsSync(uploadsDirectory)) {
-    fs.mkdirSync(uploadsDirectory);
+    fs.mkdirSync(uploadsDirectory, { recursive: true });
 }
 exports.storage = multer_1.default.diskStorage({
     //@ts-ignore

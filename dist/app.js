@@ -24,10 +24,15 @@ exports.app.use(body_parser_1.default.json());
 //All Routes
 exports.app.use('/api/v1', routes_1.default);
 // app.use('/api/v1/src/uploads', express.static('uploads'));
-exports.app.use('/uploads', (req, res, next) => {
-    console.log('Received request for:', path_1.default.join('../src/uploads', req.url));
-    next();
-}, express_1.default.static('uploads'));
+exports.app.use('/api/v1/src/uploads', express_1.default.static(path_1.default.join(__dirname, './', 'uploads')));
+// app.use(
+//   '/api/v1',
+//   (req, res, next) => {
+//     console.log('Received request for:', path.join('./uploads', req.url));
+//     next();
+//   },
+//   express.static('uploads'),
+// );
 //Global Error Handler
 exports.app.use(globalErrorHandler_1.default);
 //handle not found

@@ -4,6 +4,7 @@ import { AuthRoutes } from '../modules/auth/auth.route';
 import { SingleMusicRoutes } from '../modules/single-track/single.routes';
 import { AdminRoutes } from '../modules/admin/admin.routes';
 import { SubUserRoutes } from '../modules/sub-user/sub-user.routes';
+import { AlbumRoutes } from '../modules/album/album.routes';
 
 const router = express.Router();
 
@@ -23,6 +24,10 @@ const moduleRoutes = [
   {
     path: '/music',
     route: SingleMusicRoutes,
+  },
+  {
+    path: '/album',
+    route: AlbumRoutes,
   },
   {
     path: '/admin',

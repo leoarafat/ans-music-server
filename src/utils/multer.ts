@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import multer from 'multer';
 const uploadsDirectory = './src/uploads/';
 if (!fs.existsSync(uploadsDirectory)) {
-  fs.mkdirSync(uploadsDirectory);
+  fs.mkdirSync(uploadsDirectory, { recursive: true });
 }
 export const storage = multer.diskStorage({
   //@ts-ignore
@@ -25,4 +25,6 @@ export const upload = multer({ storage: storage }).fields([
   { name: 'nidBack', maxCount: 20 },
   { name: 'audio', maxCount: 30 },
   { name: 'statics', maxCount: 5 },
+  { name: 'title' },
+  { name: 'artist' },
 ]);
