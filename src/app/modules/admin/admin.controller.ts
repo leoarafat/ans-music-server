@@ -133,6 +133,107 @@ const rejectMusic = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+//! Youtube Request
+const getClaimRequests = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminService.getClaimRequests();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'data retrieved successful!',
+    data: result,
+  });
+});
+const getClaimRequestsPending = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await AdminService.getClaimRequestsPending();
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'data retrieved successful!',
+      data: result,
+    });
+  },
+);
+const getArtistChannelRequest = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await AdminService.getArtistChannelRequest();
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'data retrieved successful!',
+      data: result,
+    });
+  },
+);
+const getArtistChannelRequestPending = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await AdminService.getArtistChannelRequestPending();
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'data retrieved successful!',
+      data: result,
+    });
+  },
+);
+const getWhitelistRequest = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminService.getWhitelistRequest();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'data retrieved successful!',
+    data: result,
+  });
+});
+const getWhitelistRequestPending = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await AdminService.getWhitelistRequestPending();
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'data retrieved successful!',
+      data: result,
+    });
+  },
+);
+const updateClaimRequests = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const data = req.body;
+  const result = await AdminService.updateClaimRequests(id, data);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Update successful!',
+    data: result,
+  });
+});
+const updateArtistChannelRequest = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const data = req.body;
+    const result = await AdminService.updateArtistChannelRequest(id, data);
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Update successful!',
+      data: result,
+    });
+  },
+);
+const updateWhitelistRequest = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const data = req.body;
+    const result = await AdminService.updateWhitelistRequest(id, data);
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Update successful!',
+      data: result,
+    });
+  },
+);
+
 export const AdminController = {
   createUser,
   getAllUsers,
@@ -144,4 +245,13 @@ export const AdminController = {
   refreshToken,
   approveSingleMusic,
   rejectMusic,
+  getClaimRequests,
+  getArtistChannelRequest,
+  getWhitelistRequest,
+  getClaimRequestsPending,
+  getWhitelistRequestPending,
+  getArtistChannelRequestPending,
+  updateArtistChannelRequest,
+  updateClaimRequests,
+  updateWhitelistRequest,
 };

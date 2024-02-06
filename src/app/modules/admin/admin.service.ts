@@ -16,6 +16,11 @@ import User from '../user/user.model';
 import Admin from './admin.model';
 import { SingleTrack } from '../single-track/single.model';
 import mongoose from 'mongoose';
+import {
+  ArtistChannelRequest,
+  ClaimRequest,
+  WhitelistRequest,
+} from '../youtube-request/youtube-request.model';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -184,7 +189,76 @@ const rejectMusic = async (id: string, payload: { note: string }) => {
     throw new Error(error.message);
   }
 };
-
+//! Youtube request
+const getClaimRequests = async () => {
+  const result = await ClaimRequest.find({});
+  return result;
+};
+const getArtistChannelRequest = async () => {
+  const result = await ArtistChannelRequest.find({});
+  return result;
+};
+const getWhitelistRequest = async () => {
+  const result = await WhitelistRequest.find({});
+  return result;
+};
+const getClaimRequestsPending = async () => {
+  const result = await ClaimRequest.find({ approvedStatus: 'pending' });
+  return result;
+};
+const getArtistChannelRequestPending = async () => {
+  const result = await ArtistChannelRequest.find({ approvedStatus: 'pending' });
+  return result;
+};
+const getWhitelistRequestPending = async () => {
+  const result = await WhitelistRequest.find({ approvedStatus: 'pending' });
+  return result;
+};
+const updateClaimRequests = async (
+  id: string,
+  payload: { approvedStatus: string },
+) => {
+  const isExists = await ClaimRequest.findById(id);
+  if (!isExists) {
+    throw new ApiError(404, 'Data not found');
+  }
+  const result = await ClaimRequest.findOneAndUpdate(
+    { _id: id },
+    { approvedStatus: payload.approvedStatus },
+    { new: true, runValidators: true },
+  );
+  return result;
+};
+const updateArtistChannelRequest = async (
+  id: string,
+  payload: { approvedStatus: string },
+) => {
+  const isExists = await ArtistChannelRequest.findById(id);
+  if (!isExists) {
+    throw new ApiError(404, 'Data not found');
+  }
+  const result = await ArtistChannelRequest.findOneAndUpdate(
+    { _id: id },
+    { approvedStatus: payload.approvedStatus },
+    { new: true, runValidators: true },
+  );
+  return result;
+};
+const updateWhitelistRequest = async (
+  id: string,
+  payload: { approvedStatus: string },
+) => {
+  const isExists = await WhitelistRequest.findById(id);
+  if (!isExists) {
+    throw new ApiError(404, 'Data not found');
+  }
+  const result = await WhitelistRequest.findOneAndUpdate(
+    { _id: id },
+    { approvedStatus: payload.approvedStatus },
+    { new: true, runValidators: true },
+  );
+  return result;
+};
 export const AdminService = {
   createUser,
   getAllUsers,
@@ -196,4 +270,13 @@ export const AdminService = {
   refreshToken,
   approveSingleMusic,
   rejectMusic,
+  getClaimRequests,
+  getArtistChannelRequest,
+  getWhitelistRequest,
+  getClaimRequestsPending,
+  getWhitelistRequestPending,
+  getArtistChannelRequestPending,
+  updateArtistChannelRequest,
+  updateClaimRequests,
+  updateWhitelistRequest,
 };

@@ -90,7 +90,8 @@ const multipleMusicSchema = new Schema(
     },
     isApproved: {
       type: String,
-      default: 'rejected',
+      enum: ['approved', 'rejected', 'pending'],
+      default: 'pending',
     },
     correctionNote: {
       type: [String],
