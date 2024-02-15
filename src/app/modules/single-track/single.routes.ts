@@ -6,9 +6,9 @@ import { MultipleMusicService } from '../album/album.service';
 // import { StaticsService } from '../statics/statics.service';
 const router = express.Router();
 
-router.post('/upload', upload, SingleMusicController.uploadSingle);
+router.post('/upload/single', upload, SingleMusicController.uploadSingle);
 // router.post('/edit-music/:id', upload, SingleMusicController.updateSingleTrack);
-router.post('/multiple', upload, MultipleMusicService.uploadMultiple);
+router.post('/upload/album', upload, MultipleMusicService.uploadMultiple);
 // router.post('/statics', upload, StaticsService.insertIntoDB);
 
 export const SingleMusicRoutes = router;

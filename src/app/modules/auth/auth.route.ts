@@ -9,23 +9,23 @@ const router = express.Router();
 router.post(
   '/login',
   validateRequest(AuthValidation.loginZodSchema),
-  AuthController.loginUser
+  AuthController.loginUser,
 );
 router.post(
   '/refresh-token',
   validateRequest(AuthValidation.refreshTokenZodSchema),
-  AuthController.refreshToken
+  AuthController.refreshToken,
 );
 router.post(
   '/change-password',
   validateRequest(AuthValidation.changePasswordZodSchema),
   auth(
     ENUM_USER_ROLE.ADMIN,
-    ENUM_USER_ROLE.FACULTY,
-    ENUM_USER_ROLE.STUDENT,
-    ENUM_USER_ROLE.SUPER_ADMIN
+    ENUM_USER_ROLE.USER,
+    ENUM_USER_ROLE.SUB_USER,
+    ENUM_USER_ROLE.SUPER_ADMIN,
   ),
-  AuthController.changePassword
+  AuthController.changePassword,
 );
 
 export const AuthRoutes = router;
