@@ -5,7 +5,7 @@ import routes from './app/routes';
 import { NotFoundHandler } from './errors/NotFoundHandler';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import path from 'path';
+
 export const app: Application = express();
 //cors
 app.use(
@@ -22,20 +22,11 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //All Routes
-app.use('/api/v1', routes);
-// app.use('/api/v1/src/uploads', express.static('uploads'));
-app.use(
-  '/api/v1/src/uploads',
-  express.static(path.join(__dirname, './', 'uploads')),
-);
-
+app.use('/api', routes);
+app.use('/api/uploads', express.static('uploads'));
 // app.use(
-//   '/api/v1',
-//   (req, res, next) => {
-//     console.log('Received request for:', path.join('./uploads', req.url));
-//     next();
-//   },
-//   express.static('uploads'),
+//   '/api/v1/src/uploads',
+//   express.static(path.join(__dirname, './', 'uploads')),
 // );
 
 //Global Error Handler

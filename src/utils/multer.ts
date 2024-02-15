@@ -3,7 +3,7 @@
 import { Request } from 'express';
 import * as fs from 'fs';
 import multer from 'multer';
-const uploadsDirectory = './src/uploads/';
+const uploadsDirectory = 'uploads';
 if (!fs.existsSync(uploadsDirectory)) {
   fs.mkdirSync(uploadsDirectory, { recursive: true });
 }
