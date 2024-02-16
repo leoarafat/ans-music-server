@@ -113,7 +113,7 @@ const changePassword = async (
 };
 //!
 const forgotPass = async (payload: { id: string }) => {
-  const user = await User.findOne({ id: payload.id }, { id: 1, role: 1 });
+  const user = await User.findOne({ _id: payload.id }, { _id: 1, role: 1 });
 
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User does not exist!');
@@ -139,14 +139,13 @@ const forgotPass = async (payload: { id: string }) => {
   }
 
   const passResetToken = await jwtHelpers.createResetToken(
-    { id: user.id },
+    { _id: user.id },
     config.jwt.secret as string,
     '50m',
   );
 
   const resetLink: string = config.resetlink + `token=${passResetToken}`;
 
-  console.log('profile: ', profile);
   await sendEmail(
     profile.email,
     `
@@ -164,7 +163,7 @@ const resetPassword = async (
   token: string,
 ) => {
   const { id, newPassword } = payload;
-  const user = await User.findOne({ id }, { id: 1 });
+  const user = await User.findOne({ _id: id }, { _id: 1 });
 
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User not found!');
@@ -177,7 +176,7 @@ const resetPassword = async (
     Number(config.bcrypt_salt_rounds),
   );
 
-  await User.updateOne({ id }, { password });
+  await User.updateOne({ _id: id }, { password });
 };
 export const AuthService = {
   loginUser,
