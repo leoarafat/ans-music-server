@@ -58,32 +58,3 @@ export const sendEmails = async (options: IEmailOptions): Promise<void> => {
     throw new Error(`Error sending email: ${error.message}`);
   }
 };
-// const renderFileAsync = promisify(ejs.renderFile);
-// export const sendEmailS = async (options: IEmailOptions): Promise<void> => {
-//   //@ts-ignore
-//   sgMail.setApiKey(config.sendgrid.api_key);
-
-//   const { email, subject, template, data } = options;
-
-//   // Construct the path to the EJS template
-//   const templatePath = path.join(__dirname, '../mails', template);
-
-//   try {
-//     // Render the EJS template file to HTML content using data
-//     const html = await renderFileAsync(templatePath, data);
-
-//     const msg = {
-//       to: email,
-//       from: config.sendgrid.from_email,
-//       subject: subject,
-//       html: html, // Set the HTML content generated from the EJS template
-//     };
-
-//     // Send the email
-//     //@ts-ignore
-//     await sgMail.send(msg);
-//   } catch (error) {
-//     //@ts-ignore
-//     throw new Error(`Error sending email: ${error.message}`);
-//   }
-// };

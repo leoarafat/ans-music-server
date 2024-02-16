@@ -26,6 +26,8 @@ export default {
     smtp_mail: process.env.SMTP_MAIL,
     smtp_password: process.env.SMTP_PASSWORD,
   },
+  resetlink: process.env.RESET_PASS_UI_LINK,
+
   sendgrid: {
     from_email: process.env.FORM_EMAIL,
     api_key: process.env.SEND_GRIDAPI_KEY,
