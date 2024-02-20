@@ -22,6 +22,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
 
   const isUserExist = await User.isUserExist(email);
 
+  const newUser = await User.findOne({ email });
   if (!isUserExist) {
     throw new ApiError(404, 'User does not exist');
   }
@@ -52,7 +53,7 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
     accessToken,
     refreshToken,
     //@ts-ignore
-    userData: isUserExist,
+    userData: newUser,
   };
 };
 

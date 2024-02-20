@@ -41,7 +41,7 @@ export type IUser = {
   channelUrl: string;
   subscribeCount: number;
   videosCount: number;
-  copyrightNotice: string;
+  copyrightNoticeImage: string;
   dashboardScreenShot: string;
   balance: number;
   isVerified: false;

@@ -76,7 +76,7 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: Number,
       // required: true,
     },
-    copyrightNotice: {
+    copyrightNoticeImage: {
       type: String,
       // required: true,
     },
