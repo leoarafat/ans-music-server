@@ -51,6 +51,8 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   return {
     accessToken,
     refreshToken,
+    //@ts-ignore
+    userData: isUserExist,
   };
 };
 
@@ -95,10 +97,9 @@ const changePassword = async (
   user: JwtPayload | null,
   payload: IChangePassword,
 ): Promise<void> => {
-  const { oldPassword } = payload;
-  const isUserExist = await User.findOne({ id: user?.userId }).select(
-    '+password',
-  );
+  //@ts-ignore
+  const { userId, oldPassword } = payload;
+  const isUserExist = await User.findOne({ _id: userId }).select('+password');
   if (!isUserExist) {
     throw new ApiError(404, 'User does not exist');
   }

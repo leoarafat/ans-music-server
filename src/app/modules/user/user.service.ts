@@ -108,6 +108,7 @@ const activateUser = async (payload: IActivationRequest) => {
   return {
     accessToken,
     refreshToken,
+    user,
   };
 };
 //!
