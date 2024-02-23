@@ -1,3 +1,6 @@
+import { Types } from 'mongoose';
+import { IUser } from '../user/user.interface';
+
 export type ISingleTrack = {
   audio: any;
   image: string;
@@ -44,4 +47,5 @@ export type ISingleTrack = {
   isApproved: 'approved' | 'rejected';
   tackDown: string;
   correctionNote: string[];
+  user: Types.ObjectId | IUser;
 };

@@ -22,7 +22,7 @@ const moduleRoutes = [
     route: AuthRoutes,
   },
   {
-    path: '/music',
+    path: '/single-music',
     route: SingleMusicRoutes,
   },
   {
