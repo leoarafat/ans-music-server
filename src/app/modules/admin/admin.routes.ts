@@ -3,6 +3,8 @@ import express from 'express';
 import { AdminController } from './admin.controller';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
+import { upload } from '../../../utils/multer';
+import { StaticsController } from '../statics/statics.controller';
 
 const router = express.Router();
 
@@ -15,6 +17,8 @@ router.post('/register', AdminController.registrationUser);
 router.post('/login', AdminController.login);
 router.post('/refresh-token', AdminController.refreshToken);
 router.patch('/change-password', AdminController.changePassword);
+//!Analytics management
+router.post('/statics', upload, StaticsController.insertIntoDB);
 //!Youtube requests
 router.get(
   '/claims',

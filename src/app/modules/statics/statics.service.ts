@@ -1,61 +1,73 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { Request } from 'express';
+import csv from 'csvtojson';
+import { Statics } from './statics-model';
+const insertIntoDB = async (req: Request) => {
+  //@ts-ignore
+  const statics = req.files['statics'];
+
+  let staticsData: any[] = [];
+  csv()
+    .fromFile(statics[0].path)
+    .then(async response => {
+      for (let i = 0; i < response.length; i++) {
+        staticsData.push({
+          upc: response[i].UPC,
+          isrc: response[i].ISRC,
+          label: response[i]['Label Name'],
+          artist: response[i]['Artist Name'],
+          album: response[i]['Release title'],
+          tracks: response[i]['Track title'],
+          stream_quantity: response[i].Quantity,
+          revenue: response[i]['Net Revenue'],
+          country: response[i]['Country / Region'],
+        });
+      }
+
+      return await Statics.create(staticsData);
+    });
+};
+
+export const StaticsService = {
+  insertIntoDB,
+};
 // import { Request } from 'express';
-// import exceljs from 'exceljs';
-// import fs from 'fs';
+// import csv from 'csvtojson';
+// import { Statics } from './statics-model';
+
 // const insertIntoDB = async (req: Request) => {
+//   //@ts-ignore
+//   const statics = req.files['statics'];
+
 //   try {
-//     if (!req.files.statics || Object.keys(req.files.statics).length === 0) {
-//       throw new Error('No files were uploaded.');
+//     const response = await csv().fromFile(statics[0].path);
+
+//     // Limiting to 10 data entries
+//     const entriesToSave = response.slice(0, 10);
+
+//     for (let i = 0; i < entriesToSave.length; i++) {
+//       const newData = {
+//         upc: entriesToSave[i].UPC,
+//         isrc: entriesToSave[i].ISRC,
+//         label: entriesToSave[i]['Label Name'],
+//         artist: entriesToSave[i]['Artist Name'],
+//         album: entriesToSave[i]['Release title'],
+//         tracks: entriesToSave[i]['Track title'],
+//         stream_quantity: entriesToSave[i].Quantity,
+//         revenue: entriesToSave[i]['Net Revenue'],
+//         country: entriesToSave[i]['Country / Region'],
+//       };
+
+//       // Await the creation of each entry
+//       await Statics.create(newData);
 //     }
 
-//     const excelFile = req.files.statics[0];
-//     const filePath = excelFile.path;
-
-//     // Read the file from disk
-//     const bufferData = fs.readFileSync(filePath);
-
-//     const workbook = new exceljs.Workbook();
-//     const worksheet = await workbook.xlsx.load(bufferData);
-//     console.log(worksheet, 'worksheet');
-//     const data = [];
-
-//     worksheet.Row({ includeEmpty: false }, (row, rowNumber) => {
-//       if (rowNumber === 1) {
-//         const headers = row.values;
-//         const upcIndex = headers.indexOf('UPC');
-//         const isrcIndex = headers.indexOf('ISRC');
-//         const monthIndex = headers.indexOf('Month');
-//         const storeIndex = headers.indexOf('store');
-//         const labelIndex = headers.indexOf('label');
-//         const artistIndex = headers.indexOf('artist');
-//         const countryIndex = headers.indexOf('COUNTRY');
-//         const revenueShareIndex = headers.indexOf('clients revenue share');
-
-//         worksheet.eachRow({ startingRow: 2 }, (rowData, rowIndex) => {
-//           const rowDataValues = rowData.values;
-
-//           const extractedData = {
-//             UPC: rowDataValues[upcIndex],
-//             ISRC: rowDataValues[isrcIndex],
-//             Month: rowDataValues[monthIndex],
-//             Store: rowDataValues[storeIndex],
-//             Label: rowDataValues[labelIndex],
-//             Artist: rowDataValues[artistIndex],
-//             Country: rowDataValues[countryIndex],
-//             RevenueShare: rowDataValues[revenueShareIndex],
-//           };
-
-//           data.push(extractedData);
-//         });
-//       }
-//     });
-
-//     console.log(data, 'Extracted Data');
-//     fs.unlinkSync(filePath);
-
-//     // Now you can perform database insertion or any other processing with the extracted data.
+//     console.log('Entries saved successfully.');
 //   } catch (error) {
-//     console.error(error.message);
-//     // Handle the error as needed
+//     console.error('Error saving entries:', error);
+//     // Handle error here
 //   }
 // };
 

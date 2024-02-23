@@ -24,7 +24,7 @@ export const upload = multer({ storage: storage }).fields([
   { name: 'nidFront', maxCount: 20 },
   { name: 'nidBack', maxCount: 20 },
   { name: 'audio', maxCount: 30 },
-  { name: 'statics', maxCount: 5 },
+  { name: 'statics' },
   { name: 'title' },
   { name: 'artist' },
 ]);

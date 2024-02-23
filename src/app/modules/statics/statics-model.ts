@@ -1,17 +1,50 @@
 import { Schema, model } from 'mongoose';
+import { IInterface } from './static.interface';
 
-const singleMusicSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const singleMusicSchema = new Schema<IInterface>(
+  {
+    upc: {
+      type: String,
+      // required: true,
+    },
+    isrc: {
+      type: String,
+      // required: true,
+    },
+    album: {
+      type: String,
+      // default: true,
+    },
+    artist: {
+      type: String,
+      // default: true,
+    },
+    country: {
+      type: String,
+      // default: true,
+    },
+    label: {
+      type: String,
+      // default: true,
+    },
+    revenue: {
+      type: String,
+      // default: true,
+    },
+    stream_quantity: {
+      type: String,
+      // default: true,
+    },
+    tracks: {
+      type: String,
+      // default: true,
+    },
   },
-  file: {
-    type: String,
-    required: true,
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   },
-  status: {
-    type: Boolean,
-    default: true,
-  },
-});
-export const Excel = model('Excel', singleMusicSchema);
+);
+export const Statics = model('Static', singleMusicSchema);
