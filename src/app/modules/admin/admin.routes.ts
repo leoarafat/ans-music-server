@@ -19,6 +19,7 @@ router.post('/refresh-token', AdminController.refreshToken);
 router.patch('/change-password', AdminController.changePassword);
 //!Analytics management
 router.post('/statics', upload, StaticsController.insertIntoDB);
+router.get('/analytics', StaticsController.generateAnalytics);
 //!Youtube requests
 router.get(
   '/claims',

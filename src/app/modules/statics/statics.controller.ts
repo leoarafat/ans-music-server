@@ -13,6 +13,17 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const generateAnalytics = catchAsync(async (req: Request, res: Response) => {
+  const result = await StaticsService.generateAnalytics();
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Statics Retrieved Successful',
+    data: result,
+  });
+});
 export const StaticsController = {
   insertIntoDB,
+  generateAnalytics,
 };
