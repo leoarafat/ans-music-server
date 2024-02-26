@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
+import IAlbumMusic from './album.interface';
 
-const multipleMusicSchema = new Schema(
+const multipleMusicSchema = new Schema<IAlbumMusic>(
   {
     audio: [
       {
@@ -58,8 +59,6 @@ const multipleMusicSchema = new Schema(
       required: true,
     },
 
-    // Add more fields as needed
-
     primaryArtist: {
       type: [String],
       required: true,
@@ -69,8 +68,6 @@ const multipleMusicSchema = new Schema(
       type: String,
       required: true,
     },
-
-    // ... (add more fields)
 
     tiktokStartInSecond: {
       type: String,

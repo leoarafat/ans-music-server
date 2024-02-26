@@ -74,10 +74,12 @@ const singleMusicSchema = new Schema<ISingleTrack>(
       required: true,
     },
 
-    primaryArtist: {
-      type: [String],
-      required: true,
-    },
+    primaryArtist: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
 
     primaryArtistSpotifyId: {
       type: String,
@@ -99,25 +101,33 @@ const singleMusicSchema = new Schema<ISingleTrack>(
       required: true,
     },
 
-    writer: {
-      type: String,
-      required: true,
-    },
+    writer: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
 
-    composer: {
-      type: String,
-      required: true,
-    },
+    composer: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
 
-    musicDirector: {
-      type: String,
-      required: true,
-    },
+    musicDirector: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
 
-    producer: {
-      type: String,
-      required: true,
-    },
+    producer: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
 
     actor: {
       type: String,

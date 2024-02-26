@@ -22,10 +22,10 @@ export type ISingleTrack = {
   primaryArtistAppleId: string;
   primaryArtistFacebookId: string;
   primaryArtistYoutubeId: string;
-  writer: string;
-  composer: string;
-  musicDirector: string;
-  producer: string;
+  writer: string[];
+  composer: string[];
+  musicDirector: string[];
+  producer: string[];
   actor: string;
   filmDirector: string;
   genre: string;
