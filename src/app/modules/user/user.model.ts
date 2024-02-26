@@ -92,6 +92,10 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: Boolean,
       default: false,
     },
+    isBlock: {
+      type: Boolean,
+      default: false,
+    },
     subUsers: [
       {
         type: Schema.Types.ObjectId,
