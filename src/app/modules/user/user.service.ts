@@ -139,6 +139,10 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
   const nidBackImage = files.nidBack[0];
   //@ts-ignore
   const imageFile = files.image[0];
+  //@ts-ignore
+  const copyrightNoticeImageFile = files.copyrightNoticeImage[0];
+  //@ts-ignore
+  const dashboardScreenShotFile = files.dashboardScreenShot[0];
   if (!isExist) {
     throw new ApiError(404, 'User not found!');
   }
@@ -149,9 +153,11 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
     { _id: id },
     {
       ...userData,
-      image: `${config.base_url}/${imageFile.path}`,
-      nidFront: `${config.base_url}/${nidFrontImage.path}`,
-      nidBack: `${config.base_url}/${nidBackImage.path}`,
+      image: imageFile.path,
+      nidFront: nidFrontImage.path,
+      nidBack: nidBackImage.path,
+      copyrightNoticeImage: copyrightNoticeImageFile.path,
+      dashboardScreenShot: dashboardScreenShotFile.path,
     },
     {
       new: true,
@@ -176,7 +182,7 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
       Boolean(result.channelUrl) &&
       Boolean(result.subscribeCount) &&
       Boolean(result.videosCount) &&
-      Boolean(result.copyrightNotice) &&
+      Boolean(result.copyrightNoticeImage) &&
       Boolean(result.dashboardScreenShot) &&
       Boolean(result.balance);
     //@ts-ignore

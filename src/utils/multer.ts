@@ -23,6 +23,8 @@ export const upload = multer({ storage: storage }).fields([
   { name: 'image', maxCount: 20 },
   { name: 'nidFront', maxCount: 20 },
   { name: 'nidBack', maxCount: 20 },
+  { name: 'dashboardScreenShot', maxCount: 20 },
+  { name: 'copyrightNoticeImage', maxCount: 20 },
   { name: 'audio', maxCount: 30 },
   { name: 'statics' },
   { name: 'title' },
