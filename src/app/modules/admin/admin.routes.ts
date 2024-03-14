@@ -7,6 +7,8 @@ import { upload } from '../../../utils/multer';
 import { StaticsController } from '../statics/statics.controller';
 import { catalogMusicController } from '../catalog-music/catalog-music.controller';
 import { activityController } from '../activity/activity.controller';
+import { financeController } from '../finance/finance.controller';
+import { inspectionController } from '../Inspection/Inspection.controller';
 
 const router = express.Router();
 
@@ -117,6 +119,13 @@ router.get(
   auth(ENUM_USER_ROLE.ADMIN),
   activityController.makeTakeDown,
 );
+//!Finance
+router.get(
+  '/all-reports',
+  auth(ENUM_USER_ROLE.ADMIN),
+  financeController.allReports,
+);
+router.get('/approved', auth(ENUM_USER_ROLE.ADMIN), financeController.approved);
 //*  Id work here *//
 //!Youtube requests
 router.get(
@@ -154,6 +163,18 @@ router.patch(
   '/reject/:id',
   auth(ENUM_USER_ROLE.ADMIN),
   AdminController.rejectMusic,
+);
+
+//! Inspection
+router.get(
+  '/user-inspection',
+  auth(ENUM_USER_ROLE.ADMIN),
+  inspectionController.userInspection,
+);
+router.get(
+  '/song-inspection',
+  auth(ENUM_USER_ROLE.ADMIN),
+  inspectionController.songInspection,
 );
 
 export const AdminRoutes = router;
