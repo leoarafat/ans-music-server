@@ -50,4 +50,5 @@ export type ISingleTrack = {
   correctionNote: string[];
   user: Types.ObjectId | IUser;
   songStatus: 'take-down' | 'distribute';
+  inspection: 'failed' | 'saved';
 };

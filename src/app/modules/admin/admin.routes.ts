@@ -6,6 +6,7 @@ import { ENUM_USER_ROLE } from '../../../enums/user';
 import { upload } from '../../../utils/multer';
 import { StaticsController } from '../statics/statics.controller';
 import { catalogMusicController } from '../catalog-music/catalog-music.controller';
+import { activityController } from '../activity/activity.controller';
 
 const router = express.Router();
 
@@ -79,6 +80,42 @@ router.get(
   '/labels',
   auth(ENUM_USER_ROLE.ADMIN),
   catalogMusicController.labels,
+);
+//! Inspection
+router.get(
+  '/inspections',
+  auth(ENUM_USER_ROLE.ADMIN),
+  activityController.inspection,
+);
+router.get(
+  '/failed-inspection',
+  auth(ENUM_USER_ROLE.ADMIN),
+  activityController.failedInspection,
+);
+router.get(
+  '/processing',
+  auth(ENUM_USER_ROLE.ADMIN),
+  activityController.processing,
+);
+router.get(
+  '/take-down',
+  auth(ENUM_USER_ROLE.ADMIN),
+  activityController.takeDown,
+);
+router.get(
+  '/distributed',
+  auth(ENUM_USER_ROLE.ADMIN),
+  activityController.distributed,
+);
+router.get(
+  '/make-distribute',
+  auth(ENUM_USER_ROLE.ADMIN),
+  activityController.makeDistribute,
+);
+router.get(
+  '/make-takedown',
+  auth(ENUM_USER_ROLE.ADMIN),
+  activityController.makeTakeDown,
 );
 //*  Id work here *//
 //!Youtube requests

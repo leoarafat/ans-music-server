@@ -270,6 +270,10 @@ const singleMusicSchema = new Schema<ISingleTrack>(
       type: String,
       enum: ['take-down', 'distribute'],
     },
+    inspection: {
+      type: String,
+      enum: ['failed', 'saved'],
+    },
   },
   {
     timestamps: true,

@@ -275,6 +275,10 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
       type: String,
       enum: ['take-down', 'distribute'],
     },
+    inspection: {
+      type: String,
+      enum: ['failed', 'saved'],
+    },
     correctionNote: {
       type: [String],
     },
