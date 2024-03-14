@@ -86,7 +86,6 @@ const UserSchema = new Schema<IUser, UserModel>(
     },
     balance: {
       type: Number,
-      // required: true,
     },
     isVerified: {
       type: Boolean,
@@ -106,6 +105,7 @@ const UserSchema = new Schema<IUser, UserModel>(
         ref: 'SubUser',
       },
     ],
+    note: [],
   },
   {
     timestamps: true,

@@ -21,6 +21,7 @@ import {
   ClaimRequest,
   WhitelistRequest,
 } from '../youtube-request/youtube-request.model';
+import httpStatus from 'http-status';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -261,6 +262,21 @@ const updateWhitelistRequest = async (
   );
   return result;
 };
+//! Add note, make terminate and lock User
+const addNoteInUser = async (payload: { text: string; userId: string }) => {
+  const { text, userId } = payload;
+  const isExistUser = await User.findById(userId);
+  if (!isExistUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  //@ts-ignore
+  isExistUser.note.push({
+    note: text,
+    isRead: false,
+  });
+  await isExistUser.save();
+  return isExistUser;
+};
 export const AdminService = {
   createUser,
   getAllUsers,
@@ -281,4 +297,5 @@ export const AdminService = {
   updateArtistChannelRequest,
   updateClaimRequests,
   updateWhitelistRequest,
+  addNoteInUser,
 };

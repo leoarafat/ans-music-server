@@ -47,9 +47,8 @@ export type IUser = {
   isVerified: false;
   isBlock: boolean;
   subUsers: [];
+  note: [];
   accountStatus: 'lock' | 'terminate';
-
-  // test: Types.ObjectId | ITest
 };
 export type UserModel = {
   isUserExist(

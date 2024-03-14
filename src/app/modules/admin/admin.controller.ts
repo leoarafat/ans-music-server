@@ -233,6 +233,17 @@ const updateWhitelistRequest = catchAsync(
     });
   },
 );
+//! Add note, make terminate and lock User
+const addNoteInUser = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  const result = await AdminService.addNoteInUser(data);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'successful!',
+    data: result,
+  });
+});
 
 export const AdminController = {
   createUser,
@@ -254,4 +265,5 @@ export const AdminController = {
   updateArtistChannelRequest,
   updateClaimRequests,
   updateWhitelistRequest,
+  addNoteInUser,
 };

@@ -66,6 +66,13 @@ router.patch(
   auth(ENUM_USER_ROLE.ADMIN),
   AdminController.updateWhitelistRequest,
 );
+
+//! Add note, make terminate and lock User
+router.post(
+  '/add-user-note',
+  auth(ENUM_USER_ROLE.ADMIN),
+  AdminController.addNoteInUser,
+);
 //! Song approval
 router.patch(
   '/approved/:id',
