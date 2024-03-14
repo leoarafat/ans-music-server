@@ -20,7 +20,7 @@ const sendResponse = <T>(res: Response, data: IApiResponse<T>): void => {
     message: data.message || null,
     meta: data.meta || null || undefined,
     data: data.data || null,
-    activationToken: data.activationToken || null,
+    activationToken: data.activationToken,
   };
   res.status(data.statusCode).json(responseData);
 };

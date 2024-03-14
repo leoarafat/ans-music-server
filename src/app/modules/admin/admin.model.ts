@@ -42,7 +42,7 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
   },
 );
 
-AdminSchema.statics.isUserExist = async function (
+AdminSchema.statics.isAdminExist = async function (
   email: string,
 ): Promise<Pick<IAdmin, '_id' | 'password' | 'phoneNumber' | 'role'> | null> {
   return await Admin.findOne(

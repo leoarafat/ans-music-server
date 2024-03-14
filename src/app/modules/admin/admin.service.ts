@@ -57,7 +57,7 @@ const deleteUser = async (id: string): Promise<IUser | null> => {
 const login = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { email, password } = payload;
 
-  const isUserExist = await Admin.isAdminExist(email);
+  const isUserExist = await await Admin.isAdminExist(email);
 
   if (!isUserExist) {
     throw new ApiError(404, 'Admin does not exist');
@@ -88,6 +88,8 @@ const login = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   return {
     accessToken,
     refreshToken,
+    //@ts-ignore
+    adminInfo: isUserExist,
   };
 };
 
