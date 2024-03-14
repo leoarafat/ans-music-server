@@ -30,9 +30,19 @@ const artists = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const labels = catchAsync(async (req: Request, res: Response) => {
+  const result = await catalogMusicService.labels();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Successful',
+    data: result,
+  });
+});
 
 export const catalogMusicController = {
   releaseSongs,
   tracks,
   artists,
+  labels,
 };

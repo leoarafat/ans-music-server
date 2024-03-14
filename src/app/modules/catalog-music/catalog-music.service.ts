@@ -20,5 +20,13 @@ const artists = async () => {
   );
   return artistsData;
 };
+const labels = async () => {
+  const songs = await SingleTrack.find({});
+  const labelData = songs?.map(label => ({
+    labelName: label.labelName,
+    labelId: label.labelId,
+  }));
+  return labelData;
+};
 
-export const catalogMusicService = { releaseSongs, tracks, artists };
+export const catalogMusicService = { releaseSongs, tracks, artists, labels };

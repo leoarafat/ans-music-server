@@ -219,6 +219,10 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
       type: String,
       required: true,
     },
+    labelId: {
+      type: String,
+      required: true,
+    },
 
     publisher: {
       type: String,

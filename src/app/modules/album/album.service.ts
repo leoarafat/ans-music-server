@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Album } from './album.model';
 import { asyncForEach } from '../../../utils/asyncForEach';
 import ApiError from '../../../errors/ApiError';
+import { generateLabelId } from '../../../utils/uniqueId';
 
 const uploadMultiple = async (req: Request, res: Response) => {
   try {
@@ -10,7 +11,8 @@ const uploadMultiple = async (req: Request, res: Response) => {
     const audioFiles = req.files['audio'];
     const titles = req.body['title'];
     const artists = req.body['artist'];
-
+    const albumData = JSON.parse(req.body.data);
+    albumData.labelId = generateLabelId();
     // Validate if required fields are present
     if (
       !audioFiles ||

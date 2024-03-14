@@ -34,6 +34,7 @@ export type ISingleTrack = {
   producerCatalogNumber: string;
   productionYear: string;
   labelName: string;
+  labelId: string;
   publisher: string;
   youtubeUrl: string;
   isrc: string;

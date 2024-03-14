@@ -75,6 +75,11 @@ router.get(
   auth(ENUM_USER_ROLE.ADMIN),
   catalogMusicController.artists,
 );
+router.get(
+  '/labels',
+  auth(ENUM_USER_ROLE.ADMIN),
+  catalogMusicController.labels,
+);
 //*  Id work here *//
 //!Youtube requests
 router.get(

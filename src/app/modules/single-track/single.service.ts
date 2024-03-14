@@ -4,6 +4,7 @@ import { SingleTrack } from './single.model';
 import ApiError from '../../../errors/ApiError';
 import { formatDuration, getAudioDuration } from '../../../utils/utils';
 import { ISingleTrack } from './single.interface';
+import { generateLabelId } from '../../../utils/uniqueId';
 
 const uploadSingle = async (req: Request) => {
   const { files } = req;
@@ -29,6 +30,7 @@ const uploadSingle = async (req: Request) => {
       duration: formattedAudioDuration,
     },
     image: imageFile.path,
+    labelId: generateLabelId(),
   });
 
   return result;
