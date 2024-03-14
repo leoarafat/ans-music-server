@@ -47,6 +47,7 @@ export type IUser = {
   isVerified: false;
   isBlock: boolean;
   subUsers: [];
+  accountStatus: 'lock' | 'terminate';
 
   // test: Types.ObjectId | ITest
 };

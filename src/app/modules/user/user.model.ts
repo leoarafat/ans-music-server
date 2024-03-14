@@ -96,6 +96,10 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: Boolean,
       default: false,
     },
+    accountStatus: {
+      type: String,
+      enum: ['lock', 'terminate'],
+    },
     subUsers: [
       {
         type: Schema.Types.ObjectId,

@@ -44,7 +44,7 @@ export type ISingleTrack = {
   isAdvancePurchase: boolean;
   advancePurchaseDate: string;
   status: boolean;
-  isApproved: 'approved' | 'rejected';
+  isApproved: 'approved' | 'rejected' | 'pending';
   tackDown: string;
   correctionNote: string[];
   user: Types.ObjectId | IUser;

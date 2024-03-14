@@ -214,7 +214,8 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     },
     isApproved: {
       type: String,
-      default: 'rejected',
+
+      default: 'pending',
     },
     correctionNote: {
       type: [String],
