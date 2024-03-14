@@ -21,6 +21,7 @@ import {
   ILoginUserResponse,
   IRefreshTokenResponse,
 } from '../auth/auth.interface';
+import { SingleTrack } from '../single-track/single.model';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -294,6 +295,19 @@ const changePassword = async (
   isUserExist.password = newPassword;
   await isUserExist.save();
 };
+
+const mySuccessRelease = async (id: string) => {
+  return await SingleTrack.find({ user: id, isApproved: 'approved' });
+};
+const myPendingRelease = async (id: string) => {
+  return await SingleTrack.find({ user: id, isApproved: 'pending' });
+};
+const myCorrectionRelease = async (id: string) => {
+  const songs = await SingleTrack.find({ user: id });
+  const filteredSongs = songs.filter(song => song.correctionNote.length > 0);
+  return filteredSongs;
+};
+
 export const UserService = {
   createUser,
   getAllUsers,
@@ -305,4 +319,7 @@ export const UserService = {
   loginUser,
   refreshToken,
   changePassword,
+  mySuccessRelease,
+  myPendingRelease,
+  myCorrectionRelease,
 };

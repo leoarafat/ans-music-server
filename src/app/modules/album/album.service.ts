@@ -13,7 +13,7 @@ const uploadMultiple = async (req: Request, res: Response) => {
     const artists = req.body['artist'];
     const albumData = JSON.parse(req.body.data);
     albumData.labelId = generateLabelId();
-    // Validate if required fields are present
+
     if (
       !audioFiles ||
       !titles ||
@@ -24,10 +24,8 @@ const uploadMultiple = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Invalid input data' });
     }
 
-    // Create an array to store audio objects
     const audioArray: any[] = [];
 
-    // Iterate through each file and create an object with path, title, and artist
     await asyncForEach(audioFiles, async (file: any, index: number) => {
       const audioObject = {
         path: file.path,
@@ -39,6 +37,7 @@ const uploadMultiple = async (req: Request, res: Response) => {
 
     // Create a new album with the audio array
     const newAlbum = new Album({
+      ...albumData,
       audio: audioArray,
     });
 

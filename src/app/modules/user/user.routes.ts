@@ -50,9 +50,42 @@ router.get(
   YoutubeRequestController.getWhitelistRequest,
 );
 //!Youtube
-router.patch('/verify-sub-user/:id', upload, SubUserController.updateUser);
-router.get('/profile/sub-user/:id', upload, SubUserController.getSingleUser);
-router.get('/sub-users/:id', upload, SubUserController.getAllUsers);
-router.delete('/delete-sub-user/:id', upload, SubUserController.deleteUser);
+router.patch(
+  '/verify-sub-user/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  upload,
+  SubUserController.updateUser,
+);
+router.get(
+  '/profile/sub-user/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  SubUserController.getSingleUser,
+);
+router.get(
+  '/sub-users/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  SubUserController.getAllUsers,
+);
+router.delete(
+  '/delete-sub-user/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  SubUserController.deleteUser,
+);
 
+//! My uploads
+router.get(
+  '/successful-release/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  UserController.mySuccessRelease,
+);
+router.get(
+  '/pending-release/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  UserController.myPendingRelease,
+);
+router.get(
+  '/correction-release/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  UserController.myCorrectionRelease,
+);
 export const UserRoutes = router;

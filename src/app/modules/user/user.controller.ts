@@ -141,6 +141,37 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
     message: 'Password change successfully !',
   });
 });
+//!Songs
+const mySuccessRelease = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await UserService.mySuccessRelease(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: ' successfully',
+    data: result,
+  });
+});
+const myPendingRelease = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await UserService.myPendingRelease(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: ' successfully',
+    data: result,
+  });
+});
+const myCorrectionRelease = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await UserService.myCorrectionRelease(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: ' successfully',
+    data: result,
+  });
+});
 export const UserController = {
   createUser,
   getAllUsers,
@@ -152,4 +183,7 @@ export const UserController = {
   login,
   changePassword,
   refreshToken,
+  mySuccessRelease,
+  myPendingRelease,
+  myCorrectionRelease,
 };
