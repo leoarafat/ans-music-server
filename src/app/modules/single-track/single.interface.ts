@@ -48,4 +48,5 @@ export type ISingleTrack = {
   tackDown: string;
   correctionNote: string[];
   user: Types.ObjectId | IUser;
+  songStatus: 'take-down' | 'distribute';
 };

@@ -51,6 +51,7 @@ type IAlbumMusic = {
   advancePurchaseDate: string;
   status: boolean;
   isApproved: 'approved' | 'rejected';
+  songStatus: 'take-down' | 'distribute';
   tackDown: string;
   correctionNote: string[];
   user: Types.ObjectId | IUser;

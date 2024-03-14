@@ -80,12 +80,21 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
       required: true,
     },
 
-    primaryArtist: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    primaryArtist: {
+      type: [
+        {
+          primaryArtistName: {
+            type: String,
+            required: true,
+          },
+          primaryArtistId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
 
     primaryArtistSpotifyId: {
       type: String,
@@ -107,33 +116,69 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
       required: true,
     },
 
-    writer: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    writer: {
+      type: [
+        {
+          writerName: {
+            type: String,
+            required: true,
+          },
+          writerId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
 
-    composer: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    composer: {
+      type: [
+        {
+          composerName: {
+            type: String,
+            required: true,
+          },
+          composerId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
 
-    musicDirector: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    musicDirector: {
+      type: [
+        {
+          musicDirectorName: {
+            type: String,
+            required: true,
+          },
+          musicDirectorId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
 
-    producer: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    producer: {
+      type: [
+        {
+          producerName: {
+            type: String,
+            required: true,
+          },
+          producerId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
 
     actor: {
       type: String,
@@ -221,6 +266,10 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
     isApproved: {
       type: String,
       default: 'rejected',
+    },
+    songStatus: {
+      type: String,
+      enum: ['take-down', 'distribute'],
     },
     correctionNote: {
       type: [String],

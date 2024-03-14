@@ -5,6 +5,7 @@ import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import { upload } from '../../../utils/multer';
 import { StaticsController } from '../statics/statics.controller';
+import { catalogMusicController } from '../catalog-music/catalog-music.controller';
 
 const router = express.Router();
 
@@ -41,6 +42,41 @@ router.get(
   auth(ENUM_USER_ROLE.ADMIN),
   AdminController.getWhitelistRequestPending,
 );
+
+//! Add note, make terminate and lock User
+router.post(
+  '/add-user-note',
+  auth(ENUM_USER_ROLE.ADMIN),
+  AdminController.addNoteInUser,
+);
+router.patch(
+  '/terminate-user',
+  auth(ENUM_USER_ROLE.ADMIN),
+  AdminController.terminateUserAccount,
+);
+router.patch(
+  '/lock-user',
+  auth(ENUM_USER_ROLE.ADMIN),
+  AdminController.lockUserAccount,
+);
+//! Catalog Music
+router.get(
+  '/released-songs',
+  auth(ENUM_USER_ROLE.ADMIN),
+  catalogMusicController.releaseSongs,
+);
+router.get(
+  '/tracks',
+  auth(ENUM_USER_ROLE.ADMIN),
+  catalogMusicController.tracks,
+);
+router.get(
+  '/artists',
+  auth(ENUM_USER_ROLE.ADMIN),
+  catalogMusicController.artists,
+);
+//*  Id work here *//
+//!Youtube requests
 router.get(
   '/artist-channels/pending',
   auth(ENUM_USER_ROLE.ADMIN),
@@ -65,23 +101,6 @@ router.patch(
   '/update/whitelist/:id',
   auth(ENUM_USER_ROLE.ADMIN),
   AdminController.updateWhitelistRequest,
-);
-
-//! Add note, make terminate and lock User
-router.post(
-  '/add-user-note',
-  auth(ENUM_USER_ROLE.ADMIN),
-  AdminController.addNoteInUser,
-);
-router.patch(
-  '/terminate-user',
-  auth(ENUM_USER_ROLE.ADMIN),
-  AdminController.terminateUserAccount,
-);
-router.patch(
-  '/lock-user',
-  auth(ENUM_USER_ROLE.ADMIN),
-  AdminController.lockUserAccount,
 );
 //! Song approval
 router.patch(

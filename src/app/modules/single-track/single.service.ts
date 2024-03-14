@@ -7,6 +7,7 @@ import { ISingleTrack } from './single.interface';
 
 const uploadSingle = async (req: Request) => {
   const { files } = req;
+
   const data = JSON.parse(req.body.data);
   //@ts-ignore
   if (!files?.audio || !files.image) {

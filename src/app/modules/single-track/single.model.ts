@@ -74,60 +74,100 @@ const singleMusicSchema = new Schema<ISingleTrack>(
       required: true,
     },
 
-    primaryArtist: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    primaryArtist: {
+      type: [
+        {
+          primaryArtistName: {
+            type: String,
+            required: true,
+          },
+          primaryArtistId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
 
     primaryArtistSpotifyId: {
       type: String,
-      required: true,
     },
 
     primaryArtistAppleId: {
       type: String,
-      required: true,
     },
 
     primaryArtistFacebookId: {
       type: String,
-      required: true,
     },
 
     primaryArtistYoutubeId: {
       type: String,
+    },
+
+    writer: {
+      type: [
+        {
+          writerName: {
+            type: String,
+            required: true,
+          },
+          writerId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
       required: true,
     },
 
-    writer: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    composer: {
+      type: [
+        {
+          composerName: {
+            type: String,
+            required: true,
+          },
+          composerId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
+    musicDirector: {
+      type: [
+        {
+          musicDirectorName: {
+            type: String,
+            required: true,
+          },
+          musicDirectorId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
 
-    composer: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
-
-    musicDirector: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
-
-    producer: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+    producer: {
+      type: [
+        {
+          producerName: {
+            type: String,
+            required: true,
+          },
+          producerId: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
+      required: true,
+    },
 
     actor: {
       type: String,
@@ -214,7 +254,6 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     },
     isApproved: {
       type: String,
-
       default: 'pending',
     },
     correctionNote: {
@@ -222,6 +261,10 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     },
     tackDown: {
       type: String,
+    },
+    songStatus: {
+      type: String,
+      enum: ['take-down', 'distribute'],
     },
   },
   {
