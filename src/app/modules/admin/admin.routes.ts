@@ -73,6 +73,16 @@ router.post(
   auth(ENUM_USER_ROLE.ADMIN),
   AdminController.addNoteInUser,
 );
+router.patch(
+  '/terminate-user',
+  auth(ENUM_USER_ROLE.ADMIN),
+  AdminController.terminateUserAccount,
+);
+router.patch(
+  '/lock-user',
+  auth(ENUM_USER_ROLE.ADMIN),
+  AdminController.lockUserAccount,
+);
 //! Song approval
 router.patch(
   '/approved/:id',

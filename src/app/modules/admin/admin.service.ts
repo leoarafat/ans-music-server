@@ -277,6 +277,40 @@ const addNoteInUser = async (payload: { text: string; userId: string }) => {
   await isExistUser.save();
   return isExistUser;
 };
+const terminateUserAccount = async (payload: { userId: string }) => {
+  const { userId } = payload;
+  const isExistUser = await User.findById(userId);
+  if (!isExistUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  return await User.findOneAndUpdate(
+    { _id: userId },
+    {
+      accountStatus: 'terminate',
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+};
+const lockUserAccount = async (payload: { userId: string }) => {
+  const { userId } = payload;
+  const isExistUser = await User.findById(userId);
+  if (!isExistUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  return await User.findOneAndUpdate(
+    { _id: userId },
+    {
+      accountStatus: 'lock',
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+};
 export const AdminService = {
   createUser,
   getAllUsers,
@@ -298,4 +332,6 @@ export const AdminService = {
   updateClaimRequests,
   updateWhitelistRequest,
   addNoteInUser,
+  terminateUserAccount,
+  lockUserAccount,
 };

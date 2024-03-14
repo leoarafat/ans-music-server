@@ -244,6 +244,26 @@ const addNoteInUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const terminateUserAccount = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  const result = await AdminService.terminateUserAccount(data);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'successful!',
+    data: result,
+  });
+});
+const lockUserAccount = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  const result = await AdminService.lockUserAccount(data);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'successful!',
+    data: result,
+  });
+});
 
 export const AdminController = {
   createUser,
@@ -266,4 +286,6 @@ export const AdminController = {
   updateClaimRequests,
   updateWhitelistRequest,
   addNoteInUser,
+  terminateUserAccount,
+  lockUserAccount,
 };
