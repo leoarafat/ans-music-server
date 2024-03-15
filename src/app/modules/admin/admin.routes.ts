@@ -9,6 +9,7 @@ import { catalogMusicController } from '../catalog-music/catalog-music.controlle
 import { activityController } from '../activity/activity.controller';
 import { financeController } from '../finance/finance.controller';
 import { inspectionController } from '../Inspection/Inspection.controller';
+import { paymentController } from '../payments/payments.controller';
 
 const router = express.Router();
 
@@ -126,6 +127,18 @@ router.get(
   financeController.allReports,
 );
 router.get('/approved', auth(ENUM_USER_ROLE.ADMIN), financeController.approved);
+
+//!Payment
+router.post(
+  '/add-payment',
+  auth(ENUM_USER_ROLE.ADMIN),
+  paymentController.makePayment,
+);
+router.post(
+  '/withdraw-payment',
+  auth(ENUM_USER_ROLE.ADMIN),
+  paymentController.withdrawAmount,
+);
 //*  Id work here *//
 //!Youtube requests
 router.get(

@@ -86,6 +86,7 @@ const UserSchema = new Schema<IUser, UserModel>(
     },
     balance: {
       type: Number,
+      default: 0,
     },
     isVerified: {
       type: Boolean,
