@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   '/upload',
-  // auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   upload,
   AlbumService.uploadMultiple,
 );
