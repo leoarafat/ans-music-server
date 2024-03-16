@@ -11,6 +11,8 @@ const uploadMultiple = async (req: Request, res: Response) => {
     const audioFiles = req.files['audio'];
     const titles = req.body['title'];
     const artists = req.body['artist'];
+    //@ts-ignore
+    const albumImage = req.files.image[0];
     const albumData = JSON.parse(req.body.data);
     albumData.labelId = generateLabelId();
 
@@ -37,6 +39,7 @@ const uploadMultiple = async (req: Request, res: Response) => {
 
     const newAlbum = new Album({
       ...albumData,
+      image: albumImage.path,
       audio: audioArray,
     });
 
