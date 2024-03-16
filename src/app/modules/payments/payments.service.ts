@@ -8,7 +8,9 @@ import {
   generateExternalId,
   generateTransactionId,
 } from '../../../utils/uniqueId';
-
+import sendEmail from '../../../utils/sendEmail';
+import path from 'path';
+import ejs from 'ejs';
 //!
 const makePayment = async (payload: IPayment) => {
   const { user, amount } = payload;
@@ -33,7 +35,28 @@ const makePayment = async (payload: IPayment) => {
     externalId,
   };
 
-  return await Payment.create(paymentPayload);
+  const result = await Payment.create(paymentPayload);
+
+  const data = {
+    transactionId: result.transactionId,
+    amount: result.amount,
+    enterDate: result.enterDate,
+  };
+  await ejs.renderFile(
+    path.join(__dirname, '../../../mails/activation-mail.ejs'),
+    result,
+  );
+  try {
+    await sendEmail({
+      email: findUser?.email,
+      subject: 'New Payment Received',
+      template: 'payment.ejs',
+      data,
+    });
+  } catch (error: any) {
+    throw new ApiError(500, `${error.message}`);
+  }
+  return result;
 };
 
 //!
