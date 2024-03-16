@@ -29,4 +29,8 @@ export const upload = multer({ storage: storage }).fields([
   { name: 'statics' },
   { name: 'title' },
   { name: 'artist' },
+  { name: 'data' },
+  { name: 'actor' },
+  { name: 'composer' },
+  { name: 'director' },
 ]);

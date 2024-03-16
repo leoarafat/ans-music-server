@@ -35,19 +35,16 @@ const uploadMultiple = async (req: Request, res: Response) => {
       audioArray.push(audioObject);
     });
 
-    // Create a new album with the audio array
     const newAlbum = new Album({
       ...albumData,
       audio: audioArray,
     });
 
-    // Save the new album to the database
     await newAlbum.save();
 
     res.status(201).json({ message: 'Upload successful', album: newAlbum });
   } catch (error) {
     //@ts-ignore
-    console.error('Error during upload:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
