@@ -4,7 +4,7 @@ import sendResponse from '../../../shared/sendResponse';
 import { YoutubeRequestService } from './youtube-request.service';
 
 const addClaimRequest = catchAsync(async (req: Request, res: Response) => {
-  const result = await YoutubeRequestService.addClaimRequest(req.body);
+  const result = await YoutubeRequestService.addClaimRequest(req, req.body);
 
   sendResponse(res, {
     statusCode: 200,
@@ -16,6 +16,7 @@ const addClaimRequest = catchAsync(async (req: Request, res: Response) => {
 const addArtistChannelRequest = catchAsync(
   async (req: Request, res: Response) => {
     const result = await YoutubeRequestService.addArtistChannelRequest(
+      req,
       req.body,
     );
 
@@ -28,7 +29,7 @@ const addArtistChannelRequest = catchAsync(
   },
 );
 const addWhitelistRequest = catchAsync(async (req: Request, res: Response) => {
-  const result = await YoutubeRequestService.addWhitelistRequest(req.body);
+  const result = await YoutubeRequestService.addWhitelistRequest(req, req.body);
 
   sendResponse(res, {
     statusCode: 200,
