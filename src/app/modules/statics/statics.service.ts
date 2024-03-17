@@ -4,6 +4,9 @@
 import { Request } from 'express';
 import csv from 'csvtojson';
 import { Statics } from './statics-model';
+import { SingleTrack } from '../single-track/single.model';
+import { Album } from '../album/album.model';
+import { News } from '../news/news.model';
 //!
 // const insertIntoDB = async (req: Request) => {
 //   //@ts-ignore
@@ -89,8 +92,40 @@ const generateAnalytics = async () => {
     throw new Error(error);
   }
 };
+const getCorrectionRequestAlbum = async (id: string) => {
+  const albums = await Album.find({ user: id }).lean();
 
+  const albumsWithIsFalse = albums.filter(album => {
+    // Check if any note in correctionNote has isRead as false
+    //@ts-ignore
+    return album.correctionNote.some(note => !note.isRead);
+  });
+  return albumsWithIsFalse;
+};
+
+const getCorrectionRequestSingle = async (id: string) => {
+  const singleSongs = await SingleTrack.find({ user: id }).lean();
+
+  const singleSongsWithIsFalse = singleSongs.filter(singleSong => {
+    //@ts-ignore
+    return singleSong.correctionNote.some(note => !note.isRead);
+  });
+  return singleSongsWithIsFalse;
+};
+const lastSixApprovedTracks = async (id: string) => {
+  const latestSix = await SingleTrack.find({ user: id, isApproved: 'approved' })
+    .sort({ createdAt: 'desc' })
+    .limit(6);
+  return latestSix;
+};
+const getNews = async () => {
+  return await News.find({}).sort({ createdAt: 'desc' }).limit(2);
+};
 export const StaticsService = {
   insertIntoDB,
   generateAnalytics,
+  getCorrectionRequestAlbum,
+  getCorrectionRequestSingle,
+  lastSixApprovedTracks,
+  getNews,
 };

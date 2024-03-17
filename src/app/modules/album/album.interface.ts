@@ -55,7 +55,7 @@ type IAlbumMusic = {
   songStatus: 'take-down' | 'distribute';
   inspection: 'failed' | 'saved';
   tackDown: string;
-  correctionNote: string[];
+  correctionNote: [];
   user: Types.ObjectId | IUser;
 };
 

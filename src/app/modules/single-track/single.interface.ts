@@ -47,8 +47,12 @@ export type ISingleTrack = {
   status: boolean;
   isApproved: 'approved' | 'rejected' | 'pending';
   tackDown: string;
-  correctionNote: string[];
+  correctionNote: [];
   user: Types.ObjectId | IUser;
   songStatus: 'take-down' | 'distribute';
   inspection: 'failed' | 'saved';
+};
+export type SingleTrackDocument = {
+  save(): unknown;
+  correctionNote: { text: string; isRead: boolean }[];
 };

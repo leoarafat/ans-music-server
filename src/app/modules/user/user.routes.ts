@@ -5,16 +5,20 @@ import { SubUserController } from '../sub-user/sub-user.controller';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import { YoutubeRequestController } from '../youtube-request/youtube-request.controller';
 import auth from '../../middlewares/auth';
+import { StaticsController } from '../statics/statics.controller';
 
 const router = express.Router();
 //!User
 router.post('/register', UserController.registrationUser);
 router.post('/activate-user', UserController.activateUser);
-router.get('/profile/:id', UserController.getSingleUser);
-router.patch('/verify-profile/:id', upload, UserController.updateUser);
 router.post('/login', UserController.login);
 router.post('/refresh-token', UserController.refreshToken);
 router.patch('/change-password', UserController.changePassword);
+router.get(
+  '/news',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  StaticsController.getNews,
+);
 //!Sub User
 router.post('/register-sub-user', SubUserController.registrationUser);
 router.post('/activate-sub-user', SubUserController.activateUser);
@@ -34,6 +38,12 @@ router.post(
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   YoutubeRequestController.addWhitelistRequest,
 );
+
+//!IDS Work
+router.get('/profile/:id', UserController.getSingleUser);
+router.patch('/verify-profile/:id', upload, UserController.updateUser);
+
+//!Youtube IDS
 router.get(
   '/claims/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
@@ -49,7 +59,6 @@ router.get(
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   YoutubeRequestController.getWhitelistRequest,
 );
-//!Youtube
 router.patch(
   '/verify-sub-user/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
@@ -87,5 +96,26 @@ router.get(
   '/correction-release/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   UserController.myCorrectionRelease,
+);
+//! Analytics
+router.get(
+  '/correction-album/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  StaticsController.getCorrectionRequestAlbum,
+);
+router.get(
+  '/correction-single-track/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  StaticsController.getCorrectionRequestSingle,
+);
+router.get(
+  '/correction-single-track/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  StaticsController.getCorrectionRequestSingle,
+);
+router.get(
+  '/news',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  StaticsController.getNews,
 );
 export const UserRoutes = router;

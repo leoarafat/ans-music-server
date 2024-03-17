@@ -15,13 +15,15 @@ import { IRegistration, IUser } from '../user/user.interface';
 import User from '../user/user.model';
 import Admin from './admin.model';
 import { SingleTrack } from '../single-track/single.model';
-import mongoose from 'mongoose';
+
 import {
   ArtistChannelRequest,
   ClaimRequest,
   WhitelistRequest,
 } from '../youtube-request/youtube-request.model';
 import httpStatus from 'http-status';
+import { SingleTrackDocument } from '../single-track/single.interface';
+import { Album } from '../album/album.model';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -163,35 +165,62 @@ const approveSingleMusic = async (id: string) => {
   );
   return result;
 };
+
 const rejectMusic = async (id: string, payload: { note: string }) => {
   const { note } = payload;
-  const session = await mongoose.startSession();
+
+  const singleSong = await SingleTrack.findById(id);
+  const albumSong = await Album.findById(id);
+
   try {
-    session.startTransaction();
-    const result = await SingleTrack.findOneAndUpdate(
-      { _id: id },
-      { isApproved: 'rejected' },
-      {
-        new: true,
-        runValidators: true,
-        session: session,
-      },
-    );
-    if (result) {
-      result.correctionNote.push(note);
-      await result.save();
+    let updatedAlbum;
+    let updatedSingleTrack;
+
+    if (singleSong) {
+      updatedSingleTrack = (await SingleTrack.findOneAndUpdate(
+        { _id: id },
+        { isApproved: 'rejected' },
+        {
+          new: true,
+          runValidators: true,
+        },
+      )) as SingleTrackDocument;
     }
-    await session.commitTransaction();
-    await session.endSession();
-    return result;
+
+    if (albumSong) {
+      updatedAlbum = (await Album.findOneAndUpdate(
+        { _id: id },
+        { isApproved: 'rejected' },
+        {
+          new: true,
+          runValidators: true,
+        },
+      )) as SingleTrackDocument;
+    }
+
+    if (updatedSingleTrack) {
+      updatedSingleTrack.correctionNote.push({
+        text: note,
+        isRead: false,
+      });
+      await updatedSingleTrack.save();
+    }
+    if (updatedAlbum) {
+      updatedAlbum.correctionNote.push({
+        text: note,
+        isRead: false,
+      });
+      await updatedAlbum.save();
+    }
+
+    return { updatedSingleTrack, updatedAlbum };
   } catch (error) {
-    await session.abortTransaction();
-    await session.endSession();
     console.log(error);
     //@ts-ignore
     throw new Error(error.message);
   }
 };
+
 //! Youtube request
 const getClaimRequests = async () => {
   const result = await ClaimRequest.find({});

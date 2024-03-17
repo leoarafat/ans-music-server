@@ -280,7 +280,16 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
       enum: ['failed', 'saved'],
     },
     correctionNote: {
-      type: [String],
+      type: [
+        {
+          text: {
+            type: String,
+          },
+          isRead: {
+            type: Boolean,
+          },
+        },
+      ],
     },
     tackDown: {
       type: String,

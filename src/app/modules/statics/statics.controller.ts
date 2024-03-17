@@ -23,7 +23,45 @@ const generateAnalytics = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getCorrectionRequestAlbum = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await StaticsService.getCorrectionRequestAlbum(
+      req.params.id,
+    );
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: ' Successful',
+      data: result,
+    });
+  },
+);
+const getCorrectionRequestSingle = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await StaticsService.getCorrectionRequestSingle(
+      req.params.id,
+    );
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: ' Successful',
+      data: result,
+    });
+  },
+);
+const getNews = catchAsync(async (req: Request, res: Response) => {
+  const result = await StaticsService.getNews();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: ' Successful',
+    data: result,
+  });
+});
 export const StaticsController = {
   insertIntoDB,
   generateAnalytics,
+  getCorrectionRequestAlbum,
+  getCorrectionRequestSingle,
+  getNews,
 };

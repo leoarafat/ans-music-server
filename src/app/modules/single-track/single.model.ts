@@ -258,10 +258,21 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     },
     isApproved: {
       type: String,
+      enum: ['approved', 'rejected', 'pending'],
       default: 'pending',
     },
+
     correctionNote: {
-      type: [String],
+      type: [
+        {
+          text: {
+            type: String,
+          },
+          isRead: {
+            type: Boolean,
+          },
+        },
+      ],
     },
     tackDown: {
       type: String,

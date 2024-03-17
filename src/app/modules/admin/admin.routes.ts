@@ -10,6 +10,7 @@ import { activityController } from '../activity/activity.controller';
 import { financeController } from '../finance/finance.controller';
 import { inspectionController } from '../Inspection/Inspection.controller';
 import { paymentController } from '../payments/payments.controller';
+import { NewsController } from '../news/news.controller';
 
 const router = express.Router();
 
@@ -139,6 +140,8 @@ router.post(
   auth(ENUM_USER_ROLE.ADMIN),
   paymentController.withdrawAmount,
 );
+//!NEWS
+router.post('/add-news', auth(ENUM_USER_ROLE.ADMIN), NewsController.createNews);
 //*  Id work here *//
 //!Youtube requests
 router.get(
@@ -180,12 +183,12 @@ router.patch(
 
 //! Inspection
 router.get(
-  '/user-inspection',
+  '/user-inspection/:id',
   auth(ENUM_USER_ROLE.ADMIN),
   inspectionController.userInspection,
 );
 router.get(
-  '/song-inspection',
+  '/song-inspection/:id',
   auth(ENUM_USER_ROLE.ADMIN),
   inspectionController.songInspection,
 );
