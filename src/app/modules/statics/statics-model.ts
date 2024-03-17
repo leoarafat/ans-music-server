@@ -47,4 +47,5 @@ const singleMusicSchema = new Schema<IInterface>(
     },
   },
 );
+
 export const Statics = model('Static', singleMusicSchema);

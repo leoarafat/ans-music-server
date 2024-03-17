@@ -7,31 +7,41 @@ import { Statics } from './statics-model';
 import { SingleTrack } from '../single-track/single.model';
 import { Album } from '../album/album.model';
 import { News } from '../news/news.model';
+import ApiError from '../../../errors/ApiError';
+import httpStatus from 'http-status';
+// import { Worker, isMainThread, parentPort, workerData } from 'worker_threads';
 //!
 // const insertIntoDB = async (req: Request) => {
 //   //@ts-ignore
 //   const statics = req.files['statics'];
 
-//   let staticsData: any[] = [];
-//   csv()
-//     .fromFile(statics[0].path)
-//     .then(async response => {
-//       for (let i = 0; i < response.length; i++) {
-//         staticsData.push({
-//           upc: response[i].UPC,
-//           isrc: response[i].ISRC,
-//           label: response[i]['Label Name'],
-//           artist: response[i]['Artist Name'],
-//           album: response[i]['Release title'],
-//           tracks: response[i]['Track title'],
-//           stream_quantity: response[i].Quantity,
-//           revenue: response[i]['Net Revenue'],
-//           country: response[i]['Country / Region'],
-//         });
-//       }
+//   try {
+//     const response = await csv().fromFile(statics[0].path);
 
-//       return await Statics.create(staticsData);
-//     });
+//     for (let i = 0; i < response.length; i++) {
+//       const newData = {
+//         upc: response[i].UPC,
+//         isrc: response[i].ISRC,
+//         label: response[i]['Label Name'],
+//         artist: response[i]['Artist Name'],
+//         album: response[i]['Release title'],
+//         tracks: response[i]['Track title'],
+//         stream_quantity: response[i].Quantity,
+//         revenue: response[i]['Net Revenue'],
+//         country: response[i]['Country / Region'],
+//       };
+
+//       // Await the creation of each entry
+//       const result = await Statics.create(newData);
+//       parentPort?.postMessage(result);
+//       return result;
+//     }
+
+//     console.log('Entries saved successfully.');
+//   } catch (error) {
+//     console.error('Error saving entries:', error);
+//     // Handle error here
+//   }
 // };
 //!
 const insertIntoDB = async (req: Request) => {
@@ -41,32 +51,27 @@ const insertIntoDB = async (req: Request) => {
   try {
     const response = await csv().fromFile(statics[0].path);
 
-    // Limiting to 10 data entries
-    const entriesToSave = response.slice(0, 50);
-
-    for (let i = 0; i < entriesToSave.length; i++) {
+    let loopData = [];
+    for (let i = 0; i < response.length; i++) {
       const newData = {
-        upc: entriesToSave[i].UPC,
-        isrc: entriesToSave[i].ISRC,
-        label: entriesToSave[i]['Label Name'],
-        artist: entriesToSave[i]['Artist Name'],
-        album: entriesToSave[i]['Release title'],
-        tracks: entriesToSave[i]['Track title'],
-        stream_quantity: entriesToSave[i].Quantity,
-        revenue: entriesToSave[i]['Net Revenue'],
-        country: entriesToSave[i]['Country / Region'],
+        upc: response[i].UPC,
+        isrc: response[i].ISRC,
+        label: response[i]['Label Name'],
+        artist: response[i]['Artist Name'],
+        album: response[i]['Release title'],
+        tracks: response[i]['Track title'],
+        stream_quantity: response[i].Quantity,
+        revenue: response[i]['Net Revenue'],
+        country: response[i]['Country / Region'],
       };
-
-      // Await the creation of each entry
-      await Statics.create(newData);
+      loopData.push(newData);
     }
-
-    console.log('Entries saved successfully.');
+    await Statics.insertMany(loopData);
   } catch (error) {
-    console.error('Error saving entries:', error);
-    // Handle error here
+    throw new ApiError(httpStatus.BAD_REQUEST, error as string);
   }
 };
+//!
 
 const generateAnalytics = async () => {
   try {
