@@ -13,8 +13,7 @@ export const storage = multer.diskStorage({
     cb(null, uploadsDirectory);
   },
   filename: function (req: Request, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'ANS-MUSIC' + '-' + uniqueSuffix + file.originalname);
+    cb(null, file.originalname);
   },
 });
 //!
@@ -58,8 +57,7 @@ export const storageSingle = multer.diskStorage({
     cb(null, uploadsSingleDirectory);
   },
   filename: function (req: Request, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'ANS-MUSIC' + '-' + uniqueSuffix + file.originalname);
+    cb(null, file.originalname);
   },
 });
 //!
