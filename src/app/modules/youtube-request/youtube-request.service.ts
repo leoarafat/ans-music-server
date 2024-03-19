@@ -34,7 +34,7 @@ const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
   );
   try {
     await sendEmail({
-      email: 'admin@gmail.com',
+      email: 'support@ansmusiclimited.com',
       subject: 'New claim request',
       template: 'youtube-request.ejs',
       data,
@@ -77,7 +77,7 @@ const addArtistChannelRequest = async (
   );
   try {
     await sendEmail({
-      email: 'admin@gmail.com',
+      email: 'support@ansmusiclimited.com',
       subject: 'New Artist Channel Request',
       template: 'youtube-request.ejs',
       data,
@@ -109,7 +109,7 @@ const addWhitelistRequest = async (
   );
   try {
     await sendEmail({
-      email: 'admin@gmail.com',
+      email: 'support@ansmusiclimited.com',
       subject: 'New Whitelist Request',
       template: 'youtube-request.ejs',
       data,
