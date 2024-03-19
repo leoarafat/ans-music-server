@@ -8,6 +8,7 @@ import {
   ILoginUserResponse,
   IRefreshTokenResponse,
 } from '../auth/auth.interface';
+import { IAdmin } from './admin.interface';
 
 const registrationUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -55,7 +56,16 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-
+const updateAdmin = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await AdminService.updateAdmin(id, req as any);
+  sendResponse<IAdmin>(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Admin updated successfully',
+    data: result,
+  });
+});
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await AdminService.deleteUser(id);
@@ -104,8 +114,8 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 });
 const changePassword = catchAsync(async (req: Request, res: Response) => {
   const { ...passwordData } = req.body;
-  const user = req.user;
-  await AdminService.changePassword(user, passwordData);
+
+  await AdminService.changePassword(req.params.id, passwordData);
   sendResponse<ILoginUserResponse>(res, {
     statusCode: 200,
     success: true,
@@ -288,4 +298,5 @@ export const AdminController = {
   addNoteInUser,
   terminateUserAccount,
   lockUserAccount,
+  updateAdmin,
 };

@@ -9,8 +9,6 @@ export type IAdmin = {
   password: string;
   role: 'admin';
   image: string;
-
-  // test: Types.ObjectId | ITest
 };
 export type AdminModel = {
   isAdminExist(

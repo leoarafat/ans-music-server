@@ -13,7 +13,12 @@ import httpStatus from 'http-status';
 const insertIntoDB = async (req: Request) => {
   //@ts-ignore
   const statics = req.files['statics'];
-
+  if (!statics[0].originalname.endsWith('.csv')) {
+    throw new ApiError(
+      400,
+      'Invalid file format. Only .xlsx files are allowed.',
+    );
+  }
   try {
     const response = await csv().fromFile(statics[0].path);
 

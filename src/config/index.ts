@@ -25,6 +25,7 @@ export default {
     smtp_service: process.env.SMTP_SERVICE,
     smtp_mail: process.env.SMTP_MAIL,
     smtp_password: process.env.SMTP_PASSWORD,
+    NAME: process.env.SERVICE_NAME,
   },
   resetlink: process.env.RESET_PASS_UI_LINK,
 

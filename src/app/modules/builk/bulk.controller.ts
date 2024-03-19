@@ -12,4 +12,13 @@ const createBulk = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-export const bulkController = { createBulk };
+const getBulkData = catchAsync(async (req: Request, res: Response) => {
+  const result = await bulkService.getBulkData();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Success',
+    data: result,
+  });
+});
+export const bulkController = { createBulk, getBulkData };

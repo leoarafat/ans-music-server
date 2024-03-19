@@ -16,10 +16,14 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
     },
     phoneNumber: {
       type: String,
-      // required: true,
       unique: true,
     },
     password: {
+      type: String,
+      required: true,
+      select: 0,
+    },
+    image: {
       type: String,
       required: true,
     },
@@ -28,10 +32,6 @@ const AdminSchema = new Schema<IAdmin, AdminModel>(
       type: String,
       enum: ['admin'],
       default: 'admin',
-    },
-    image: {
-      type: String,
-      // required: true,
     },
   },
   {

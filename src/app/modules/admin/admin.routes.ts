@@ -3,7 +3,7 @@ import express from 'express';
 import { AdminController } from './admin.controller';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
-import { upload } from '../../../utils/multer';
+import { upload, uploadStatics } from '../../../utils/multer';
 import { StaticsController } from '../statics/statics.controller';
 import { catalogMusicController } from '../catalog-music/catalog-music.controller';
 import { activityController } from '../activity/activity.controller';
@@ -24,7 +24,7 @@ router.post('/login', AdminController.login);
 router.post('/refresh-token', AdminController.refreshToken);
 router.patch('/change-password', AdminController.changePassword);
 //!Analytics management
-router.post('/statics', upload, StaticsController.insertIntoDB);
+router.post('/statics', uploadStatics, StaticsController.insertIntoDB);
 router.get('/analytics', StaticsController.generateAnalytics);
 //!Youtube requests
 router.get(
@@ -210,4 +210,6 @@ router.delete(
   paymentController.deleteTransaction,
 );
 
+//! Admin Update
+router.patch('/edit-profile/:id', upload, AdminController.updateAdmin);
 export const AdminRoutes = router;

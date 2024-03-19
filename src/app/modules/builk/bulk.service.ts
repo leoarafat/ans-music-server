@@ -7,6 +7,12 @@ import ApiError from '../../../errors/ApiError';
 const createBulk = async (req: Request) => {
   //@ts-ignore
   const bulks = req.files['bulk'];
+  if (!bulks[0].originalname.endsWith('.xlsx')) {
+    throw new ApiError(
+      400,
+      'Invalid file format. Only .xlsx files are allowed.',
+    );
+  }
   const excelData = excelToJson({
     sourceFile: bulks[0].path,
   });
@@ -70,5 +76,7 @@ const createBulk = async (req: Request) => {
 
   return jsonData;
 };
-
-export const bulkService = { createBulk };
+const getBulkData = async () => {
+  return await Bulk.find({});
+};
+export const bulkService = { createBulk, getBulkData };

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { JwtPayload, Secret } from 'jsonwebtoken';
+import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
@@ -47,6 +47,35 @@ const getAllUsers = async (): Promise<IUser[]> => {
 //!
 const getSingleUser = async (id: string): Promise<IUser | null> => {
   const result = await User.findById(id);
+
+  return result;
+};
+//!
+const updateAdmin = async (id: string, req: Request) => {
+  const isExist = await User.findOne({ _id: id });
+  //@ts-ignore
+  const { files } = req;
+  //@ts-ignore
+  const data = JSON.parse(req.body.data);
+  //@ts-ignore
+  const imageFile = files.image[0];
+  if (!isExist) {
+    throw new ApiError(404, 'Admin not found!');
+  }
+
+  const { ...userData } = data;
+
+  const result = await Admin.findOneAndUpdate(
+    { _id: id },
+    {
+      ...userData,
+      image: imageFile.path,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
   return result;
 };
@@ -134,24 +163,22 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
 };
 
 const changePassword = async (
-  user: JwtPayload | null,
+  id: string | null,
   payload: IChangePassword,
 ): Promise<void> => {
   const { oldPassword } = payload;
-  const isUserExist = await Admin.findOne({ _id: user?.userId }).select(
-    '+password',
-  );
-  if (!isUserExist) {
+  const isAdminExist = await Admin.findOne({ _id: id }).select('+password');
+  if (!isAdminExist) {
     throw new ApiError(404, 'Admin does not exist');
   }
   if (
-    isUserExist.password &&
-    !(await Admin.isPasswordMatched(oldPassword, isUserExist.password))
+    isAdminExist.password &&
+    !(await Admin.isPasswordMatched(oldPassword, isAdminExist.password))
   ) {
     throw new ApiError(402, 'Old password is incorrect');
   }
 
-  isUserExist.save();
+  isAdminExist.save();
 };
 //!
 const approveSingleMusic = async (id: string) => {
@@ -363,4 +390,5 @@ export const AdminService = {
   addNoteInUser,
   terminateUserAccount,
   lockUserAccount,
+  updateAdmin,
 };

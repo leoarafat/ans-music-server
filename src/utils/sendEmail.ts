@@ -4,9 +4,7 @@ import ejs from 'ejs';
 import path from 'path';
 import { IEmailOptions } from '../app/modules/user/user.interface';
 import config from '../config';
-
-import sgMail from '@sendgrid/mail';
-// import { promisify } from 'util';
+import { formattedDate } from './utils';
 
 const sendEmail = async (options: IEmailOptions): Promise<void> => {
   const transporter: Transporter = nodemailer.createTransport({
@@ -22,39 +20,15 @@ const sendEmail = async (options: IEmailOptions): Promise<void> => {
 
   const templatePath = path.join(__dirname, '../mails', template);
   const html: string = await ejs.renderFile(templatePath, data);
+
   const mailOptions = {
-    from: config.smtp.smtp_mail,
+    from: `${config.smtp.NAME} <${config.smtp.smtp_mail}>`,
     to: email,
+    date: formattedDate,
+    signed_by: 'ansmusiclimited.com',
     subject,
     html,
   };
   await transporter.sendMail(mailOptions);
 };
 export default sendEmail;
-export const sendEmails = async (options: IEmailOptions): Promise<void> => {
-  //@ts-ignore
-  sgMail.setApiKey(config.sendgrid.api_key);
-
-  const { email, subject, template, data } = options;
-
-  // Construct the path to the EJS template
-  const templatePath = path.join(__dirname, '../mails', template);
-
-  try {
-    // Render the EJS template file to HTML content using data
-    const html = await ejs.renderFile(templatePath, { data });
-
-    const msg = {
-      to: email,
-      from: config.sendgrid.from_email,
-      subject: subject,
-      html: html,
-    };
-
-    //@ts-ignore
-    await sgMail.send(msg);
-  } catch (error) {
-    //@ts-ignore
-    throw new Error(`Error sending email: ${error.message}`);
-  }
-};
