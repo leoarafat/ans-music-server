@@ -1,0 +1,28 @@
+export type IBulk = {
+  upc: string;
+  isrc: string;
+  releaseTitle: string;
+  releaseSubtitle: string;
+  trackTitle: string;
+  trackSubtitle: string;
+  cLine: string;
+  pLine: string;
+  genre: string;
+  subGenre: string;
+  primaryArtist: string;
+  anotherPrimaryArtist: string[];
+  featuringArtist: string;
+  writer: string;
+  composer: string;
+  arranger: string;
+  producer: string;
+  publisher: string;
+  labelName: string;
+  instrumental: string;
+  trackLanguage: string;
+  titleLanguage: string;
+  clipPreviewStartInSeconds: string;
+  primaryTrackType: string;
+  parentalAdvisory: string;
+  releaseDate: Date;
+};

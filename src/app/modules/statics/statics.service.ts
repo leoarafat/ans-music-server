@@ -9,41 +9,7 @@ import { Album } from '../album/album.model';
 import { News } from '../news/news.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
-// import { Worker, isMainThread, parentPort, workerData } from 'worker_threads';
-//!
-// const insertIntoDB = async (req: Request) => {
-//   //@ts-ignore
-//   const statics = req.files['statics'];
 
-//   try {
-//     const response = await csv().fromFile(statics[0].path);
-
-//     for (let i = 0; i < response.length; i++) {
-//       const newData = {
-//         upc: response[i].UPC,
-//         isrc: response[i].ISRC,
-//         label: response[i]['Label Name'],
-//         artist: response[i]['Artist Name'],
-//         album: response[i]['Release title'],
-//         tracks: response[i]['Track title'],
-//         stream_quantity: response[i].Quantity,
-//         revenue: response[i]['Net Revenue'],
-//         country: response[i]['Country / Region'],
-//       };
-
-//       // Await the creation of each entry
-//       const result = await Statics.create(newData);
-//       parentPort?.postMessage(result);
-//       return result;
-//     }
-
-//     console.log('Entries saved successfully.');
-//   } catch (error) {
-//     console.error('Error saving entries:', error);
-//     // Handle error here
-//   }
-// };
-//!
 const insertIntoDB = async (req: Request) => {
   //@ts-ignore
   const statics = req.files['statics'];
@@ -101,7 +67,6 @@ const getCorrectionRequestAlbum = async (id: string) => {
   const albums = await Album.find({ user: id }).lean();
 
   const albumsWithIsFalse = albums.filter(album => {
-    // Check if any note in correctionNote has isRead as false
     //@ts-ignore
     return album.correctionNote.some(note => !note.isRead);
   });

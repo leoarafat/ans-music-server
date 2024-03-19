@@ -140,6 +140,16 @@ router.post(
   auth(ENUM_USER_ROLE.ADMIN),
   paymentController.withdrawAmount,
 );
+router.get(
+  '/total-payments',
+  auth(ENUM_USER_ROLE.ADMIN),
+  paymentController.totalPayments,
+);
+router.get(
+  '/total-transaction',
+  auth(ENUM_USER_ROLE.ADMIN),
+  paymentController.totalTransaction,
+);
 //!NEWS
 router.post('/add-news', auth(ENUM_USER_ROLE.ADMIN), NewsController.createNews);
 //*  Id work here *//
@@ -191,6 +201,13 @@ router.get(
   '/song-inspection/:id',
   auth(ENUM_USER_ROLE.ADMIN),
   inspectionController.songInspection,
+);
+
+//!Payment
+router.delete(
+  '/delete-transaction',
+  auth(ENUM_USER_ROLE.ADMIN),
+  paymentController.deleteTransaction,
 );
 
 export const AdminRoutes = router;

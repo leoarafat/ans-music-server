@@ -21,7 +21,37 @@ const withdrawAmount = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const totalPayments = catchAsync(async (req: Request, res: Response) => {
+  const result = await paymentService.totalPayments();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: ' successfully',
+    data: result,
+  });
+});
+const totalTransaction = catchAsync(async (req: Request, res: Response) => {
+  const result = await paymentService.totalTransaction();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: ' successfully',
+    data: result,
+  });
+});
+const deleteTransaction = catchAsync(async (req: Request, res: Response) => {
+  const result = await paymentService.deleteTransaction(req.params.id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: ' successfully',
+    data: result,
+  });
+});
 export const paymentController = {
   makePayment,
   withdrawAmount,
+  totalPayments,
+  totalTransaction,
+  deleteTransaction,
 };

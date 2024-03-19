@@ -33,4 +33,5 @@ export const upload = multer({ storage: storage }).fields([
   { name: 'actor' },
   { name: 'composer' },
   { name: 'director' },
+  { name: 'bulk' },
 ]);

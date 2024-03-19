@@ -82,4 +82,37 @@ const withdrawAmount = async (payload: IPayment) => {
     );
   }
 };
-export const paymentService = { makePayment, withdrawAmount };
+
+const totalPayments = async () => {
+  const payments = await Payment.find({});
+  const total = await Payment.countDocuments(payments);
+  return {
+    totalPayments: total,
+    paymentUser: payments,
+  };
+};
+const totalTransaction = async () => {
+  const payments = await Payment.find({});
+  const totalPayment = payments.reduce((acc, price) => {
+    return acc + price.amount;
+  }, 0);
+
+  return {
+    totalPayments: totalPayment,
+    paymentUser: payments,
+  };
+};
+const deleteTransaction = async (id: string) => {
+  const isExist = await Payment.findById(id);
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Transaction not found');
+  }
+  return await Payment.findByIdAndDelete(id);
+};
+export const paymentService = {
+  makePayment,
+  withdrawAmount,
+  totalPayments,
+  totalTransaction,
+  deleteTransaction,
+};
