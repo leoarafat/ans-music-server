@@ -73,17 +73,20 @@ const addArtistChannelRequest = async (
   ) {
     throw new ApiError(400, 'Payload cannot be empty');
   }
+  //@ts-ignore
+  const user = await User.findOne({ _id: req.user.userId });
   const result = await ArtistChannelRequest.create(payload);
   const paddedId = result._id.toString().padStart(4, '0');
   const data = {
     url: result.topic_link,
     id: paddedId,
     type: 'Artist Channel Request',
+    name: user?.name,
   };
 
   await ejs.renderFile(
     path.join(__dirname, '../../../mails/youtube-request.ejs'),
-    result,
+    data,
   );
   try {
     await sendEmail({
@@ -110,12 +113,19 @@ const addWhitelistRequest = async (
   if (payload.url == '') {
     throw new ApiError(400, 'Payload cannot be empty');
   }
+  //@ts-ignore
+  const user = await User.findOne({ _id: req.user.userId });
   const result = await WhitelistRequest.create(payload);
   const paddedId = result._id.toString().padStart(4, '0');
-  const data = { url: result.url, id: paddedId, type: 'Whitelist Request' };
+  const data = {
+    url: result.url,
+    id: paddedId,
+    type: 'Whitelist Request',
+    name: user?.name,
+  };
   await ejs.renderFile(
     path.join(__dirname, '../../../mails/youtube-request.ejs'),
-    result,
+    data,
   );
   try {
     await sendEmail({
