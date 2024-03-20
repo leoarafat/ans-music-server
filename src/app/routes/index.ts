@@ -6,6 +6,7 @@ import { AdminRoutes } from '../modules/admin/admin.routes';
 import { SubUserRoutes } from '../modules/sub-user/sub-user.routes';
 import { AlbumRoutes } from '../modules/album/album.routes';
 import { NoteRoutes } from '../modules/note/note.route';
+import { YoutubeRequestRoutes } from '../modules/youtube-request/youtube-request.routes';
 
 const router = express.Router();
 
@@ -37,6 +38,10 @@ const moduleRoutes = [
   {
     path: '/note',
     route: NoteRoutes,
+  },
+  {
+    path: '/youtube-request',
+    route: YoutubeRequestRoutes,
   },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));

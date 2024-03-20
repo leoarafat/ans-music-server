@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import ApiError from '../../../errors/ApiError';
 import {
   IArtistChannelRequest,
@@ -15,26 +16,35 @@ import ejs from 'ejs';
 import { Request } from 'express';
 import sendEmail from '../../../utils/sendEmail';
 import httpStatus from 'http-status';
+import User from '../user/user.model';
 const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
+  //@ts-ignore
+  const user = await User.findOne({ _id: req.user.userId });
+
   if (payload.url == '') {
     throw new ApiError(400, 'Payload cannot be empty');
   }
-  // const user = req.user;
-  // console.log(user);
-  // if (!user) {
-  //   throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  // }
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
   const result = await ClaimRequest.create(payload);
   const paddedId = result._id.toString().padStart(4, '0');
-  const data = { url: result.url, id: paddedId, type: 'Claim' };
+
+  const data = {
+    url: result.url,
+    id: paddedId,
+    type: 'Claim',
+    name: user?.name,
+  };
 
   await ejs.renderFile(
-    path.join(__dirname, '../../../mails/activation-mail.ejs'),
-    result,
+    path.join(__dirname, '../../../mails/youtube-request.ejs'),
+    data,
   );
+
   try {
     await sendEmail({
-      email: 'admin@gmail.com',
+      email: 'support@ansmusiclimited.com',
       subject: 'New claim request',
       template: 'youtube-request.ejs',
       data,
@@ -72,12 +82,12 @@ const addArtistChannelRequest = async (
   };
 
   await ejs.renderFile(
-    path.join(__dirname, '../../../mails/activation-mail.ejs'),
+    path.join(__dirname, '../../../mails/youtube-request.ejs'),
     result,
   );
   try {
     await sendEmail({
-      email: 'admin@gmail.com',
+      email: 'support@ansmusiclimited.com',
       subject: 'New Artist Channel Request',
       template: 'youtube-request.ejs',
       data,
@@ -104,7 +114,7 @@ const addWhitelistRequest = async (
   const paddedId = result._id.toString().padStart(4, '0');
   const data = { url: result.url, id: paddedId, type: 'Whitelist Request' };
   await ejs.renderFile(
-    path.join(__dirname, '../../../mails/activation-mail.ejs'),
+    path.join(__dirname, '../../../mails/youtube-request.ejs'),
     result,
   );
   try {
