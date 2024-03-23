@@ -45,29 +45,19 @@ const insertIntoDB = async (req: Request) => {
 //!
 
 const generateAnalytics = async () => {
-  try {
-    const analyticsData = await Statics.aggregate([
-      {
-        $group: {
-          _id: '$label',
-          //   totalRevenue: { $sum: '$revenue' },
-          totalRevenue: { $sum: { $toDouble: '$revenue' } },
-        },
+  const statistics = await Statics.aggregate([
+    {
+      $group: {
+        _id: '$isrc',
+        count: { $sum: 1 },
+        totalRevenue: { $sum: { $toDouble: '$revenue' } },
+        totalStreams: { $sum: { $toInt: '$stream_quantity' } },
       },
-    ]);
-
-    const pieChartData = analyticsData.map(entry => ({
-      label: entry._id,
-      value: entry.totalRevenue,
-    }));
-
-    return pieChartData;
-  } catch (error) {
-    console.error('Error generating pie chart data:', error);
-    //@ts-ignore
-    throw new Error(error);
-  }
+    },
+  ]);
+  return statistics;
 };
+
 const getCorrectionRequestAlbum = async (id: string) => {
   const albums = await Album.find({ user: id }).lean();
 

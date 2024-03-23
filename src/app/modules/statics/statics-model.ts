@@ -5,39 +5,39 @@ const singleMusicSchema = new Schema<IInterface>(
   {
     upc: {
       type: String,
-      // required: true,
+      required: true,
     },
     isrc: {
       type: String,
-      // required: true,
+      required: true,
     },
     album: {
       type: String,
-      // default: true,
+      required: true,
     },
     artist: {
       type: String,
-      // default: true,
+      required: true,
     },
     country: {
       type: String,
-      // default: true,
+      required: true,
     },
     label: {
       type: String,
-      // default: true,
+      required: true,
     },
     revenue: {
       type: String,
-      // default: true,
+      required: true,
     },
     stream_quantity: {
       type: String,
-      // default: true,
+      required: true,
     },
     tracks: {
       type: String,
-      // default: true,
+      // required: true,
     },
   },
   {
