@@ -30,7 +30,8 @@ const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
 
   await ejs.renderFile(
     path.join(__dirname, '../../../mails/youtube-request.ejs'),
-    result,
+
+    data,
   );
   try {
     await sendEmail({
@@ -73,7 +74,7 @@ const addArtistChannelRequest = async (
 
   await ejs.renderFile(
     path.join(__dirname, '../../../mails/youtube-request.ejs'),
-    result,
+    data,
   );
   try {
     await sendEmail({
@@ -105,7 +106,7 @@ const addWhitelistRequest = async (
   const data = { url: result.url, id: paddedId, type: 'Whitelist Request' };
   await ejs.renderFile(
     path.join(__dirname, '../../../mails/youtube-request.ejs'),
-    result,
+    data,
   );
   try {
     await sendEmail({

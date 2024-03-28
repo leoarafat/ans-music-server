@@ -6,6 +6,7 @@ import { formatDuration, getAudioDuration } from '../../../utils/utils';
 import { ISingleTrack } from './single.interface';
 import { generateArtistId, generateLabelId } from '../../../utils/uniqueId';
 import User from '../user/user.model';
+import { updateImageUrl } from '../../../utils/url-modifier';
 
 const uploadSingle = async (req: Request) => {
   const { files } = req;
@@ -69,11 +70,25 @@ const uploadSingle = async (req: Request) => {
 };
 const myAllMusic = async (id: string) => {
   const result = await SingleTrack.find({ user: id });
-  return result;
+  const updatedResult = result.map(music => {
+    music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
+    //@ts-ignore
+
+    return music;
+  });
+  return updatedResult;
 };
 const singleMusic = async (id: string) => {
   const result = await SingleTrack.findById(id);
-  return result;
+  if (!result) {
+    throw new ApiError(404, 'Song not found');
+  }
+  const updatedResult = {
+    ...result.toObject(),
+    image: updateImageUrl(result.image).replace(/\\/g, '/'),
+    audio: updateImageUrl(result.audio.path).replace(/\\/g, '/'),
+  };
+  return updatedResult;
 };
 const updateSingleMusic = async (
   id: string,
