@@ -14,11 +14,6 @@ router.post('/activate-user', UserController.activateUser);
 router.post('/login', UserController.login);
 router.post('/refresh-token', UserController.refreshToken);
 router.patch('/change-password', UserController.changePassword);
-router.get(
-  '/news',
-  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
-  StaticsController.getNews,
-);
 //!Sub User
 router.post('/register-sub-user', SubUserController.registrationUser);
 router.post('/activate-sub-user', SubUserController.activateUser);
@@ -43,6 +38,12 @@ router.post(
 router.get('/profile/:id', UserController.getSingleUser);
 router.patch('/verify-profile/:id', upload, UserController.updateUser);
 
+//!NEWS
+router.get(
+  '/news',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  StaticsController.getNews,
+);
 //!Youtube IDS
 router.get(
   '/claims/:id',
@@ -108,14 +109,5 @@ router.get(
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   StaticsController.getCorrectionRequestSingle,
 );
-router.get(
-  '/correction-single-track/:id',
-  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
-  StaticsController.getCorrectionRequestSingle,
-);
-router.get(
-  '/news',
-  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
-  StaticsController.getNews,
-);
+
 export const UserRoutes = router;

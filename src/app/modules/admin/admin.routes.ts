@@ -111,12 +111,12 @@ router.get(
   auth(ENUM_USER_ROLE.ADMIN),
   activityController.distributed,
 );
-router.get(
+router.patch(
   '/make-distribute',
   auth(ENUM_USER_ROLE.ADMIN),
   activityController.makeDistribute,
 );
-router.get(
+router.patch(
   '/make-takedown',
   auth(ENUM_USER_ROLE.ADMIN),
   activityController.makeTakeDown,
@@ -153,6 +153,7 @@ router.get(
 //!NEWS
 router.post('/add-news', auth(ENUM_USER_ROLE.ADMIN), NewsController.createNews);
 //*  Id work here *//
+
 //!Youtube requests
 router.get(
   '/artist-channels/pending',
@@ -205,7 +206,7 @@ router.get(
 
 //!Payment
 router.delete(
-  '/delete-transaction',
+  '/delete-transaction/:id',
   auth(ENUM_USER_ROLE.ADMIN),
   paymentController.deleteTransaction,
 );
