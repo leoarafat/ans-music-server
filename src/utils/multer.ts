@@ -47,7 +47,7 @@ export const storageStatics = multer.diskStorage({
   },
 });
 //!
-const uploadsSingleDirectory = 'uploads/single-track';
+const uploadsSingleDirectory = 'uploads/single';
 if (!fs.existsSync(uploadsSingleDirectory)) {
   fs.mkdirSync(uploadsSingleDirectory, { recursive: true });
 }

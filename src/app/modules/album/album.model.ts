@@ -103,17 +103,17 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
 
     primaryArtistAppleId: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     primaryArtistFacebookId: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     primaryArtistYoutubeId: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     writer: {

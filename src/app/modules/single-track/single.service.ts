@@ -5,12 +5,17 @@ import ApiError from '../../../errors/ApiError';
 import { formatDuration, getAudioDuration } from '../../../utils/utils';
 import { ISingleTrack } from './single.interface';
 import { generateArtistId, generateLabelId } from '../../../utils/uniqueId';
+import User from '../user/user.model';
 
 const uploadSingle = async (req: Request) => {
   const { files } = req;
 
   const data = JSON.parse(req.body.data);
-
+  const user = data?.user;
+  const checkUser = await User.findById(user);
+  if (!checkUser) {
+    throw new ApiError(404, 'User not found');
+  }
   await Promise.all(
     data.primaryArtist.map(async (artist: any) => {
       artist.primaryArtistId = generateArtistId();

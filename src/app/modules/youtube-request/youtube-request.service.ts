@@ -29,7 +29,7 @@ const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
   const data = { url: result.url, id: paddedId, type: 'Claim' };
 
   await ejs.renderFile(
-    path.join(__dirname, '../../../mails/activation-mail.ejs'),
+    path.join(__dirname, '../../../mails/youtube-request.ejs'),
     result,
   );
   try {
@@ -72,7 +72,7 @@ const addArtistChannelRequest = async (
   };
 
   await ejs.renderFile(
-    path.join(__dirname, '../../../mails/activation-mail.ejs'),
+    path.join(__dirname, '../../../mails/youtube-request.ejs'),
     result,
   );
   try {
@@ -104,7 +104,7 @@ const addWhitelistRequest = async (
   const paddedId = result._id.toString().padStart(4, '0');
   const data = { url: result.url, id: paddedId, type: 'Whitelist Request' };
   await ejs.renderFile(
-    path.join(__dirname, '../../../mails/activation-mail.ejs'),
+    path.join(__dirname, '../../../mails/youtube-request.ejs'),
     result,
   );
   try {
