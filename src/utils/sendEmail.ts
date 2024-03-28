@@ -10,7 +10,7 @@ const sendEmail = async (options: IEmailOptions): Promise<void> => {
   const transporter: Transporter = nodemailer.createTransport({
     host: config.smtp.smtp_host,
     port: parseInt(config.smtp.smtp_port as string),
-    service: config.smtp.smtp_service,
+    // service: config.smtp.smtp_service,
     auth: {
       user: config.smtp.smtp_mail,
       pass: config.smtp.smtp_password,

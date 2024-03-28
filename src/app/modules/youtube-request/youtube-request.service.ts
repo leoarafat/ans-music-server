@@ -16,14 +16,15 @@ import { Request } from 'express';
 import sendEmail from '../../../utils/sendEmail';
 import httpStatus from 'http-status';
 const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
+  console.log(payload);
   if (payload.url == '') {
     throw new ApiError(400, 'Payload cannot be empty');
   }
-  // const user = req.user;
-  // console.log(user);
-  // if (!user) {
-  //   throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  // }
+  const user = payload.user;
+
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
   const result = await ClaimRequest.create(payload);
   const paddedId = result._id.toString().padStart(4, '0');
   const data = { url: result.url, id: paddedId, type: 'Claim' };

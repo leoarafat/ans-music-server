@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 //All Routes
-app.use('/api', routes);
+app.use('/', routes);
 
 // app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/', async (req: Request, res: Response) => {
@@ -31,6 +31,6 @@ app.get('/', async (req: Request, res: Response) => {
 });
 //Global Error Handler
 app.use(globalErrorHandler);
-
+app.set('view engine', 'ejs');
 //handle not found
 app.use(NotFoundHandler.handle);

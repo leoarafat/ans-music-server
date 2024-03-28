@@ -43,6 +43,10 @@ const moduleRoutes = [
     path: '/bulk',
     route: bulkRoutes,
   },
+  // {
+  //   path: '/youtube-request',
+  //   route: YoutubeRequestRoutes,
+  // },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));
 
