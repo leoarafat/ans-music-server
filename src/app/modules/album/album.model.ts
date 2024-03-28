@@ -98,7 +98,7 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
 
     primaryArtistSpotifyId: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     primaryArtistAppleId: {

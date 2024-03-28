@@ -182,10 +182,7 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
       Boolean(result.channelName) &&
       Boolean(result.channelUrl) &&
       Boolean(result.subscribeCount) &&
-      Boolean(result.videosCount) &&
-      Boolean(result.copyrightNoticeImage) &&
-      Boolean(result.dashboardScreenShot) &&
-      Boolean(result.balance);
+      Boolean(result.videosCount);
     //@ts-ignore
     result.isVerified = isComplete;
     await result.save();

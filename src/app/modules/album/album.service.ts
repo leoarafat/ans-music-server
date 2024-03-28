@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Album } from './album.model';
 import { asyncForEach } from '../../../utils/asyncForEach';
 import ApiError from '../../../errors/ApiError';
-import { generateLabelId } from '../../../utils/uniqueId';
+import { generateArtistId, generateLabelId } from '../../../utils/uniqueId';
 
 const uploadMultiple = async (req: Request, res: Response) => {
   try {
@@ -15,7 +15,31 @@ const uploadMultiple = async (req: Request, res: Response) => {
     const albumImage = req.files.image[0];
     const albumData = JSON.parse(req.body.data);
     albumData.labelId = generateLabelId();
-
+    await Promise.all(
+      albumData.primaryArtist.map(async (artist: any) => {
+        artist.primaryArtistId = generateArtistId();
+      }),
+    );
+    await Promise.all(
+      albumData.writer.map(async (writers: any) => {
+        writers.writerId = generateArtistId();
+      }),
+    );
+    await Promise.all(
+      albumData.composer.map(async (composers: any) => {
+        composers.composerId = generateArtistId();
+      }),
+    );
+    await Promise.all(
+      albumData.musicDirector.map(async (Director: any) => {
+        Director.musicDirectorId = generateArtistId();
+      }),
+    );
+    await Promise.all(
+      albumData.producer.map(async (producers: any) => {
+        producers.producerId = generateArtistId();
+      }),
+    );
     if (
       !audioFiles ||
       !titles ||

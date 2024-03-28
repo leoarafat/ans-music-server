@@ -4,12 +4,39 @@ import { SingleTrack } from './single.model';
 import ApiError from '../../../errors/ApiError';
 import { formatDuration, getAudioDuration } from '../../../utils/utils';
 import { ISingleTrack } from './single.interface';
-import { generateLabelId } from '../../../utils/uniqueId';
+import { generateArtistId, generateLabelId } from '../../../utils/uniqueId';
 
 const uploadSingle = async (req: Request) => {
   const { files } = req;
 
   const data = JSON.parse(req.body.data);
+
+  await Promise.all(
+    data.primaryArtist.map(async (artist: any) => {
+      artist.primaryArtistId = generateArtistId();
+    }),
+  );
+  await Promise.all(
+    data.writer.map(async (writers: any) => {
+      writers.writerId = generateArtistId();
+    }),
+  );
+  await Promise.all(
+    data.composer.map(async (composers: any) => {
+      composers.composerId = generateArtistId();
+    }),
+  );
+  await Promise.all(
+    data.musicDirector.map(async (Director: any) => {
+      Director.musicDirectorId = generateArtistId();
+    }),
+  );
+  await Promise.all(
+    data.producer.map(async (producers: any) => {
+      producers.producerId = generateArtistId();
+    }),
+  );
+
   //@ts-ignore
   if (!files?.audio || !files.image) {
     throw new ApiError(400, 'Both audio and image files are required');
