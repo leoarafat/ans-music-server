@@ -1,20 +1,20 @@
-// "use client";
-// import React, { useState } from "react";
+// 'use client';
+// import React, { useState } from 'react';
 
 // const UploadForm = () => {
 //   const [formData, setFormData] = useState({
 //     audioFiles: [],
 //     titles: [],
 //     artists: [],
-//     composer: "",
-//     director: "",
+//     composer: '',
+//     director: '',
 //     image: null,
-//     actor: "", // Adding actor field
+//     actor: '', // Adding actor field
 //   });
-//   console.log(formData, "formData");
+//   console.log(formData, 'formData');
 
 //   const handleInputChange = (index, field, value) => {
-//     setFormData((prevData) => {
+//     setFormData(prevData => {
 //       const newData = { ...prevData };
 //       newData[field][index] = value;
 //       return newData;
@@ -24,28 +24,28 @@
 //   const handleFileChange = (index, e) => {
 //     const file = e.target.files[0];
 //     // console.log(file, "file");
-//     setFormData((prevData) => {
+//     setFormData(prevData => {
 //       const newData = { ...prevData };
 //       newData.audioFiles[index] = file || null;
 //       //   console.log(newData, "newData");
 //       return newData;
 //     });
 //   };
-//   const handleImageChange = (e) => {
+//   const handleImageChange = e => {
 //     const file = e.target.files[0];
-//     setFormData((prevData) => ({
+//     setFormData(prevData => ({
 //       ...prevData,
 //       image: file || null,
 //     }));
 //   };
 
-//   const handleSubmit = async (event) => {
+//   const handleSubmit = async event => {
 //     event.preventDefault();
 
 //     const form = new FormData();
 
 //     formData.audioFiles.forEach((file, index) => {
-//       console.log(file, "37");
+//       console.log(file, '37');
 //       form.append(`audio`, file);
 //       form.append(`title`, formData.titles[index]);
 //       form.append(`artist`, formData.artists[index]);
@@ -56,25 +56,25 @@
 //       image: formData.image,
 //       actor: formData.actor,
 //     };
-//     form.append("data", JSON.stringify(othersFieldData));
-//     console.log(form, "Form");
+//     form.append('data', JSON.stringify(othersFieldData));
+//     console.log(form, 'Form');
 
 //     try {
-//       const response = await fetch("http://localhost:5000/api/album/upload", {
-//         method: "POST",
+//       const response = await fetch('http://localhost:5000/api/album/upload', {
+//         method: 'POST',
 //         body: form,
 //       });
 
 //       if (!response.ok) {
 //         // Handle error
-//         console.error("Upload failed:", response.statusText);
+//         console.error('Upload failed:', response.statusText);
 //         return;
 //       }
 
 //       const result = await response.json();
-//       console.log("Upload successful:", result);
+//       console.log('Upload successful:', result);
 //     } catch (error) {
-//       console.error("Error during upload:", error.message);
+//       console.error('Error during upload:', error.message);
 //     }
 //   };
 
@@ -88,7 +88,7 @@
 //           <input
 //             type="file"
 //             accept="audio/*"
-//             onChange={(e) => handleFileChange(index, e)}
+//             onChange={e => handleFileChange(index, e)}
 //             required
 //             className="mb-2"
 //           />
@@ -96,7 +96,7 @@
 //             type="text"
 //             placeholder="Title"
 //             value={formData.titles[index]}
-//             onChange={(e) => handleInputChange(index, "titles", e.target.value)}
+//             onChange={e => handleInputChange(index, 'titles', e.target.value)}
 //             required
 //             className="w-full px-3 py-2 border text-black rounded-md"
 //           />
@@ -104,9 +104,7 @@
 //             type="text"
 //             placeholder="Artist"
 //             value={formData.artists[index]}
-//             onChange={(e) =>
-//               handleInputChange(index, "artists", e.target.value)
-//             }
+//             onChange={e => handleInputChange(index, 'artists', e.target.value)}
 //             required
 //             className="w-full px-3 py-2 mt-2 text-black border rounded-md"
 //           />
@@ -115,11 +113,11 @@
 //       <button
 //         type="button"
 //         onClick={() =>
-//           setFormData((prevData) => ({
+//           setFormData(prevData => ({
 //             ...prevData,
 //             audioFiles: [...prevData.audioFiles, null],
-//             titles: [...prevData.titles, ""],
-//             artists: [...prevData.artists, ""],
+//             titles: [...prevData.titles, ''],
+//             artists: [...prevData.artists, ''],
 //           }))
 //         }
 //         className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"

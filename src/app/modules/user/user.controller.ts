@@ -172,6 +172,16 @@ const myCorrectionRelease = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const updateProfile = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await UserService.updateProfile(id, req);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Profile update successfully',
+    data: result,
+  });
+});
 export const UserController = {
   createUser,
   getAllUsers,
@@ -186,4 +196,5 @@ export const UserController = {
   mySuccessRelease,
   myPendingRelease,
   myCorrectionRelease,
+  updateProfile,
 };

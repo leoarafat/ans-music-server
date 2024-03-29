@@ -72,12 +72,12 @@ const myAllMusic = async (id: string) => {
   const result = await SingleTrack.find({ user: id });
   const updatedResult = result.map(music => {
     music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
-    //@ts-ignore
-
+    music.audio.path = updateImageUrl(music.audio.path)?.replace(/\\/g, '/');
     return music;
   });
   return updatedResult;
 };
+
 const singleMusic = async (id: string) => {
   const result = await SingleTrack.findById(id);
   if (!result) {

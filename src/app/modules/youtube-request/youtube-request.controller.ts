@@ -9,7 +9,7 @@ const addClaimRequest = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Request send Successful',
+    message: 'Claims add Successful',
     data: result,
   });
 });
@@ -23,7 +23,7 @@ const addArtistChannelRequest = catchAsync(
     sendResponse(res, {
       statusCode: 200,
       success: true,
-      message: 'Request send Successful',
+      message: 'Artist channel request Successful',
       data: result,
     });
   },
@@ -34,7 +34,7 @@ const addWhitelistRequest = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Request send Successful',
+    message: 'Whitelist Request send Successful',
     data: result,
   });
 });

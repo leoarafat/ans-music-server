@@ -16,7 +16,6 @@ import { Request } from 'express';
 import sendEmail from '../../../utils/sendEmail';
 import httpStatus from 'http-status';
 const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
-  console.log(payload);
   if (payload.url == '') {
     throw new ApiError(400, 'Payload cannot be empty');
   }

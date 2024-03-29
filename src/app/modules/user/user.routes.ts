@@ -37,6 +37,7 @@ router.post(
 //!IDS Work
 router.get('/profile/:id', UserController.getSingleUser);
 router.patch('/verify-profile/:id', upload, UserController.updateUser);
+router.patch('/edit-profile/:id', upload, UserController.updateProfile);
 
 //!NEWS
 router.get(

@@ -91,29 +91,28 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
             type: String,
             required: true,
           },
+          primaryArtistSpotifyId: {
+            type: String,
+            // required: true,
+          },
+
+          primaryArtistAppleId: {
+            type: String,
+            // required: true,
+          },
+
+          primaryArtistFacebookId: {
+            type: String,
+            // required: true,
+          },
+
+          primaryArtistYoutubeId: {
+            type: String,
+            // required: true,
+          },
         },
       ],
       required: true,
-    },
-
-    primaryArtistSpotifyId: {
-      type: String,
-      // required: true,
-    },
-
-    primaryArtistAppleId: {
-      type: String,
-      // required: true,
-    },
-
-    primaryArtistFacebookId: {
-      type: String,
-      // required: true,
-    },
-
-    primaryArtistYoutubeId: {
-      type: String,
-      // required: true,
     },
 
     writer: {

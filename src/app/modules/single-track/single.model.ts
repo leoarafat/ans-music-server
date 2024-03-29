@@ -85,25 +85,24 @@ const singleMusicSchema = new Schema<ISingleTrack>(
             type: String,
             required: true,
           },
+          primaryArtistSpotifyId: {
+            type: String,
+          },
+
+          primaryArtistAppleId: {
+            type: String,
+          },
+
+          primaryArtistFacebookId: {
+            type: String,
+          },
+
+          primaryArtistYoutubeId: {
+            type: String,
+          },
         },
       ],
       required: true,
-    },
-
-    primaryArtistSpotifyId: {
-      type: String,
-    },
-
-    primaryArtistAppleId: {
-      type: String,
-    },
-
-    primaryArtistFacebookId: {
-      type: String,
-    },
-
-    primaryArtistYoutubeId: {
-      type: String,
     },
 
     writer: {

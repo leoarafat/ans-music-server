@@ -22,6 +22,7 @@ import {
   IRefreshTokenResponse,
 } from '../auth/auth.interface';
 import { SingleTrack } from '../single-track/single.model';
+import { updateImageUrl } from '../../../utils/url-modifier';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -190,6 +191,34 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
   return result;
 };
 //!
+const updateProfile = async (
+  id: string,
+  req: Request,
+): Promise<IUser | null> => {
+  const { files } = req;
+  const data = JSON.parse(req.body.data);
+  const isExist = await User.findOne({ _id: id });
+
+  if (!isExist) {
+    throw new ApiError(404, 'User not found !');
+  }
+
+  const { ...UserData } = data;
+
+  const updatedUserData: Partial<IUser> = { ...UserData };
+
+  const result = await User.findOneAndUpdate(
+    { _id: id },
+    //@ts-ignore
+    { ...updatedUserData, image: files[0].path },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+  return result;
+};
+//!
 const deleteUser = async (id: string): Promise<IUser | null> => {
   const result = await User.findByIdAndDelete(id);
 
@@ -294,13 +323,33 @@ const changePassword = async (
 };
 
 const mySuccessRelease = async (id: string) => {
-  return await SingleTrack.find({ user: id, isApproved: 'approved' });
+  const result = await SingleTrack.find({
+    user: id,
+    isApproved: 'approved',
+  }).populate('user');
+  const updatedResult = result.map(music => {
+    music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
+    music.audio.path = updateImageUrl(music.audio.path)?.replace(/\\/g, '/');
+    return music;
+  });
+  return updatedResult;
 };
+
 const myPendingRelease = async (id: string) => {
-  return await SingleTrack.find({ user: id, isApproved: 'pending' });
+  const result = await SingleTrack.find({
+    user: id,
+    isApproved: 'pending',
+  }).populate('user');
+  const updatedResult = result.map(music => {
+    music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
+    music.audio.path = updateImageUrl(music.audio.path)?.replace(/\\/g, '/');
+    return music;
+  });
+  return updatedResult;
 };
+
 const myCorrectionRelease = async (id: string) => {
-  const songs = await SingleTrack.find({ user: id });
+  const songs = await SingleTrack.find({ user: id }).populate('user');
   const filteredSongs = songs.filter(song => song.correctionNote.length > 0);
   return filteredSongs;
 };
@@ -319,4 +368,5 @@ export const UserService = {
   mySuccessRelease,
   myPendingRelease,
   myCorrectionRelease,
+  updateProfile,
 };
