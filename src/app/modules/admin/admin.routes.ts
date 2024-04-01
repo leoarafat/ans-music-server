@@ -11,9 +11,14 @@ import { financeController } from '../finance/finance.controller';
 import { inspectionController } from '../Inspection/Inspection.controller';
 import { paymentController } from '../payments/payments.controller';
 import { NewsController } from '../news/news.controller';
+import { UserController } from '../user/user.controller';
 
 const router = express.Router();
-
+router.get(
+  '/users',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER, ENUM_USER_ROLE.ADMIN),
+  UserController.getAllUsers,
+);
 router.post(
   '/add-user',
   auth(ENUM_USER_ROLE.ADMIN),

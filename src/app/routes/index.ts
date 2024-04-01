@@ -1,6 +1,6 @@
 import express from 'express';
 import { UserRoutes } from '../modules/user/user.routes';
-import { AuthRoutes } from '../modules/auth/auth.route';
+import { AuthRoutes } from '../modules/auth/auth.routes';
 import { SingleMusicRoutes } from '../modules/single-track/single.routes';
 import { AdminRoutes } from '../modules/admin/admin.routes';
 import { SubUserRoutes } from '../modules/sub-user/sub-user.routes';
