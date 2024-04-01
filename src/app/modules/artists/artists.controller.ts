@@ -15,6 +15,19 @@ const updatePrimaryArtist = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const updateWriter = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const data = req.body;
+  const result = await ArtistsService.updateWriter(id, data);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Writer update successful!',
+    data: result,
+  });
+});
 export const PrimaryArtistController = {
   updatePrimaryArtist,
+  updateWriter,
 };
