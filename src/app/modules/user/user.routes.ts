@@ -13,7 +13,7 @@ router.post('/register', UserController.registrationUser);
 router.post('/activate-user', UserController.activateUser);
 router.post('/login', UserController.login);
 router.post('/refresh-token', UserController.refreshToken);
-router.patch('/change-password/:id', UserController.changePassword);
+router.patch('/change-password', UserController.changePassword);
 //!Sub User
 router.post('/register-sub-user', SubUserController.registrationUser);
 router.post('/activate-sub-user', SubUserController.activateUser);
