@@ -45,7 +45,7 @@ const moduleRoutes = [
     route: bulkRoutes,
   },
   {
-    path: '/artist',
+    path: '/manage',
     route: ArtistsRoutes,
   },
 ];

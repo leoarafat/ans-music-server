@@ -27,7 +27,33 @@ const updateWriter = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const updateLabel = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const data = req.body;
+  const result = await ArtistsService.updateLabel(id, data);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Label update successful!',
+    data: result,
+  });
+});
+const addPrimaryArtist = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const data = req.body;
+  const result = await ArtistsService.addPrimaryArtist(id, data);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Artist added successful!',
+    data: result,
+  });
+});
 export const PrimaryArtistController = {
   updatePrimaryArtist,
   updateWriter,
+  addPrimaryArtist,
+  updateLabel,
 };

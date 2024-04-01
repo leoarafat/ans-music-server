@@ -92,7 +92,66 @@ const updateWriter = async (id: string, payload: any) => {
     return singleWriter;
   }
 };
+const addPrimaryArtist = async (trackId: string, newArtist: any) => {
+  try {
+    const track = await SingleTrack.findById(trackId);
+    const album = await Album.findById(trackId);
+
+    if (album) {
+      album.primaryArtist.push(newArtist);
+      const updatedAlbum = await album.save();
+
+      return updatedAlbum;
+    }
+    if (track) {
+      track.primaryArtist.push(newArtist);
+      const updatedTrack = await track.save();
+
+      return updatedTrack;
+    }
+  } catch (error) {
+    console.error('Error adding primary artist:', error);
+    throw error;
+  }
+};
+const updateLabel = async (trackId: string, newArtist: any) => {
+  try {
+    const track = await SingleTrack.findById(trackId);
+    const album = await Album.findById(trackId);
+
+    if (album) {
+      const updatedAlbum = await Album.findOneAndUpdate(
+        { _id: trackId },
+        newArtist,
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      return updatedAlbum;
+    }
+    if (track) {
+      const updatedSingle = await SingleTrack.findOneAndUpdate(
+        { _id: trackId },
+        newArtist,
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      return updatedSingle;
+    }
+  } catch (error) {
+    console.error('Error adding primary artist:', error);
+    throw error;
+  }
+};
+
 export const ArtistsService = {
   updatePrimaryArtist,
   updateWriter,
+  addPrimaryArtist,
+  updateLabel,
 };
