@@ -27,7 +27,7 @@ router.post(
 router.post('/register', AdminController.registrationUser);
 router.post('/login', AdminController.login);
 router.post('/refresh-token', AdminController.refreshToken);
-router.patch('/change-password', AdminController.changePassword);
+router.patch('/change-password/:id', AdminController.changePassword);
 //!Analytics management
 router.post('/statics', uploadStatics, StaticsController.insertIntoDB);
 router.get('/analytics', StaticsController.generateAnalytics);
