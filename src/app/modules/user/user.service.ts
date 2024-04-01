@@ -10,7 +10,7 @@ import {
   IUser,
 } from './user.interface';
 import User from './user.model';
-import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import sendEmail from '../../../utils/sendEmail';
 import { Request } from 'express';
@@ -303,14 +303,12 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
 };
 
 const changePassword = async (
-  user: JwtPayload | null,
+  id: string | null,
   payload: IChangePassword,
 ): Promise<void> => {
   const { oldPassword, newPassword } = payload;
 
-  const isUserExist = await User.findOne({ _id: user?.userId }).select(
-    '+password',
-  );
+  const isUserExist = await User.findOne({ _id: id }).select('+password');
 
   if (!isUserExist) {
     throw new ApiError(404, 'User does not exist');
