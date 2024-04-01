@@ -208,6 +208,11 @@ router.get(
   auth(ENUM_USER_ROLE.ADMIN),
   inspectionController.songInspection,
 );
+router.get(
+  '/total-song/:id',
+  auth(ENUM_USER_ROLE.ADMIN),
+  inspectionController.userTotalSong,
+);
 
 //!Payment
 router.delete(

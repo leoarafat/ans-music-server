@@ -9,6 +9,9 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: String,
       // required: true,
     },
+    clientId: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,

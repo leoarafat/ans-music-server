@@ -29,4 +29,18 @@ const songInspection = async (id: string) => {
   return song;
 };
 
-export const inspectionService = { userInspection, songInspection };
+const userTotalSong = async (id: string) => {
+  const user = await User.findById(id);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  const releaseSongs = await SingleTrack.find({ user: id });
+
+  return releaseSongs;
+};
+
+export const inspectionService = {
+  userInspection,
+  songInspection,
+  userTotalSong,
+};

@@ -23,6 +23,7 @@ import {
 } from '../auth/auth.interface';
 import { SingleTrack } from '../single-track/single.model';
 import { updateImageUrl } from '../../../utils/url-modifier';
+import { generateArtistId } from '../../../utils/uniqueId';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -91,10 +92,12 @@ const activateUser = async (payload: IActivationRequest) => {
   if (existUser) {
     throw new ApiError(400, 'Email is already exist');
   }
+  const clientId = generateArtistId();
   const user = await User.create({
     name,
     email,
     password,
+    clientId,
   });
   const accessToken = jwtHelpers.createToken(
     { userId: user._id, role: user.role },

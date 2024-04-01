@@ -7,6 +7,7 @@ import { SubUserRoutes } from '../modules/sub-user/sub-user.routes';
 import { AlbumRoutes } from '../modules/album/album.routes';
 import { NoteRoutes } from '../modules/note/note.route';
 import { bulkRoutes } from '../modules/builk/bulk.routes';
+import { ArtistsRoutes } from '../modules/artists/artists.routes';
 
 const router = express.Router();
 
@@ -43,10 +44,10 @@ const moduleRoutes = [
     path: '/bulk',
     route: bulkRoutes,
   },
-  // {
-  //   path: '/youtube-request',
-  //   route: YoutubeRequestRoutes,
-  // },
+  {
+    path: '/artist',
+    route: ArtistsRoutes,
+  },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));
 

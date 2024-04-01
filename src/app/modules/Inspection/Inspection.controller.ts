@@ -21,5 +21,18 @@ const songInspection = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const userTotalSong = catchAsync(async (req: Request, res: Response) => {
+  const result = await inspectionService.userTotalSong(req.params.id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Successful',
+    data: result,
+  });
+});
 
-export const inspectionController = { userInspection, songInspection };
+export const inspectionController = {
+  userInspection,
+  songInspection,
+  userTotalSong,
+};

@@ -26,6 +26,7 @@ export type IUser = {
   _id?: string;
   name: string;
   email: string;
+  clientId: string;
   phoneNumber: string;
   password: string;
   address: string;
