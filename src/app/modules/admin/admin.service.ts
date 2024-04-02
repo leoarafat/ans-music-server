@@ -352,6 +352,7 @@ const terminateUserAccount = async (payload: { userId: string }) => {
 };
 const lockUserAccount = async (payload: { userId: string }) => {
   const { userId } = payload;
+  console.log(payload, 'payload');
   const isExistUser = await User.findById(userId);
   if (!isExistUser) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
@@ -366,6 +367,9 @@ const lockUserAccount = async (payload: { userId: string }) => {
       runValidators: true,
     },
   );
+};
+const myProfile = async (id: string) => {
+  return await Admin.findById(id);
 };
 export const AdminService = {
   createUser,
@@ -391,4 +395,5 @@ export const AdminService = {
   terminateUserAccount,
   lockUserAccount,
   updateAdmin,
+  myProfile,
 };

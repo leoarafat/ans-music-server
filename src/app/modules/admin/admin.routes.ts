@@ -223,4 +223,5 @@ router.delete(
 
 //! Admin Update
 router.patch('/edit-profile/:id', upload, AdminController.updateAdmin);
+router.get('/me/:id', auth(ENUM_USER_ROLE.ADMIN), AdminController.myProfile);
 export const AdminRoutes = router;
