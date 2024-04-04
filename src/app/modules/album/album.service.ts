@@ -15,6 +15,7 @@ const uploadMultiple = async (req: Request, res: Response) => {
     const albumImage = req.files.image[0];
     const albumData = JSON.parse(req.body.data);
     albumData.labelId = generateLabelId();
+    albumData.releaseId = generateArtistId();
     await Promise.all(
       albumData.primaryArtist.map(async (artist: any) => {
         artist.primaryArtistId = generateArtistId();
@@ -40,6 +41,7 @@ const uploadMultiple = async (req: Request, res: Response) => {
         producers.producerId = generateArtistId();
       }),
     );
+
     if (
       !audioFiles ||
       !titles ||

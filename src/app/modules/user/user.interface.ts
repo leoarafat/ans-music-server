@@ -49,7 +49,7 @@ export type IUser = {
   isBlock: boolean;
   subUsers: [];
   note: [];
-  accountStatus: 'lock' | 'terminate';
+  accountStatus: 'lock' | 'terminate' | 'un-lock';
 };
 export type UserModel = {
   isUserExist(

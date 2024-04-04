@@ -12,6 +12,7 @@ const userInspection = async (id: string) => {
   const latest = await SingleTrack.find({ user: id })
     .limit(5)
     .sort({ createdAt: -1 });
+  const allSong = await SingleTrack.find({ user: id });
 
   const totalRelease = await SingleTrack.countDocuments(releaseSongs);
 
@@ -19,6 +20,7 @@ const userInspection = async (id: string) => {
     userInfo: user,
     totalRelease,
     latestRelease: latest,
+    allSong,
   };
 };
 const songInspection = async (id: string) => {

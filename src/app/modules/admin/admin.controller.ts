@@ -274,6 +274,16 @@ const lockUserAccount = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const UnlockUserAccount = catchAsync(async (req: Request, res: Response) => {
+  const data = req.body;
+  const result = await AdminService.UnlockUserAccount(data);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'successful!',
+    data: result,
+  });
+});
 const myProfile = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await AdminService.myProfile(id);
@@ -286,6 +296,7 @@ const myProfile = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const AdminController = {
+  UnlockUserAccount,
   createUser,
   getAllUsers,
   getSingleUser,

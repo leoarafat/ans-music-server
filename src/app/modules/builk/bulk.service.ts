@@ -6,7 +6,9 @@ import ApiError from '../../../errors/ApiError';
 
 const createBulk = async (req: Request) => {
   //@ts-ignore
+  // console.log(req.files['bulk']);
   const bulks = req.files['bulk'];
+
   if (!bulks[0].originalname.endsWith('.xlsx')) {
     throw new ApiError(
       400,

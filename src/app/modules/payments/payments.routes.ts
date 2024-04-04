@@ -4,6 +4,7 @@ import { ENUM_USER_ROLE } from '../../../enums/user';
 import { paymentController } from './payments.controller';
 
 const router = express.Router();
+
 router.post(
   '/add-payment',
   auth(ENUM_USER_ROLE.ADMIN),

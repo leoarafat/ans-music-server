@@ -177,6 +177,10 @@ const singleMusicSchema = new Schema<ISingleTrack>(
       type: String,
       required: true,
     },
+    releaseId: {
+      type: String,
+      // required: true,
+    },
 
     genre: {
       type: String,
@@ -279,10 +283,12 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     songStatus: {
       type: String,
       enum: ['take-down', 'distribute'],
+      default: 'none',
     },
     inspection: {
       type: String,
       enum: ['failed', 'saved'],
+      default: 'none',
     },
   },
   {

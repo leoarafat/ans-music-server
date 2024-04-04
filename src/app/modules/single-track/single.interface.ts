@@ -49,8 +49,9 @@ export type ISingleTrack = {
   tackDown: string;
   correctionNote: [];
   user: Types.ObjectId | IUser;
-  songStatus: 'take-down' | 'distribute';
-  inspection: 'failed' | 'saved';
+  songStatus: 'take-down' | 'distribute' | 'none';
+  inspection: 'failed' | 'saved' | 'none';
+  releaseId: string;
 };
 export type SingleTrackDocument = {
   save(): unknown;

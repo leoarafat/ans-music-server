@@ -52,10 +52,11 @@ type IAlbumMusic = {
   advancePurchaseDate: string;
   status: boolean;
   isApproved: 'approved' | 'rejected';
-  songStatus: 'take-down' | 'distribute';
-  inspection: 'failed' | 'saved';
+  songStatus: 'take-down' | 'distribute' | 'none';
+  inspection: 'failed' | 'saved' | 'none';
   tackDown: string;
   correctionNote: [];
+  releaseId: string;
   user: Types.ObjectId | IUser;
 };
 

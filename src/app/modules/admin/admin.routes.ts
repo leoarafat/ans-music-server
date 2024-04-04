@@ -69,6 +69,11 @@ router.patch(
   auth(ENUM_USER_ROLE.ADMIN),
   AdminController.lockUserAccount,
 );
+router.patch(
+  '/un-lock-user',
+  auth(ENUM_USER_ROLE.ADMIN),
+  AdminController.UnlockUserAccount,
+);
 //! Catalog Music
 router.get(
   '/released-songs',
@@ -135,6 +140,11 @@ router.get(
 router.get('/approved', auth(ENUM_USER_ROLE.ADMIN), financeController.approved);
 
 //!Payment
+router.get(
+  '/users-payment',
+  auth(ENUM_USER_ROLE.ADMIN),
+  paymentController.userForPayment,
+);
 router.post(
   '/add-payment',
   auth(ENUM_USER_ROLE.ADMIN),

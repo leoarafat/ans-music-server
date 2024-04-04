@@ -48,10 +48,20 @@ const deleteTransaction = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const userForPayment = catchAsync(async (req: Request, res: Response) => {
+  const result = await paymentService.userForPayment();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: ' successfully',
+    data: result,
+  });
+});
 export const paymentController = {
   makePayment,
   withdrawAmount,
   totalPayments,
   totalTransaction,
   deleteTransaction,
+  userForPayment,
 };

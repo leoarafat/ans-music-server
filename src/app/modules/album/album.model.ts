@@ -193,6 +193,10 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
       type: String,
       required: true,
     },
+    releaseId: {
+      type: String,
+      // required: true,
+    },
 
     upcEan: {
       type: String,
@@ -273,10 +277,12 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
     songStatus: {
       type: String,
       enum: ['take-down', 'distribute'],
+      default: 'none',
     },
     inspection: {
       type: String,
       enum: ['failed', 'saved'],
+      default: 'none',
     },
     correctionNote: {
       type: [

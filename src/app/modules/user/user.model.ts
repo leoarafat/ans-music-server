@@ -101,7 +101,8 @@ const UserSchema = new Schema<IUser, UserModel>(
     },
     accountStatus: {
       type: String,
-      enum: ['lock', 'terminate'],
+      default: 'un-lock',
+      enum: ['lock', 'un-lock', 'terminate'],
     },
     subUsers: [
       {

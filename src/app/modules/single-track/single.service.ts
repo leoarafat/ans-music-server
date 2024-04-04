@@ -42,6 +42,7 @@ const uploadSingle = async (req: Request) => {
       producers.producerId = generateArtistId();
     }),
   );
+  data.releaseId = generateArtistId();
 
   //@ts-ignore
   if (!files?.audio || !files.image) {

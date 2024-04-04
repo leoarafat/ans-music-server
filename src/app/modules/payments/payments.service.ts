@@ -4,20 +4,19 @@ import ApiError from '../../../errors/ApiError';
 import User from '../user/user.model';
 import { IPayment } from './payments.interface';
 import { Payment, Withdraw } from './payments.model';
-import {
-  generateExternalId,
-  generateTransactionId,
-} from '../../../utils/uniqueId';
+import { generateTransactionId } from '../../../utils/uniqueId';
 import sendEmail from '../../../utils/sendEmail';
 import path from 'path';
 import ejs from 'ejs';
+import { SingleTrack } from '../single-track/single.model';
+import { Album } from '../album/album.model';
 //!
 const makePayment = async (payload: IPayment) => {
-  const { user, amount } = payload;
-
+  const { user, amount, externalId } = payload;
+  // console.log(payload);
   // Generate transactionId and externalId
   const transactionId = generateTransactionId();
-  const externalId = generateExternalId();
+  // const externalId = generateExternalId();
 
   const findUser = await User.findOne({ _id: user });
   if (!findUser) {
@@ -38,13 +37,14 @@ const makePayment = async (payload: IPayment) => {
   const result = await Payment.create(paymentPayload);
 
   const data = {
+    name: findUser?.name,
     transactionId: result.transactionId,
     amount: result.amount,
     enterDate: result.enterDate,
   };
   await ejs.renderFile(
-    path.join(__dirname, '../../../mails/activation-mail.ejs'),
-    result,
+    path.join(__dirname, '../../../mails/payment.ejs'),
+    data,
   );
   try {
     await sendEmail({
@@ -109,10 +109,39 @@ const deleteTransaction = async (id: string) => {
   }
   return await Payment.findByIdAndDelete(id);
 };
+
+const userForPayment = async () => {
+  try {
+    const approvedSingleSongs = await SingleTrack.find({
+      isApproved: 'approved',
+    }).populate('user');
+    const approvedAlbumSongs = await Album.find({
+      isApproved: 'approved',
+    }).populate('user');
+
+    // Extract users from single tracks and albums
+    const singleTrackUsers = approvedSingleSongs.map(song => song.user);
+    const albumUsers = approvedAlbumSongs.map(album => album.user);
+
+    // Merge all users into one array
+    const allUsers = [...singleTrackUsers, ...albumUsers];
+
+    return {
+      allUsers,
+      approvedSingleSongs,
+      approvedAlbumSongs,
+    };
+  } catch (error) {
+    console.error('Error fetching approved songs for payment:', error);
+    throw error; // Rethrow the error for handling in the calling function
+  }
+};
+
 export const paymentService = {
   makePayment,
   withdrawAmount,
   totalPayments,
   totalTransaction,
   deleteTransaction,
+  userForPayment,
 };
