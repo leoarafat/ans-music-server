@@ -24,6 +24,9 @@ import {
 import { SingleTrack } from '../single-track/single.model';
 import { updateImageUrl } from '../../../utils/url-modifier';
 import { generateArtistId } from '../../../utils/uniqueId';
+import QueryBuilder from '../../../builder/QueryBuilder';
+import { IGenericResponse } from '../../../interfaces/paginations';
+import { Album } from '../album/album.model';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -123,9 +126,23 @@ const createUser = async (userData: IUser): Promise<IUser | null> => {
   return newUser;
 };
 //!
-const getAllUsers = async (): Promise<IUser[]> => {
-  const users = await User.find({});
-  return users;
+const getAllUsers = async (
+  query: Record<string, unknown>,
+): Promise<IGenericResponse<IUser[]>> => {
+  const userQuery = new QueryBuilder(User.find(), query)
+    .search(['name', 'email'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await userQuery.modelQuery;
+  const meta = await userQuery.countTotal();
+
+  return {
+    meta,
+    data: result,
+  };
 };
 //!
 const getSingleUser = async (id: string): Promise<IUser | null> => {
@@ -322,37 +339,103 @@ const changePassword = async (
   isUserExist.password = newPassword;
   await isUserExist.save();
 };
-
+//!
+// const mySuccessRelease = async (id: string) => {
+//   const result = await SingleTrack.find({
+//     user: id,
+//     isApproved: 'approved',
+//   }).populate('user');
+//   const updatedResult = result.map(music => {
+//     music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
+//     music.audio.path = updateImageUrl(music.audio.path)?.replace(/\\/g, '/');
+//     return music;
+//   });
+//   return updatedResult;
+// };
+//!
 const mySuccessRelease = async (id: string) => {
-  const result = await SingleTrack.find({
+  const singleTracks = await SingleTrack.find({
     user: id,
     isApproved: 'approved',
   }).populate('user');
-  const updatedResult = result.map(music => {
+
+  const albums = await Album.find({
+    user: id,
+    isApproved: 'approved',
+  }).populate('user');
+
+  const updatedSingleTracks = singleTracks.map(music => {
     music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
     music.audio.path = updateImageUrl(music.audio.path)?.replace(/\\/g, '/');
     return music;
   });
+
+  const updatedAlbums = albums.map(album => {
+    album.image = updateImageUrl(album.image)?.replace(/\\/g, '/');
+    album.audio.forEach(audioItem => {
+      audioItem.path = updateImageUrl(audioItem.path)?.replace(/\\/g, '/');
+    });
+    return album;
+  });
+
+  const updatedResult = [...updatedSingleTracks, ...updatedAlbums];
+
   return updatedResult;
 };
-
+//!
 const myPendingRelease = async (id: string) => {
-  const result = await SingleTrack.find({
+  const singleTracks = await SingleTrack.find({
     user: id,
     isApproved: 'pending',
   }).populate('user');
-  const updatedResult = result.map(music => {
+
+  const albums = await Album.find({
+    user: id,
+    isApproved: 'pending',
+  }).populate('user');
+
+  const updatedSingleTracks = singleTracks.map(music => {
     music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
     music.audio.path = updateImageUrl(music.audio.path)?.replace(/\\/g, '/');
     return music;
   });
+
+  const updatedAlbums = albums.map(album => {
+    album.image = updateImageUrl(album.image)?.replace(/\\/g, '/');
+    album.audio.forEach(audioItem => {
+      audioItem.path = updateImageUrl(audioItem.path)?.replace(/\\/g, '/');
+    });
+    return album;
+  });
+
+  const updatedResult = [...updatedSingleTracks, ...updatedAlbums];
+
   return updatedResult;
 };
-
+//!
+//!
+// const myCorrectionRelease = async (id: string) => {
+//   const songs = await SingleTrack.find({ user: id }).populate('user');
+//   const filteredSongs = songs.filter(song => song.correctionNote.length > 0);
+//   return filteredSongs;
+// };
+//!
 const myCorrectionRelease = async (id: string) => {
-  const songs = await SingleTrack.find({ user: id }).populate('user');
-  const filteredSongs = songs.filter(song => song.correctionNote.length > 0);
-  return filteredSongs;
+  const singleTracks = await SingleTrack.find({ user: id }).populate('user');
+
+  const albums = await Album.find({ user: id }).populate('user');
+
+  const filteredSingleTracks = singleTracks.filter(
+    song => song.correctionNote.length > 0,
+  );
+
+  const filteredAlbums = albums.filter(
+    album => album.correctionNote.length > 0,
+  );
+
+  const filteredResult = [...filteredSingleTracks, ...filteredAlbums];
+
+  return filteredResult;
 };
 
 export const UserService = {

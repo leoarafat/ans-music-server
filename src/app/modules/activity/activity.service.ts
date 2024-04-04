@@ -106,24 +106,6 @@ const takeDown = async () => {
 
   return combinedData;
 };
-//!
-// const makeTakeDown = async (payload: { songId: string }) => {
-//   const { songId } = payload;
-//   const checkSong = await SingleTrack.findById(songId);
-//   if (!checkSong) {
-//     throw new ApiError(httpStatus.NOT_FOUND, 'Song not found');
-//   }
-//   const result = await SingleTrack.findOneAndUpdate(
-//     { _id: songId },
-//     { songStatus: 'take-down' },
-//     {
-//       new: true,
-//       runValidators: true,
-//     },
-//   );
-//   return result;
-// };
-//!
 const makeTakeDown = async (payload: { songId: string }) => {
   const { songId } = payload;
 

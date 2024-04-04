@@ -38,12 +38,13 @@ const createUser: RequestHandler = catchAsync(
   },
 );
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const result = await AdminService.getAllUsers();
+  const result = await AdminService.getAllUsers(req.query);
   sendResponse<IUser[]>(res, {
     statusCode: 200,
     success: true,
     message: 'User retrieved successfully',
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {

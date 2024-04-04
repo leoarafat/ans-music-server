@@ -24,6 +24,8 @@ import {
 import httpStatus from 'http-status';
 import { SingleTrackDocument } from '../single-track/single.interface';
 import { Album } from '../album/album.model';
+import QueryBuilder from '../../../builder/QueryBuilder';
+import { IGenericResponse } from '../../../interfaces/paginations';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -40,9 +42,23 @@ const createUser = async (userData: IUser): Promise<IUser | null> => {
   return newUser;
 };
 //!
-const getAllUsers = async (): Promise<IUser[]> => {
-  const users = await User.find({});
-  return users;
+const getAllUsers = async (
+  query: Record<string, unknown>,
+): Promise<IGenericResponse<IUser[]>> => {
+  const userQuery = new QueryBuilder(User.find(), query)
+    .search(['name', 'email'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await userQuery.modelQuery;
+  const meta = await userQuery.countTotal();
+
+  return {
+    meta,
+    data: result,
+  };
 };
 //!
 const getSingleUser = async (id: string): Promise<IUser | null> => {
@@ -182,15 +198,30 @@ const changePassword = async (
 };
 //!
 const approveSingleMusic = async (id: string) => {
-  const result = await SingleTrack.findOneAndUpdate(
-    { _id: id },
-    { isApproved: 'approved' },
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
-  return result;
+  const findSingleSong = await SingleTrack.findById(id);
+  const findAlbumSong = await Album.findById(id);
+  if (findSingleSong) {
+    const result = await SingleTrack.findOneAndUpdate(
+      { _id: id },
+      { isApproved: 'approved' },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    return result;
+  }
+  if (findAlbumSong) {
+    const result = await Album.findOneAndUpdate(
+      { _id: id },
+      { isApproved: 'approved' },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    return result;
+  }
 };
 
 const rejectMusic = async (id: string, payload: { note: string }) => {

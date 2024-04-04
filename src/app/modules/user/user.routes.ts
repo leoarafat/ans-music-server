@@ -13,6 +13,7 @@ router.post('/register', UserController.registrationUser);
 router.post('/activate-user', UserController.activateUser);
 router.post('/login', UserController.login);
 router.post('/refresh-token', UserController.refreshToken);
+router.get('/users', auth(ENUM_USER_ROLE.USER), UserController.getAllUsers);
 router.patch(
   '/change-password/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
@@ -77,7 +78,7 @@ router.get(
   SubUserController.getSingleUser,
 );
 router.get(
-  '/sub-users/:id',
+  '/sub-users',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   SubUserController.getAllUsers,
 );
