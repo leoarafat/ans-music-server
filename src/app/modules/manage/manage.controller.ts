@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchasync';
-import { ArtistsService } from './artists.service';
+import { ArtistsService } from './manage.service';
 import sendResponse from '../../../shared/sendResponse';
 
 const updatePrimaryArtist = catchAsync(async (req: Request, res: Response) => {

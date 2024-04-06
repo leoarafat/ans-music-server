@@ -66,8 +66,15 @@ const uploadSingle = async (req: Request) => {
   return result;
 };
 const myAllMusic = async (id: string) => {
-  const singleSongs = await SingleTrack.find({ user: id }).lean();
-  const albumSongs = await Album.find({ user: id }).lean();
+  const singleSongs = await SingleTrack.find({ user: id })
+    .populate('label')
+    .populate('primaryArtist')
+    .lean();
+
+  const albumSongs = await Album.find({ user: id })
+    .populate('label')
+    .populate('primaryArtist')
+    .lean();
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
@@ -88,7 +95,9 @@ const myAllMusic = async (id: string) => {
 };
 
 const singleMusic = async (id: string) => {
-  const result = await SingleTrack.findById(id);
+  const result = await SingleTrack.findById(id)
+    .populate('label')
+    .populate('primaryArtist');
   if (!result) {
     throw new ApiError(404, 'Song not found');
   }
@@ -111,7 +120,9 @@ const updateSingleMusic = async (
   const result = await SingleTrack.findOneAndUpdate({ _id: id }, musicData, {
     new: true,
     runValidators: true,
-  });
+  })
+    .populate('label')
+    .populate('primaryArtist');
   return result;
 };
 const deleteSingleMusic = async (id: string) => {

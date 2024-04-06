@@ -1,5 +1,5 @@
 import express from 'express';
-import { PrimaryArtistController } from './artists.controller';
+import { PrimaryArtistController } from './manage.controller';
 import { LabelController } from '../label/label.controller';
 const router = express.Router();
 

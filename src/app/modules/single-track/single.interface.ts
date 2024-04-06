@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import { IUser } from '../user/user.interface';
-import { IPrimaryArtist } from '../artists/artist.interface';
+import { IPrimaryArtist } from '../manage/manage.interface';
 import { ILabel } from '../label/label.interface';
 
 export type ISingleTrack = {

@@ -73,23 +73,31 @@ const uploadMultiple = async (req: Request, res: Response) => {
   }
 };
 const myAllAlbum = async (id: string) => {
-  const result = await Album.find({ user: id });
+  const result = await Album.find({ user: id })
+    .populate('Label')
+    .populate('PrimaryArtist');
   return result;
 };
 const SingleAlbum = async (id: string) => {
-  const result = await Album.findById(id);
+  const result = await Album.findById(id)
+    .populate('Label')
+    .populate('PrimaryArtist');
   return result;
 };
 const updateAlbum = async (id: string, payload: any) => {
   const { ...musicData } = payload;
-  const isExists = await Album.findById(id);
+  const isExists = await Album.findById(id)
+    .populate('Label')
+    .populate('PrimaryArtist');
   if (!isExists) {
     throw new ApiError(404, 'Song not found');
   }
   const result = await Album.findOneAndUpdate({ _id: id }, musicData, {
     new: true,
     runValidators: true,
-  });
+  })
+    .populate('Label')
+    .populate('PrimaryArtist');
   return result;
 };
 const deleteAlbum = async (id: string) => {

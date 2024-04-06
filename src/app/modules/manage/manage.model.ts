@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IPrimaryArtist } from './artist.interface';
+import { IPrimaryArtist } from './manage.interface';
 
 const primaryArtistSchema = new Schema<IPrimaryArtist>(
   {

@@ -32,8 +32,14 @@ const userInspection = async (id: string) => {
   }
 
   // Find both single tracks and albums for the user
-  const singleTracks = await SingleTrack.find({ user: id }).lean();
-  const albums = await Album.find({ user: id }).lean();
+  const singleTracks = await SingleTrack.find({ user: id })
+    .populate('label')
+    .populate('primaryArtist')
+    .lean();
+  const albums = await Album.find({ user: id })
+    .populate('label')
+    .populate('primaryArtist')
+    .lean();
 
   // Fetch latest single tracks and albums for the user
   const latestSingleTrack = await SingleTrack.find({ user: id })
@@ -58,11 +64,15 @@ const userInspection = async (id: string) => {
 };
 
 const songInspection = async (id: string) => {
-  const song = await SingleTrack.findById(id);
+  const song = await SingleTrack.findById(id)
+    .populate('label')
+    .populate('primaryArtist');
   if (song) {
     return song;
   }
-  const album = await Album.findById(id);
+  const album = await Album.findById(id)
+    .populate('label')
+    .populate('primaryArtist');
   if (album) {
     return album;
   }
@@ -85,8 +95,14 @@ const userTotalSong = async (id: string) => {
   }
 
   // Find both single tracks and albums for the user
-  const singleTracks = await SingleTrack.find({ user: id }).lean();
-  const albums = await Album.find({ user: id }).lean();
+  const singleTracks = await SingleTrack.find({ user: id })
+    .populate('label')
+    .populate('primaryArtist')
+    .lean();
+  const albums = await Album.find({ user: id })
+    .populate('label')
+    .populate('primaryArtist')
+    .lean();
 
   // Combine single tracks and albums
   const totalSongs = [...singleTracks, ...albums];

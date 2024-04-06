@@ -357,12 +357,18 @@ const mySuccessRelease = async (id: string) => {
   const singleTracks = await SingleTrack.find({
     user: id,
     isApproved: 'approved',
-  }).populate('user');
+  })
+    .populate('user')
+    .populate('label')
+    .populate('primaryArtist');
 
   const albums = await Album.find({
     user: id,
     isApproved: 'approved',
-  }).populate('user');
+  })
+    .populate('user')
+    .populate('label')
+    .populate('primaryArtist');
 
   const updatedSingleTracks = singleTracks.map(music => {
     music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
@@ -387,12 +393,18 @@ const myPendingRelease = async (id: string) => {
   const singleTracks = await SingleTrack.find({
     user: id,
     isApproved: 'pending',
-  }).populate('user');
+  })
+    .populate('user')
+    .populate('label')
+    .populate('primaryArtist');
 
   const albums = await Album.find({
     user: id,
     isApproved: 'pending',
-  }).populate('user');
+  })
+    .populate('user')
+    .populate('label')
+    .populate('primaryArtist');
 
   const updatedSingleTracks = singleTracks.map(music => {
     music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
@@ -421,9 +433,15 @@ const myPendingRelease = async (id: string) => {
 // };
 //!
 const myCorrectionRelease = async (id: string) => {
-  const singleTracks = await SingleTrack.find({ user: id }).populate('user');
+  const singleTracks = await SingleTrack.find({ user: id })
+    .populate('user')
+    .populate('label')
+    .populate('primaryArtist');
 
-  const albums = await Album.find({ user: id }).populate('user');
+  const albums = await Album.find({ user: id })
+    .populate('user')
+    .populate('label')
+    .populate('primaryArtist');
 
   const filteredSingleTracks = singleTracks.filter(
     song => song.correctionNote.length > 0,

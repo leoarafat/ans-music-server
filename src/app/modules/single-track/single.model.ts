@@ -299,7 +299,7 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     },
     inspection: {
       type: String,
-      enum: ['failed', 'saved'],
+      enum: ['failed', 'none', 'saved'],
       default: 'none',
     },
   },

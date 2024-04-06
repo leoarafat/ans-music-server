@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import { IUser } from '../user/user.interface';
 import { ILabel } from '../label/label.interface';
-import { IPrimaryArtist } from '../artists/artist.interface';
+import { IPrimaryArtist } from '../manage/manage.interface';
 
 type IAudio = {
   path: string;

@@ -4,8 +4,8 @@ import ApiError from '../../../errors/ApiError';
 import { generateArtistId } from '../../../utils/uniqueId';
 import { Album } from '../album/album.model';
 import { SingleTrack } from '../single-track/single.model';
-import { IPrimaryArtist } from './artist.interface';
-import { PrimaryArtist } from './artist.model';
+import { IPrimaryArtist } from './manage.interface';
+import { PrimaryArtist } from './manage.model';
 
 // const updatePrimaryArtist = async (id: string, payload: any) => {
 //   const singleArtists = await SingleTrack.findOne({

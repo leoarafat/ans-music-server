@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchasync';
 import sendResponse from '../../../shared/sendResponse';
-import { inspectionService } from './Inspection.servicer';
+import { inspectionService } from './Inspection.service';
 
 const userInspection = catchAsync(async (req: Request, res: Response) => {
   const result = await inspectionService.userInspection(req.params.id);

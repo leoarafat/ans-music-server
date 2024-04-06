@@ -208,7 +208,9 @@ const approveSingleMusic = async (id: string) => {
         new: true,
         runValidators: true,
       },
-    );
+    )
+      .populate('label')
+      .populate('primaryArtist');
     return result;
   }
   if (findAlbumSong) {
@@ -219,7 +221,9 @@ const approveSingleMusic = async (id: string) => {
         new: true,
         runValidators: true,
       },
-    );
+    )
+      .populate('label')
+      .populate('primaryArtist');
     return result;
   }
 };
@@ -227,8 +231,12 @@ const approveSingleMusic = async (id: string) => {
 const rejectMusic = async (id: string, payload: { note: string }) => {
   const { note } = payload;
 
-  const singleSong = await SingleTrack.findById(id);
-  const albumSong = await Album.findById(id);
+  const singleSong = await SingleTrack.findById(id)
+    .populate('label')
+    .populate('primaryArtist');
+  const albumSong = await Album.findById(id)
+    .populate('label')
+    .populate('primaryArtist');
 
   try {
     let updatedAlbum;

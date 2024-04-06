@@ -2,8 +2,14 @@ import { SingleTrack } from '../single-track/single.model';
 import { Album } from '../album/album.model';
 
 const inspection = async () => {
-  const singleSongs = await SingleTrack.find({ inspection: 'saved' }).lean();
-  const albumSongs = await Album.find({ inspection: 'saved' }).lean();
+  const singleSongs = await SingleTrack.find({ inspection: 'saved' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
+  const albumSongs = await Album.find({ inspection: 'saved' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
@@ -23,8 +29,14 @@ const inspection = async () => {
 };
 
 const failedInspection = async () => {
-  const singleSongs = await SingleTrack.find({ inspection: 'failed' }).lean();
-  const albumSongs = await Album.find({ inspection: 'failed' }).lean();
+  const singleSongs = await SingleTrack.find({ inspection: 'failed' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
+  const albumSongs = await Album.find({ inspection: 'failed' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
@@ -43,8 +55,14 @@ const failedInspection = async () => {
   return combinedData;
 };
 const processing = async () => {
-  const singleSongs = await SingleTrack.find({ inspection: 'pending' }).lean();
-  const albumSongs = await Album.find({ inspection: 'pending' }).lean();
+  const singleSongs = await SingleTrack.find({ inspection: 'pending' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
+  const albumSongs = await Album.find({ inspection: 'pending' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
@@ -65,8 +83,14 @@ const processing = async () => {
 const distributed = async () => {
   const singleSongs = await SingleTrack.find({
     songStatus: 'distribute',
-  }).lean();
-  const albumSongs = await Album.find({ songStatus: 'distribute' }).lean();
+  })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
+  const albumSongs = await Album.find({ songStatus: 'distribute' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
@@ -87,8 +111,14 @@ const distributed = async () => {
 const takeDown = async () => {
   const singleSongs = await SingleTrack.find({
     songStatus: 'take-down',
-  }).lean();
-  const albumSongs = await Album.find({ songStatus: 'take-down' }).lean();
+  })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
+  const albumSongs = await Album.find({ songStatus: 'take-down' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
@@ -124,7 +154,9 @@ const makeTakeDown = async (payload: { songId: string }) => {
         new: true,
         runValidators: true,
       },
-    );
+    )
+      .populate('label')
+      .populate('primaryArtist');
   }
 
   if (checkAlbumSong) {
@@ -135,7 +167,9 @@ const makeTakeDown = async (payload: { songId: string }) => {
         new: true,
         runValidators: true,
       },
-    );
+    )
+      .populate('label')
+      .populate('primaryArtist');
   }
 
   return { updatedSingleTrack, updatedAlbum };
@@ -159,7 +193,9 @@ const makeDistribute = async (payload: { songId: string }) => {
         new: true,
         runValidators: true,
       },
-    );
+    )
+      .populate('label')
+      .populate('PrimaryArtist');
   }
 
   if (checkAlbumSong) {
@@ -170,7 +206,9 @@ const makeDistribute = async (payload: { songId: string }) => {
         new: true,
         runValidators: true,
       },
-    );
+    )
+      .populate('label')
+      .populate('PrimaryArtist');
   }
 
   return { updatedSingleTrack, updatedAlbum };
