@@ -2,11 +2,11 @@ import { SingleTrack } from '../single-track/single.model';
 import { Album } from '../album/album.model';
 
 const inspection = async () => {
-  const singleSongs = await SingleTrack.find({ inspection: 'saved' })
+  const singleSongs = await SingleTrack.find({ isApproved: 'pending' })
     .lean()
     .populate('label')
     .populate('primaryArtist');
-  const albumSongs = await Album.find({ inspection: 'saved' })
+  const albumSongs = await Album.find({ isApproved: 'pending' })
     .lean()
     .populate('label')
     .populate('primaryArtist');
@@ -29,11 +29,11 @@ const inspection = async () => {
 };
 
 const failedInspection = async () => {
-  const singleSongs = await SingleTrack.find({ inspection: 'failed' })
+  const singleSongs = await SingleTrack.find({ isApproved: 'rejected' })
     .lean()
     .populate('label')
     .populate('primaryArtist');
-  const albumSongs = await Album.find({ inspection: 'failed' })
+  const albumSongs = await Album.find({ isApproved: 'rejected' })
     .lean()
     .populate('label')
     .populate('primaryArtist');
