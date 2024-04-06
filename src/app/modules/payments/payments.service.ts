@@ -85,12 +85,19 @@ const withdrawAmount = async (payload: IPayment) => {
 
 const totalPayments = async () => {
   const payments = await Payment.find({});
-  const total = await Payment.countDocuments(payments);
+  let totalAmount = 0;
+
+  for (const payment of payments) {
+    totalAmount += payment.amount;
+  }
+
   return {
-    totalPayments: total,
+    totalPayments: payments.length,
     paymentUser: payments,
+    totalAmount: totalAmount,
   };
 };
+
 const totalTransaction = async () => {
   const payments = await Payment.find({});
   const totalPayment = payments.reduce((acc, price) => {
