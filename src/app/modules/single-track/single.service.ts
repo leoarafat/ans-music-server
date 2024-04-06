@@ -7,6 +7,7 @@ import { ISingleTrack } from './single.interface';
 import { generateArtistId } from '../../../utils/uniqueId';
 import User from '../user/user.model';
 import { updateImageUrl } from '../../../utils/url-modifier';
+import { Album } from '../album/album.model';
 
 const uploadSingle = async (req: Request) => {
   const { files } = req;
@@ -65,13 +66,25 @@ const uploadSingle = async (req: Request) => {
   return result;
 };
 const myAllMusic = async (id: string) => {
-  const result = await SingleTrack.find({ user: id });
-  const updatedResult = result.map(music => {
-    music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
-    music.audio.path = updateImageUrl(music.audio.path)?.replace(/\\/g, '/');
-    return music;
-  });
-  return updatedResult;
+  const singleSongs = await SingleTrack.find({ user: id }).lean();
+  const albumSongs = await Album.find({ user: id }).lean();
+
+  const singleSongData = singleSongs.map(song => ({
+    ...song,
+    audio: updateImageUrl(song.audio.path)?.replace(/\\/g, '/'),
+  }));
+
+  const albumSongData = albumSongs.flatMap(album =>
+    album.audio.map(audioItem => ({
+      ...album,
+      // audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path)?.replace(/\\/g, '/'),
+    })),
+  );
+
+  const combinedData = [...singleSongData, ...albumSongData];
+
+  return combinedData;
 };
 
 const singleMusic = async (id: string) => {
