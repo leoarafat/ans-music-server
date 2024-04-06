@@ -1,53 +1,57 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
+import ApiError from '../../../errors/ApiError';
+import { generateArtistId } from '../../../utils/uniqueId';
 import { Album } from '../album/album.model';
 import { SingleTrack } from '../single-track/single.model';
+import { IPrimaryArtist } from './artist.interface';
+import { PrimaryArtist } from './artist.model';
 
-const updatePrimaryArtist = async (id: string, payload: any) => {
-  const singleArtists = await SingleTrack.findOne({
-    primaryArtist: {
-      $elemMatch: {
-        _id: id,
-      },
-    },
-  });
-  const albumArtists = await Album.findOne({
-    primaryArtist: {
-      $elemMatch: {
-        _id: id,
-      },
-    },
-  });
+// const updatePrimaryArtist = async (id: string, payload: any) => {
+//   const singleArtists = await SingleTrack.findOne({
+//     primaryArtist: {
+//       $elemMatch: {
+//         _id: id,
+//       },
+//     },
+//   });
+//   const albumArtists = await Album.findOne({
+//     primaryArtist: {
+//       $elemMatch: {
+//         _id: id,
+//       },
+//     },
+//   });
 
-  if (albumArtists) {
-    albumArtists.primaryArtist.forEach(async (artist, index) => {
-      //@ts-ignore
-      if (artist?._id.toString() === id) {
-        Object.keys(payload).forEach(key => {
-          //@ts-ignore
-          albumArtists.primaryArtist[index][key] = payload[key];
-        });
-        await albumArtists.save();
-      }
-    });
+//   if (albumArtists) {
+//     albumArtists.primaryArtist.forEach(async (artist, index) => {
+//       //@ts-ignore
+//       if (artist?._id.toString() === id) {
+//         Object.keys(payload).forEach(key => {
+//           //@ts-ignore
+//           albumArtists.primaryArtist[index][key] = payload[key];
+//         });
+//         await albumArtists.save();
+//       }
+//     });
 
-    return albumArtists;
-  }
-  if (singleArtists) {
-    singleArtists.primaryArtist.forEach(async (artist, index) => {
-      //@ts-ignore
-      if (artist?._id.toString() === id) {
-        Object.keys(payload).forEach(key => {
-          //@ts-ignore
-          singleArtists.primaryArtist[index][key] = payload[key];
-        });
-        await singleArtists.save();
-      }
-    });
+//     return albumArtists;
+//   }
+//   if (singleArtists) {
+//     singleArtists.primaryArtist.forEach(async (artist, index) => {
+//       //@ts-ignore
+//       if (artist?._id.toString() === id) {
+//         Object.keys(payload).forEach(key => {
+//           //@ts-ignore
+//           singleArtists.primaryArtist[index][key] = payload[key];
+//         });
+//         await singleArtists.save();
+//       }
+//     });
 
-    return singleArtists;
-  }
-};
+//     return singleArtists;
+//   }
+// };
 const updateWriter = async (id: string, payload: any) => {
   const singleWriter = await SingleTrack.findOne({
     writer: {
@@ -92,28 +96,28 @@ const updateWriter = async (id: string, payload: any) => {
     return singleWriter;
   }
 };
-const addPrimaryArtist = async (trackId: string, newArtist: any) => {
-  try {
-    const track = await SingleTrack.findById(trackId);
-    const album = await Album.findById(trackId);
+// const addPrimaryArtist = async (trackId: string, newArtist: any) => {
+//   try {
+//     const track = await SingleTrack.findById(trackId);
+//     const album = await Album.findById(trackId);
 
-    if (album) {
-      album.primaryArtist.push(newArtist);
-      const updatedAlbum = await album.save();
+//     if (album) {
+//       album.primaryArtist.push(newArtist);
+//       const updatedAlbum = await album.save();
 
-      return updatedAlbum;
-    }
-    if (track) {
-      track.primaryArtist.push(newArtist);
-      const updatedTrack = await track.save();
+//       return updatedAlbum;
+//     }
+//     if (track) {
+//       track.primaryArtist.push(newArtist);
+//       const updatedTrack = await track.save();
 
-      return updatedTrack;
-    }
-  } catch (error) {
-    console.error('Error adding primary artist:', error);
-    throw error;
-  }
-};
+//       return updatedTrack;
+//     }
+//   } catch (error) {
+//     console.error('Error adding primary artist:', error);
+//     throw error;
+//   }
+// };
 const updateLabel = async (trackId: string, newArtist: any) => {
   try {
     const track = await SingleTrack.findById(trackId);
@@ -148,10 +152,29 @@ const updateLabel = async (trackId: string, newArtist: any) => {
     throw error;
   }
 };
+const addPrimaryArtist = async (payload: IPrimaryArtist) => {
+  payload.primaryArtistId = generateArtistId();
+  return await PrimaryArtist.create(payload);
+};
+const updatePrimaryArtist = async (id: string, payload: any) => {
+  const checkIsExist = await PrimaryArtist.findById(id);
+  if (!checkIsExist) {
+    throw new ApiError(404, 'Artist not found');
+  }
+  const { ...artistData } = payload;
+  return await PrimaryArtist.findOneAndUpdate({ _id: id }, artistData, {
+    new: true,
+    runValidators: true,
+  });
+};
+const getPrimaryArtist = async (id: string) => {
+  return await PrimaryArtist.find({ user: id });
+};
 
 export const ArtistsService = {
   updatePrimaryArtist,
   updateWriter,
   addPrimaryArtist,
   updateLabel,
+  getPrimaryArtist,
 };

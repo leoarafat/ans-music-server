@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Schema, model } from 'mongoose';
 import { ISingleTrack } from './single.interface';
 
@@ -37,7 +38,7 @@ const singleMusicSchema = new Schema<ISingleTrack>(
 
     isRelease: {
       type: String,
-      enum: ['yes', 'no'],
+      // enum: ['yes', 'no'],
       required: true,
     },
 
@@ -73,37 +74,50 @@ const singleMusicSchema = new Schema<ISingleTrack>(
       type: String,
       required: true,
     },
-
     primaryArtist: {
       type: [
         {
-          primaryArtistName: {
-            type: String,
-            required: true,
-          },
-          primaryArtistId: {
-            type: String,
-            required: true,
-          },
-          primaryArtistSpotifyId: {
-            type: String,
-          },
-
-          primaryArtistAppleId: {
-            type: String,
-          },
-
-          primaryArtistFacebookId: {
-            type: String,
-          },
-
-          primaryArtistYoutubeId: {
-            type: String,
-          },
+          //@ts-ignore
+          type: Schema.Types.ObjectId,
+          ref: 'PrimaryArtist',
         },
       ],
-      required: true,
+      validate: {
+        validator: (subAreaArray: string | any[]) =>
+          subAreaArray && subAreaArray.length > 0,
+        message: 'At least one primaryArtist is required.',
+      },
     },
+    // primaryArtist: {
+    //   type: [
+    //     {
+    //       primaryArtistName: {
+    //         type: String,
+    //         required: true,
+    //       },
+    //       primaryArtistId: {
+    //         type: String,
+    //         required: true,
+    //       },
+    //       primaryArtistSpotifyId: {
+    //         type: String,
+    //       },
+
+    //       primaryArtistAppleId: {
+    //         type: String,
+    //       },
+
+    //       primaryArtistFacebookId: {
+    //         type: String,
+    //       },
+
+    //       primaryArtistYoutubeId: {
+    //         type: String,
+    //       },
+    //     },
+    //   ],
+    //   required: true,
+    // },
 
     writer: {
       type: [
@@ -207,12 +221,9 @@ const singleMusicSchema = new Schema<ISingleTrack>(
       required: true,
     },
 
-    labelName: {
-      type: String,
-      required: true,
-    },
-    labelId: {
-      type: String,
+    label: {
+      type: Schema.Types.ObjectId,
+      ref: 'Label',
       required: true,
     },
 

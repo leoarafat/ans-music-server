@@ -1,5 +1,7 @@
 import { Types } from 'mongoose';
 import { IUser } from '../user/user.interface';
+import { IPrimaryArtist } from '../artists/artist.interface';
+import { ILabel } from '../label/label.interface';
 
 export type ISingleTrack = {
   audio: any;
@@ -17,11 +19,7 @@ export type ISingleTrack = {
   releaseTitle: string;
   subtitle: string;
   line: string;
-  primaryArtist: string[];
-  primaryArtistSpotifyId: string;
-  primaryArtistAppleId: string;
-  primaryArtistFacebookId: string;
-  primaryArtistYoutubeId: string;
+  primaryArtist: Types.ObjectId | IPrimaryArtist;
   writer: string[];
   composer: string[];
   musicDirector: string[];
@@ -33,8 +31,7 @@ export type ISingleTrack = {
   subGenre: string;
   producerCatalogNumber: string;
   productionYear: string;
-  labelName: string;
-  labelId: string;
+  label: Types.ObjectId | ILabel;
   publisher: string;
   youtubeUrl: string;
   isrc: string;

@@ -40,9 +40,8 @@ const updateLabel = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const addPrimaryArtist = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
   const data = req.body;
-  const result = await ArtistsService.addPrimaryArtist(id, data);
+  const result = await ArtistsService.addPrimaryArtist(data);
 
   sendResponse(res, {
     statusCode: 200,
@@ -51,9 +50,20 @@ const addPrimaryArtist = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getPrimaryArtist = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await ArtistsService.getPrimaryArtist(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Artist retrieved successful!',
+    data: result,
+  });
+});
 export const PrimaryArtistController = {
   updatePrimaryArtist,
   updateWriter,
   addPrimaryArtist,
   updateLabel,
+  getPrimaryArtist,
 };

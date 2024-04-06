@@ -4,7 +4,7 @@ import { SingleTrack } from './single.model';
 import ApiError from '../../../errors/ApiError';
 import { formatDuration, getAudioDuration } from '../../../utils/utils';
 import { ISingleTrack } from './single.interface';
-import { generateArtistId, generateLabelId } from '../../../utils/uniqueId';
+import { generateArtistId } from '../../../utils/uniqueId';
 import User from '../user/user.model';
 import { updateImageUrl } from '../../../utils/url-modifier';
 
@@ -17,11 +17,7 @@ const uploadSingle = async (req: Request) => {
   if (!checkUser) {
     throw new ApiError(404, 'User not found');
   }
-  await Promise.all(
-    data.primaryArtist.map(async (artist: any) => {
-      artist.primaryArtistId = generateArtistId();
-    }),
-  );
+
   await Promise.all(
     data.writer.map(async (writers: any) => {
       writers.writerId = generateArtistId();
@@ -64,7 +60,6 @@ const uploadSingle = async (req: Request) => {
       duration: formattedAudioDuration,
     },
     image: imageFile.path,
-    labelId: generateLabelId(),
   });
 
   return result;
