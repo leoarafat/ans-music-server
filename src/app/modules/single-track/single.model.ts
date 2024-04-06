@@ -88,6 +88,7 @@ const singleMusicSchema = new Schema<ISingleTrack>(
         message: 'At least one primaryArtist is required.',
       },
     },
+    //!
     // primaryArtist: {
     //   type: [
     //     {
@@ -118,7 +119,7 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     //   ],
     //   required: true,
     // },
-
+    //!
     writer: {
       type: [
         {

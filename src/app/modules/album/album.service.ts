@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Album } from './album.model';
 import { asyncForEach } from '../../../utils/asyncForEach';
 import ApiError from '../../../errors/ApiError';
-import { generateArtistId, generateLabelId } from '../../../utils/uniqueId';
+import { generateArtistId } from '../../../utils/uniqueId';
 
 const uploadMultiple = async (req: Request, res: Response) => {
   try {
@@ -14,13 +14,8 @@ const uploadMultiple = async (req: Request, res: Response) => {
     //@ts-ignore
     const albumImage = req.files.image[0];
     const albumData = JSON.parse(req.body.data);
-    albumData.labelId = generateLabelId();
     albumData.releaseId = generateArtistId();
-    await Promise.all(
-      albumData.primaryArtist.map(async (artist: any) => {
-        artist.primaryArtistId = generateArtistId();
-      }),
-    );
+
     await Promise.all(
       albumData.writer.map(async (writers: any) => {
         writers.writerId = generateArtistId();
