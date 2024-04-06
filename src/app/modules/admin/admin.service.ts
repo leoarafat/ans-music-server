@@ -428,6 +428,34 @@ const UnlockUserAccount = async (payload: { userId: string }) => {
 const myProfile = async (id: string) => {
   return await Admin.findById(id);
 };
+const latestRelease = async () => {
+  const singleSongs = await SingleTrack.find({
+    isApproved: 'success',
+  })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
+  const albumSongs = await Album.find({ isApproved: 'success' })
+    .lean()
+    .populate('label')
+    .populate('primaryArtist');
+
+  const singleSongData = singleSongs.map(song => ({
+    ...song,
+    audio: song.audio.path,
+  }));
+
+  const albumSongData = albumSongs.flatMap(album =>
+    album.audio.map(audioItem => ({
+      ...album,
+      audio: audioItem.path,
+    })),
+  );
+
+  const combinedData = [...singleSongData, ...albumSongData];
+
+  return combinedData;
+};
 export const AdminService = {
   createUser,
   getAllUsers,
@@ -454,4 +482,5 @@ export const AdminService = {
   updateAdmin,
   myProfile,
   UnlockUserAccount,
+  latestRelease,
 };

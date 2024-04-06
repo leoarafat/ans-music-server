@@ -31,6 +31,7 @@ router.patch('/change-password/:id', AdminController.changePassword);
 //!Analytics management
 router.post('/statics', uploadStatics, StaticsController.insertIntoDB);
 router.get('/analytics', StaticsController.generateAnalytics);
+router.get('/latest-release', AdminController.latestRelease);
 //!Youtube requests
 router.get(
   '/claims',

@@ -295,6 +295,15 @@ const myProfile = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const latestRelease = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminService.latestRelease();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'successful!',
+    data: result,
+  });
+});
 
 export const AdminController = {
   UnlockUserAccount,
@@ -322,4 +331,5 @@ export const AdminController = {
   lockUserAccount,
   updateAdmin,
   myProfile,
+  latestRelease,
 };
