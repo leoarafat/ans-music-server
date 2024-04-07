@@ -294,7 +294,7 @@ const singleMusicSchema = new Schema<ISingleTrack>(
     },
     songStatus: {
       type: String,
-      enum: ['take-down', 'distribute'],
+      enum: ['take-down', 'none', 'distribute'],
       default: 'none',
     },
     inspection: {
