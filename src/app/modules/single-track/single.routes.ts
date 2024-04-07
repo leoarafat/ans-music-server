@@ -4,7 +4,6 @@ import { uploadSingle } from '../../../utils/multer';
 import { SingleMusicController } from './single.controller';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
-// import { StaticsService } from '../statics/statics.service';
 const router = express.Router();
 
 router.post(
