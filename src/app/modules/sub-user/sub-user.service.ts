@@ -47,8 +47,7 @@ const registrationSubUser = async (payload: IRegistration) => {
     await sendEmail({
       email: user.email,
       subject: 'Activate Your Account',
-      template: 'activation-mail.ejs',
-      data,
+      html: 'Test',
     });
   } catch (error: any) {
     throw new ApiError(500, `${error.message}`);

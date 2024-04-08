@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import path from 'path';
-import ejs from 'ejs';
+
 import ApiError from '../../../errors/ApiError';
 import {
   IActivationRequest,
@@ -27,6 +26,7 @@ import { generateArtistId } from '../../../utils/uniqueId';
 import QueryBuilder from '../../../builder/QueryBuilder';
 import { IGenericResponse } from '../../../interfaces/paginations';
 import { Album } from '../album/album.model';
+import { registrationSuccessEmailBody } from './user.mail';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -45,16 +45,11 @@ const registrationUser = async (payload: IRegistration) => {
   const activationToken = createActivationToken(user);
   const activationCode = activationToken.activationCode;
   const data = { user: { name: user.name }, activationCode };
-  await ejs.renderFile(
-    path.join(__dirname, '../../../mails/activation-mail.ejs'),
-    data,
-  );
   try {
     await sendEmail({
       email: user.email,
       subject: 'Activate Your Account',
-      template: 'activation-mail.ejs',
-      data,
+      html: registrationSuccessEmailBody(data),
     });
   } catch (error: any) {
     throw new ApiError(500, `${error.message}`);

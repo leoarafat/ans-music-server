@@ -9,12 +9,11 @@ import {
   ClaimRequest,
   WhitelistRequest,
 } from './youtube-request.model';
-import path from 'path';
-import ejs from 'ejs';
 
 import { Request } from 'express';
 import sendEmail from '../../../utils/sendEmail';
 import httpStatus from 'http-status';
+import { youtubeRequestEmailBody } from './youtube.mail';
 const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
   if (payload.url == '') {
     throw new ApiError(400, 'Payload cannot be empty');
@@ -28,17 +27,11 @@ const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
   const paddedId = result._id.toString().padStart(4, '0');
   const data = { url: result.url, id: paddedId, type: 'Claim' };
 
-  await ejs.renderFile(
-    path.join(__dirname, '../../../mails/youtube-request.ejs'),
-
-    data,
-  );
   try {
     await sendEmail({
       email: 'support@ansmusiclimited.com',
       subject: 'New claim request',
-      template: 'youtube-request.ejs',
-      data,
+      html: youtubeRequestEmailBody(data),
     });
   } catch (error: any) {
     throw new ApiError(500, `${error.message}`);
@@ -72,16 +65,11 @@ const addArtistChannelRequest = async (
     type: 'Artist Channel Request',
   };
 
-  await ejs.renderFile(
-    path.join(__dirname, '../../../mails/youtube-request.ejs'),
-    data,
-  );
   try {
     await sendEmail({
       email: 'support@ansmusiclimited.com',
       subject: 'New Artist Channel Request',
-      template: 'youtube-request.ejs',
-      data,
+      html: youtubeRequestEmailBody(data),
     });
   } catch (error: any) {
     throw new ApiError(500, `${error.message}`);
@@ -104,16 +92,12 @@ const addWhitelistRequest = async (
   const result = await WhitelistRequest.create(payload);
   const paddedId = result._id.toString().padStart(4, '0');
   const data = { url: result.url, id: paddedId, type: 'Whitelist Request' };
-  await ejs.renderFile(
-    path.join(__dirname, '../../../mails/youtube-request.ejs'),
-    data,
-  );
+
   try {
     await sendEmail({
       email: 'support@ansmusiclimited.com',
       subject: 'New Whitelist Request',
-      template: 'youtube-request.ejs',
-      data,
+      html: youtubeRequestEmailBody(data),
     });
   } catch (error: any) {
     throw new ApiError(500, `${error.message}`);

@@ -4,8 +4,9 @@ import { Model } from 'mongoose';
 export type IEmailOptions = {
   email: string;
   subject: string;
-  template: string;
-  data: { [key: string]: any };
+  // template: string;
+  // data?: { [key: string]: any };
+  html: any;
 };
 export type IRegistration = {
   name: string;

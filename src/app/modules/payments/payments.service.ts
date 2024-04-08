@@ -6,10 +6,9 @@ import { IPayment } from './payments.interface';
 import { Payment, Withdraw } from './payments.model';
 import { generateTransactionId } from '../../../utils/uniqueId';
 import sendEmail from '../../../utils/sendEmail';
-import path from 'path';
-import ejs from 'ejs';
 import { SingleTrack } from '../single-track/single.model';
 import { Album } from '../album/album.model';
+import { paymentReceivedEmailBody } from './payment.mail';
 //!
 const makePayment = async (payload: IPayment) => {
   const { user, amount, externalId } = payload;
@@ -42,16 +41,12 @@ const makePayment = async (payload: IPayment) => {
     amount: result.amount,
     enterDate: result.enterDate,
   };
-  await ejs.renderFile(
-    path.join(__dirname, '../../../mails/payment.ejs'),
-    data,
-  );
+
   try {
     await sendEmail({
       email: findUser?.email,
       subject: 'New Payment Received',
-      template: 'payment.ejs',
-      data,
+      html: paymentReceivedEmailBody(data),
     });
   } catch (error: any) {
     throw new ApiError(500, `${error.message}`);
