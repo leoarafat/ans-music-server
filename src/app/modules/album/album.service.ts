@@ -4,6 +4,7 @@ import { Album } from './album.model';
 import { asyncForEach } from '../../../utils/asyncForEach';
 import ApiError from '../../../errors/ApiError';
 import { generateArtistId } from '../../../utils/uniqueId';
+import { updateImageUrl } from '../../../utils/url-modifier';
 
 const uploadMultiple = async (req: Request, res: Response) => {
   try {
@@ -76,7 +77,14 @@ const myAllAlbum = async (id: string) => {
   const result = await Album.find({ user: id })
     .populate('Label')
     .populate('PrimaryArtist');
-  return result;
+  const albumSongData = result.flatMap(album =>
+    album.audio.map(audioItem => ({
+      ...album,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+    })),
+  );
+  return albumSongData;
 };
 const SingleAlbum = async (id: string) => {
   const result = await Album.findById(id)

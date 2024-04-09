@@ -445,8 +445,20 @@ const myCorrectionRelease = async (id: string) => {
   const filteredAlbums = albums.filter(
     album => album.correctionNote.length > 0,
   );
+  const singleSongData = filteredSingleTracks.map(song => ({
+    ...song,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
+  }));
 
-  const filteredResult = [...filteredSingleTracks, ...filteredAlbums];
+  const albumSongData = filteredAlbums.flatMap(album =>
+    album.audio.map(audioItem => ({
+      ...album,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+    })),
+  );
+  const filteredResult = [...singleSongData, ...albumSongData];
 
   return filteredResult;
 };

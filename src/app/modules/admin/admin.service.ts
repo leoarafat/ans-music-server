@@ -26,6 +26,7 @@ import { SingleTrackDocument } from '../single-track/single.interface';
 import { Album } from '../album/album.model';
 import QueryBuilder from '../../../builder/QueryBuilder';
 import { IGenericResponse } from '../../../interfaces/paginations';
+import { updateImageUrl } from '../../../utils/url-modifier';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -442,13 +443,15 @@ const latestRelease = async () => {
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
-    audio: song.audio.path,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
   const albumSongData = albumSongs.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
     })),
   );
 

@@ -3,6 +3,7 @@ import ApiError from '../../../errors/ApiError';
 import User from '../user/user.model';
 import { SingleTrack } from '../single-track/single.model';
 import { Album } from '../album/album.model';
+import { updateImageUrl } from '../../../utils/url-modifier';
 //!
 // const userInspection = async (id: string) => {
 //   const user = await User.findById(id);
@@ -36,6 +37,11 @@ const userInspection = async (id: string) => {
     .populate('label')
     .populate('primaryArtist')
     .lean();
+  const singleSongData = singleTracks.map(song => ({
+    ...song,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
+  }));
   const albums = await Album.find({ user: id })
     .populate('label')
     .populate('primaryArtist')
@@ -50,15 +56,21 @@ const userInspection = async (id: string) => {
     .limit(5)
     .sort({ createdAt: -1 })
     .lean();
-
+  const albumSongData = latestAlbum.flatMap(album =>
+    album.audio.map(audioItem => ({
+      ...album,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+    })),
+  );
   // Combine single tracks and albums for total releases and all songs
   const totalReleases = singleTracks.length + albums.length;
-  const allSongs = [...singleTracks, ...albums];
+  const allSongs = [...singleSongData, ...albums];
 
   return {
     userInfo: user,
     totalReleases,
-    latestRelease: [...latestSingleTrack, ...latestAlbum],
+    latestRelease: [...latestSingleTrack, ...albumSongData],
     allSong: allSongs,
   };
 };
@@ -68,13 +80,23 @@ const songInspection = async (id: string) => {
     .populate('label')
     .populate('primaryArtist');
   if (song) {
-    return song;
+    const updatedResult = {
+      ...song.toObject(),
+      audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+      image: updateImageUrl(song.image).replace(/\\/g, '/'),
+    };
+    return updatedResult;
   }
   const album = await Album.findById(id)
     .populate('label')
     .populate('primaryArtist');
   if (album) {
-    return album;
+    const data = album.audio.map(audioItem => ({
+      ...album,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+    }));
+    return data;
   }
 };
 //!
@@ -103,9 +125,21 @@ const userTotalSong = async (id: string) => {
     .populate('label')
     .populate('primaryArtist')
     .lean();
+  const singleSongData = singleTracks.map(song => ({
+    ...song,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
+  }));
 
+  const albumSongData = albums.flatMap(album =>
+    album.audio.map(audioItem => ({
+      ...album,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+    })),
+  );
   // Combine single tracks and albums
-  const totalSongs = [...singleTracks, ...albums];
+  const totalSongs = [...singleSongData, ...albumSongData];
 
   return totalSongs;
 };

@@ -1,5 +1,6 @@
 import { SingleTrack } from '../single-track/single.model';
 import { Album } from '../album/album.model';
+import { updateImageUrl } from '../../../utils/url-modifier';
 
 const inspection = async () => {
   const singleSongs = await SingleTrack.find({ isApproved: 'pending' })
@@ -13,13 +14,15 @@ const inspection = async () => {
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
-    audio: song.audio.path,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
   const albumSongData = albumSongs.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
     })),
   );
 
@@ -40,13 +43,15 @@ const failedInspection = async () => {
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
-    audio: song.audio.path,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
   const albumSongData = albumSongs.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
     })),
   );
 
@@ -66,13 +71,15 @@ const processing = async () => {
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
-    audio: song.audio.path,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
   const albumSongData = albumSongs.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
     })),
   );
 
@@ -94,13 +101,15 @@ const distributed = async () => {
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
-    audio: song.audio.path,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
   const albumSongData = albumSongs.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
     })),
   );
 
@@ -122,13 +131,15 @@ const takeDown = async () => {
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
-    audio: song.audio.path,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
   const albumSongData = albumSongs.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
     })),
   );
 

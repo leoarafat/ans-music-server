@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { updateImageUrl } from '../../../utils/url-modifier';
 import { Album } from '../album/album.model';
 import { ISingleTrack } from '../single-track/single.interface';
 import { SingleTrack } from '../single-track/single.model';
@@ -15,13 +16,15 @@ const releaseSongs = async (): Promise<ISingleTrack[]> => {
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
-    audio: song.audio.path,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
   const albumSongData = albumSongs.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
     })),
   );
 
@@ -42,13 +45,15 @@ const tracks = async (): Promise<ISingleTrack[]> => {
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
-    audio: song.audio.path,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
   const albumSongData = albumSongs.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      audio: audioItem.path,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
     })),
   );
 
