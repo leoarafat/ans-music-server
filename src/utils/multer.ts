@@ -3,7 +3,7 @@
 import { Request } from 'express';
 import * as fs from 'fs';
 import multer from 'multer';
-const uploadsDirectory = 'uploads/album';
+const uploadsDirectory = 'uploads/';
 if (!fs.existsSync(uploadsDirectory)) {
   fs.mkdirSync(uploadsDirectory, { recursive: true });
 }
@@ -17,7 +17,7 @@ export const storage = multer.diskStorage({
   },
 });
 //!
-const uploadsBulkDirectory = 'uploads/bulk';
+const uploadsBulkDirectory = 'uploads/';
 if (!fs.existsSync(uploadsBulkDirectory)) {
   fs.mkdirSync(uploadsBulkDirectory, { recursive: true });
 }
@@ -32,7 +32,7 @@ export const storageBulk = multer.diskStorage({
   },
 });
 //!
-const uploadsStaticsDirectory = 'uploads/statics';
+const uploadsStaticsDirectory = 'uploads/';
 if (!fs.existsSync(uploadsStaticsDirectory)) {
   fs.mkdirSync(uploadsStaticsDirectory, { recursive: true });
 }
@@ -47,7 +47,7 @@ export const storageStatics = multer.diskStorage({
   },
 });
 //!
-const uploadsSingleDirectory = 'uploads/single';
+const uploadsSingleDirectory = 'uploads/';
 if (!fs.existsSync(uploadsSingleDirectory)) {
   fs.mkdirSync(uploadsSingleDirectory, { recursive: true });
 }
