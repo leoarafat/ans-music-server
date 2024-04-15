@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { updateImageUrl } from '../../../utils/url-modifier';
 import { Album } from '../album/album.model';
+import { Bulk } from '../builk/bulk.model';
 import { ISingleTrack } from '../single-track/single.interface';
 import { SingleTrack } from '../single-track/single.model';
 
@@ -14,6 +15,7 @@ const releaseSongs = async (): Promise<ISingleTrack[]> => {
     .populate('label')
     .populate('primaryArtist');
 
+  // const bulkSongs = await Bulk.find({});
   const singleSongData = singleSongs.map(song => ({
     ...song,
     audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
@@ -32,7 +34,7 @@ const releaseSongs = async (): Promise<ISingleTrack[]> => {
 
   return combinedData;
 };
-const tracks = async (): Promise<ISingleTrack[]> => {
+const tracks = async () => {
   // return await SingleTrack.find({});
   const singleSongs = await SingleTrack.find({})
     .lean()
@@ -42,7 +44,7 @@ const tracks = async (): Promise<ISingleTrack[]> => {
     .lean()
     .populate('label')
     .populate('primaryArtist');
-
+  const bulkSongs = await Bulk.find({});
   const singleSongData = singleSongs.map(song => ({
     ...song,
     audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
@@ -57,7 +59,7 @@ const tracks = async (): Promise<ISingleTrack[]> => {
     })),
   );
 
-  const combinedData = [...singleSongData, ...albumSongData];
+  const combinedData = [...singleSongData, ...albumSongData, ...bulkSongs];
 
   return combinedData;
 };
