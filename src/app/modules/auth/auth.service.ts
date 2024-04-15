@@ -21,7 +21,13 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { email, password } = payload;
 
   const isUserExist = await User.isUserExist(email);
-
+  //@ts-ignore
+  if (isUserExist?.accountStatus === 'lock') {
+    throw new ApiError(
+      400,
+      'Your account is locked! Please contact with ANS Music Help Center',
+    );
+  }
   const newUser = await User.findOne({ email });
   if (!isUserExist) {
     throw new ApiError(404, 'User does not exist');
