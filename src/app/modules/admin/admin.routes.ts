@@ -30,7 +30,6 @@ router.post('/refresh-token', AdminController.refreshToken);
 router.patch('/change-password/:id', AdminController.changePassword);
 //!Analytics management
 router.post('/statics', uploadStatics, StaticsController.insertIntoDB);
-router.get('/analytics', StaticsController.generateAnalytics);
 router.get('/latest-release', AdminController.latestRelease);
 //!Youtube requests
 router.get(
@@ -231,7 +230,8 @@ router.delete(
   auth(ENUM_USER_ROLE.ADMIN),
   paymentController.deleteTransaction,
 );
-
+//! Statics Analytics
+router.get('/analytics/:id', StaticsController.generateAnalytics);
 //! Admin Update
 router.patch('/edit-profile/:id', upload, AdminController.updateAdmin);
 router.get('/me/:id', auth(ENUM_USER_ROLE.ADMIN), AdminController.myProfile);

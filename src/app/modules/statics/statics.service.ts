@@ -44,18 +44,53 @@ const insertIntoDB = async (req: Request) => {
 };
 //!
 
-const generateAnalytics = async () => {
-  const statistics = await Statics.aggregate([
-    {
-      $group: {
-        _id: '$isrc',
-        count: { $sum: 1 },
-        totalRevenue: { $sum: { $toDouble: '$revenue' } },
-        totalStreams: { $sum: { $toInt: '$stream_quantity' } },
+// const generateAnalytics = async (id: string) => {
+//   const findSingleMySong = await SingleTrack.find({ user: id });
+//   const findMyAlbumSong = await Album.find({ user: id });
+
+//   const statistics = await Statics.aggregate([
+//     {
+//       $group: {
+//         _id: '$isrc',
+//         count: { $sum: 1 },
+//         totalRevenue: { $sum: { $toDouble: '$revenue' } },
+//         totalStreams: { $sum: { $toInt: '$stream_quantity' } },
+//       },
+//     },
+//   ]);
+//   return statistics;
+// };
+const generateAnalytics = async (id: string) => {
+  try {
+    const singleTrackISRCs = await SingleTrack.find({ user: id }).distinct(
+      'isrc',
+    );
+
+    const albumISRCs = await Album.find({ user: id }).distinct('isrc');
+
+    const userISRCs = [...singleTrackISRCs, ...albumISRCs];
+
+    const statistics = await Statics.aggregate([
+      {
+        $match: {
+          isrc: { $in: userISRCs },
+        },
       },
-    },
-  ]);
-  return statistics;
+      {
+        $group: {
+          _id: '$isrc',
+          count: { $sum: 1 },
+          totalRevenue: { $sum: { $toDouble: '$revenue' } },
+          totalStreams: { $sum: { $toInt: '$stream_quantity' } },
+        },
+      },
+    ]);
+
+    return statistics;
+  } catch (error) {
+    console.error('Error generating analytics:', error);
+    throw error; // Rethrow the error for the caller to handle
+  }
 };
 
 const getCorrectionRequestAlbum = async (id: string) => {

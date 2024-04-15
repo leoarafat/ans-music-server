@@ -14,7 +14,7 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const generateAnalytics = catchAsync(async (req: Request, res: Response) => {
-  const result = await StaticsService.generateAnalytics();
+  const result = await StaticsService.generateAnalytics(req.params.id);
 
   sendResponse(res, {
     statusCode: 200,
