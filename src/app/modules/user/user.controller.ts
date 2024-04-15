@@ -145,7 +145,7 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
 //!Songs
 const mySuccessRelease = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.mySuccessRelease(id);
+  const result = await UserService.mySuccessRelease(id, req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -155,7 +155,7 @@ const mySuccessRelease = catchAsync(async (req: Request, res: Response) => {
 });
 const myPendingRelease = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.myPendingRelease(id);
+  const result = await UserService.myPendingRelease(id, req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -165,7 +165,7 @@ const myPendingRelease = catchAsync(async (req: Request, res: Response) => {
 });
 const myCorrectionRelease = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.myCorrectionRelease(id);
+  const result = await UserService.myCorrectionRelease(id, req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,

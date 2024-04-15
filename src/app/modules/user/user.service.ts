@@ -355,22 +355,36 @@ const changePassword = async (
 //   return updatedResult;
 // };
 //!
-const mySuccessRelease = async (id: string) => {
-  const singleTracks = await SingleTrack.find({
-    user: id,
-    isApproved: 'approved',
-  })
-    .populate('user')
-    .populate('label')
-    .populate('primaryArtist');
+const mySuccessRelease = async (id: string, query: Record<string, unknown>) => {
+  const singleSongs = new QueryBuilder(
+    SingleTrack.find({ user: id, isApproved: 'approved' })
+      .populate('user')
+      .populate('label')
+      .populate('primaryArtist'),
+    query,
+  )
+    .search(['releaseTitle'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  const albums = await Album.find({
-    user: id,
-    isApproved: 'approved',
-  })
-    .populate('user')
-    .populate('label')
-    .populate('primaryArtist');
+  const singleTracks = await singleSongs.modelQuery;
+
+  const albumSongs = new QueryBuilder(
+    Album.find({ user: id, isApproved: 'approved' })
+      .populate('user')
+      .populate('label')
+      .populate('primaryArtist'),
+    query,
+  )
+    .search(['releaseTitle'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const albums = await albumSongs.modelQuery;
 
   const updatedSingleTracks = singleTracks.map(music => {
     music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
@@ -390,23 +404,38 @@ const mySuccessRelease = async (id: string) => {
 
   return updatedResult;
 };
-//!
-const myPendingRelease = async (id: string) => {
-  const singleTracks = await SingleTrack.find({
-    user: id,
-    isApproved: 'pending',
-  })
-    .populate('user')
-    .populate('label')
-    .populate('primaryArtist');
 
-  const albums = await Album.find({
-    user: id,
-    isApproved: 'pending',
-  })
-    .populate('user')
-    .populate('label')
-    .populate('primaryArtist');
+//!
+const myPendingRelease = async (id: string, query: Record<string, unknown>) => {
+  const singleSongs = new QueryBuilder(
+    SingleTrack.find({ user: id, isApproved: 'pending' })
+      .populate('user')
+      .populate('label')
+      .populate('primaryArtist'),
+    query,
+  )
+    .search(['releaseTitle'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const singleTracks = await singleSongs.modelQuery;
+
+  const albumSongs = new QueryBuilder(
+    Album.find({ user: id, isApproved: 'pending' })
+      .populate('user')
+      .populate('label')
+      .populate('primaryArtist'),
+    query,
+  )
+    .search(['releaseTitle'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const albums = await albumSongs.modelQuery;
 
   const updatedSingleTracks = singleTracks.map(music => {
     music.image = updateImageUrl(music.image)?.replace(/\\/g, '/');
@@ -434,16 +463,43 @@ const myPendingRelease = async (id: string) => {
 //   return filteredSongs;
 // };
 //!
-const myCorrectionRelease = async (id: string) => {
-  const singleTracks = await SingleTrack.find({ user: id })
-    .populate('user')
-    .populate('label')
-    .populate('primaryArtist');
+const myCorrectionRelease = async (
+  id: string,
+  query: Record<string, unknown>,
+) => {
+  // const singleTracks = await SingleTrack.find({ user: id })
+  //   .populate('user')
+  //   .populate('label')
+  //   .populate('primaryArtist');
+  const singleSongs = new QueryBuilder(
+    SingleTrack.find({ user: id })
+      .populate('user')
+      .populate('label')
+      .populate('primaryArtist'),
+    query,
+  )
+    .search(['releaseTitle'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  const albums = await Album.find({ user: id })
-    .populate('user')
-    .populate('label')
-    .populate('primaryArtist');
+  const singleTracks = await singleSongs.modelQuery;
+
+  const albumsSong = new QueryBuilder(
+    Album.find({ user: id })
+      .populate('user')
+      .populate('label')
+      .populate('primaryArtist'),
+    query,
+  )
+    .search(['releaseTitle'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const albums = await albumsSong.modelQuery;
 
   const filteredSingleTracks = singleTracks.filter(
     song => song.correctionNote.length > 0,
