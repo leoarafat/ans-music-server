@@ -64,8 +64,14 @@ const getAllUsers = async (
 //!
 const getSingleUser = async (id: string): Promise<IUser | null> => {
   const result = await User.findById(id);
-
-  return result;
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  const updatedResult = {
+    ...result.toObject(),
+    image: updateImageUrl(result.image).replace(/\\/g, '/'),
+  };
+  return updatedResult;
 };
 //!
 const updateAdmin = async (id: string, req: Request) => {
@@ -198,13 +204,14 @@ const changePassword = async (
   isAdminExist.save();
 };
 //!
-const approveSingleMusic = async (id: string) => {
+const approveSingleMusic = async (id: string, payload: any) => {
+  const { ...musicData } = payload;
   const findSingleSong = await SingleTrack.findById(id);
   const findAlbumSong = await Album.findById(id);
   if (findSingleSong) {
     const result = await SingleTrack.findOneAndUpdate(
       { _id: id },
-      { isApproved: 'approved' },
+      { ...musicData, isApproved: 'approved' },
       {
         new: true,
         runValidators: true,
@@ -217,7 +224,7 @@ const approveSingleMusic = async (id: string) => {
   if (findAlbumSong) {
     const result = await Album.findOneAndUpdate(
       { _id: id },
-      { isApproved: 'approved' },
+      { ...musicData, isApproved: 'approved' },
       {
         new: true,
         runValidators: true,

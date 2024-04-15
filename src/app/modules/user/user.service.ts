@@ -27,6 +27,7 @@ import QueryBuilder from '../../../builder/QueryBuilder';
 import { IGenericResponse } from '../../../interfaces/paginations';
 import { Album } from '../album/album.model';
 import { registrationSuccessEmailBody } from './user.mail';
+import httpStatus from 'http-status';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -142,8 +143,14 @@ const getAllUsers = async (
 //!
 const getSingleUser = async (id: string): Promise<IUser | null> => {
   const result = await User.findById(id);
-
-  return result;
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  const updatedResult = {
+    ...result.toObject(),
+    image: updateImageUrl(result.image).replace(/\\/g, '/'),
+  };
+  return updatedResult;
 };
 //!
 const updateUser = async (id: string, req: Request): Promise<IUser | null> => {

@@ -125,7 +125,7 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
 });
 const approveSingleMusic = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await AdminService.approveSingleMusic(id);
+  const result = await AdminService.approveSingleMusic(id, req.body);
   sendResponse(res, {
     statusCode: 200,
     success: true,
