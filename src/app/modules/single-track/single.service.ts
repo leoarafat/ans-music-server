@@ -8,6 +8,7 @@ import { generateArtistId } from '../../../utils/uniqueId';
 import User from '../user/user.model';
 import { updateImageUrl } from '../../../utils/url-modifier';
 import { Album } from '../album/album.model';
+import QueryBuilder from '../../../builder/QueryBuilder';
 
 const uploadSingle = async (req: Request) => {
   const { files } = req;
@@ -65,26 +66,46 @@ const uploadSingle = async (req: Request) => {
 
   return result;
 };
-const myAllMusic = async (id: string) => {
-  const singleSongs = await SingleTrack.find({ user: id })
-    .populate('label')
-    .populate('primaryArtist')
-    .lean();
+const myAllMusic = async (id: string, query: Record<string, unknown>) => {
+  const singleSongs = new QueryBuilder(
+    SingleTrack.find({ user: id })
+      .lean()
+      .populate('user')
+      .populate('label')
+      .populate('primaryArtist'),
+    query,
+  )
+    .search(['releaseTitle'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  const albumSongs = await Album.find({ user: id })
-    .populate('label')
-    .populate('primaryArtist')
-    .lean();
+  const singleTracks = await singleSongs.modelQuery;
+  const albumSong = new QueryBuilder(
+    Album.find({ user: id })
+      .lean()
+      .populate('user')
+      .populate('label')
+      .populate('primaryArtist'),
+    query,
+  )
+    .search(['releaseTitle'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  const singleSongData = singleSongs.map(song => ({
+  const albums = await albumSong.modelQuery;
+
+  const singleSongData = singleTracks?.map(song => ({
     ...song,
     audio: updateImageUrl(song.audio.path)?.replace(/\\/g, '/'),
   }));
 
-  const albumSongData = albumSongs.flatMap(album =>
+  const albumSongData = albums?.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
-      // audio: audioItem.path,
       audio: updateImageUrl(audioItem.path)?.replace(/\\/g, '/'),
     })),
   );

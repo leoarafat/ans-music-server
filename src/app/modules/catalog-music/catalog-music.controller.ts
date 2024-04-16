@@ -4,7 +4,7 @@ import sendResponse from '../../../shared/sendResponse';
 import { catalogMusicService } from './catalog-music.service';
 
 const releaseSongs = catchAsync(async (req: Request, res: Response) => {
-  const result = await catalogMusicService.releaseSongs();
+  const result = await catalogMusicService.releaseSongs(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -13,7 +13,7 @@ const releaseSongs = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const tracks = catchAsync(async (req: Request, res: Response) => {
-  const result = await catalogMusicService.tracks();
+  const result = await catalogMusicService.tracks(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,

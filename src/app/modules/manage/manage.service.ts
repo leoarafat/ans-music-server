@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
+import QueryBuilder from '../../../builder/QueryBuilder';
 import ApiError from '../../../errors/ApiError';
 import { generateArtistId } from '../../../utils/uniqueId';
 import { Album } from '../album/album.model';
@@ -167,8 +168,20 @@ const updatePrimaryArtist = async (id: string, payload: any) => {
     runValidators: true,
   });
 };
-const getPrimaryArtist = async (id: string) => {
-  return await PrimaryArtist.find({ user: id });
+const getPrimaryArtist = async (id: string, query: Record<string, unknown>) => {
+  const artistQuery = new QueryBuilder(PrimaryArtist.find({ user: id }), query)
+    .search(['primaryArtistName'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await artistQuery.modelQuery;
+  const meta = await artistQuery.countTotal();
+  return {
+    meta,
+    data: result,
+  };
 };
 
 export const ArtistsService = {

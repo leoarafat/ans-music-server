@@ -155,16 +155,6 @@ const processing = async (query: Record<string, unknown>) => {
   return combinedData;
 };
 const distributed = async (query: Record<string, unknown>) => {
-  // const singleSongs = await SingleTrack.find({
-  //   songStatus: 'distribute',
-  // })
-  //   .lean()
-  //   .populate('label')
-  //   .populate('primaryArtist');
-  // const albumSongs = await Album.find({ songStatus: 'distribute' })
-  //   .lean()
-  //   .populate('label')
-  //   .populate('primaryArtist');
   const singleSongs = new QueryBuilder(
     SingleTrack.find({ songStatus: 'distribute' })
       .lean()
@@ -215,16 +205,6 @@ const distributed = async (query: Record<string, unknown>) => {
   return combinedData;
 };
 const takeDown = async (query: Record<string, unknown>) => {
-  // const singleSongs = await SingleTrack.find({
-  //   songStatus: 'take-down',
-  // })
-  //   .lean()
-  //   .populate('label')
-  //   .populate('primaryArtist');
-  // const albumSongs = await Album.find({ songStatus: 'take-down' })
-  //   .lean()
-  //   .populate('label')
-  //   .populate('primaryArtist');
   const singleSongs = new QueryBuilder(
     SingleTrack.find({ isApproved: 'pending' })
       .lean()

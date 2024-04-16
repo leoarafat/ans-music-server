@@ -52,12 +52,13 @@ const addPrimaryArtist = catchAsync(async (req: Request, res: Response) => {
 });
 const getPrimaryArtist = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await ArtistsService.getPrimaryArtist(id);
+  const result = await ArtistsService.getPrimaryArtist(id, req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: 'Artist retrieved successful!',
-    data: result,
+    data: result.data,
+    meta: result.meta,
   });
 });
 export const PrimaryArtistController = {

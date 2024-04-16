@@ -22,18 +22,19 @@ const addLabel = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Artist added successful!',
+    message: 'Label added successful!',
     data: result,
   });
 });
 const getLabel = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await LabelService.getLabel(id);
+  const result = await LabelService.getLabel(id, req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Artist retrieved successful!',
-    data: result,
+    message: 'Label retrieved successful!',
+    data: result.data,
+    meta: result.meta,
   });
 });
 export const LabelController = {

@@ -1,3 +1,4 @@
+import QueryBuilder from '../../../builder/QueryBuilder';
 import ApiError from '../../../errors/ApiError';
 import { generateLabelId } from '../../../utils/uniqueId';
 import { ILabel } from './label.interface';
@@ -18,8 +19,20 @@ const updateLabel = async (id: string, payload: any) => {
     runValidators: true,
   });
 };
-const getLabel = async (id: string) => {
-  return await Label.find({ user: id });
+const getLabel = async (id: string, query: Record<string, unknown>) => {
+  const labelQuery = new QueryBuilder(Label.find({ user: id }), query)
+    .search(['labelName'])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await labelQuery.modelQuery;
+  const meta = await labelQuery.countTotal();
+  return {
+    meta,
+    data: result,
+  };
 };
 export const LabelService = {
   addLabel,

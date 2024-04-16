@@ -4,7 +4,7 @@ import { activityService } from './activity.service';
 import sendResponse from '../../../shared/sendResponse';
 
 const inspection = catchAsync(async (req: Request, res: Response) => {
-  const result = await activityService.inspection();
+  const result = await activityService.inspection(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -13,7 +13,7 @@ const inspection = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const failedInspection = catchAsync(async (req: Request, res: Response) => {
-  const result = await activityService.failedInspection();
+  const result = await activityService.failedInspection(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -22,7 +22,7 @@ const failedInspection = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const processing = catchAsync(async (req: Request, res: Response) => {
-  const result = await activityService.processing();
+  const result = await activityService.processing(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -31,7 +31,7 @@ const processing = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const distributed = catchAsync(async (req: Request, res: Response) => {
-  const result = await activityService.distributed();
+  const result = await activityService.distributed(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -40,7 +40,7 @@ const distributed = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const takeDown = catchAsync(async (req: Request, res: Response) => {
-  const result = await activityService.takeDown();
+  const result = await activityService.takeDown(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
