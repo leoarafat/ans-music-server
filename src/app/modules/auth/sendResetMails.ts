@@ -3,9 +3,9 @@ import config from '../../../config';
 
 export async function sendEmail(to: string, html: string) {
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
+    host: config.smtp.smtp_host,
+    port: parseInt(config.smtp.smtp_port as string),
+    // secure: false,
     auth: {
       user: config.smtp.smtp_mail,
       pass: config.smtp.smtp_password,
