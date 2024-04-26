@@ -80,41 +80,7 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
       type: String,
       required: true,
     },
-    //!
-    // primaryArtist: {
-    //   type: [
-    //     {
-    //       primaryArtistName: {
-    //         type: String,
-    //         required: true,
-    //       },
-    //       primaryArtistId: {
-    //         type: String,
-    //         required: true,
-    //       },
-    //       primaryArtistSpotifyId: {
-    //         type: String,
-    //         // required: true,
-    //       },
 
-    //       primaryArtistAppleId: {
-    //         type: String,
-    //         // required: true,
-    //       },
-
-    //       primaryArtistFacebookId: {
-    //         type: String,
-    //         // required: true,
-    //       },
-
-    //       primaryArtistYoutubeId: {
-    //         type: String,
-    //         // required: true,
-    //       },
-    //     },
-    //   ],
-    //   required: true,
-    // },
     //!
     primaryArtist: {
       type: [
@@ -261,7 +227,7 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
 
     tiktokStartInSecond: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     trackLanguage: {
@@ -284,16 +250,16 @@ const multipleMusicSchema = new Schema<IAlbumMusic>(
     },
     isApproved: {
       type: String,
-      default: 'rejected',
+      default: 'pending',
     },
     songStatus: {
       type: String,
-      enum: ['take-down', 'distribute'],
+      enum: ['take-down', 'none', 'distribute'],
       default: 'none',
     },
     inspection: {
       type: String,
-      enum: ['failed', 'saved'],
+      enum: ['failed', 'none', 'saved'],
       default: 'none',
     },
     correctionNote: {

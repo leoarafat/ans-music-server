@@ -49,7 +49,7 @@ type IAlbumMusic = {
   isAdvancePurchase: boolean;
   advancePurchaseDate: string;
   status: boolean;
-  isApproved: 'approved' | 'rejected';
+  isApproved: 'approved' | 'rejected' | 'pending';
   songStatus: 'take-down' | 'distribute' | 'none';
   inspection: 'failed' | 'saved' | 'none';
   tackDown: string;
