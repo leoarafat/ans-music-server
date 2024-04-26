@@ -120,8 +120,11 @@ const changePassword = async (
   isUserExist.save();
 };
 //!
-const forgotPass = async (payload: { id: string }) => {
-  const user = await User.findOne({ _id: payload.id }, { _id: 1, role: 1 });
+const forgotPass = async (payload: { email: string }) => {
+  const user = await User.findOne(
+    { email: payload.email },
+    { _id: 1, role: 1 },
+  );
 
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User does not exist!');
@@ -167,11 +170,11 @@ const forgotPass = async (payload: { id: string }) => {
 };
 
 const resetPassword = async (
-  payload: { id: string; newPassword: string },
+  payload: { email: string; newPassword: string },
   token: string,
 ) => {
-  const { id, newPassword } = payload;
-  const user = await User.findOne({ _id: id }, { _id: 1 });
+  const { email, newPassword } = payload;
+  const user = await User.findOne({ email }, { _id: 1 });
 
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User not found!');
@@ -184,7 +187,7 @@ const resetPassword = async (
     Number(config.bcrypt_salt_rounds),
   );
 
-  await User.updateOne({ _id: id }, { password });
+  await User.updateOne({ email }, { password });
 };
 export const AuthService = {
   loginUser,
