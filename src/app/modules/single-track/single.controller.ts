@@ -15,7 +15,7 @@ const uploadSingle = catchAsync(async (req: Request, res: Response) => {
 });
 const myAllMusic = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await SingleMusicService.myAllMusic(id);
+  const result = await SingleMusicService.myAllMusic(id, req.query);
 
   sendResponse(res, {
     statusCode: 200,
