@@ -14,8 +14,7 @@
     "lint:fix": "eslint . --fix",
     "prettier:fix": "prettier --write .",
     "prettier:check": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "lint-prettier": "yarn lint:check && yarn prettier:check",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint-prettier": "yarn lint:check && yarn prettier:check"
   },
   "lint-staged": {
     "src/**/*.ts": "yarn lint-prettier"
