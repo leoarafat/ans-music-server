@@ -130,17 +130,15 @@ const singleMusic = async (id: string) => {
     };
     return updatedResult;
   }
-  // const albums = await Album.findById(id);
-  // if (albums) {
-  //   const albumSongData = result.flatMap(album =>
-  //     album.audio.map(audioItem => ({
-  //       ...album,
-  //       audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
-  //       image: updateImageUrl(album.image).replace(/\\/g, '/'),
-  //     })),
-  //   );
-  //   return albumSongData;
-  // }
+  const albums = await Album.findById(id);
+  if (albums) {
+    const albumSongData = albums.audio.map(audioItem => ({
+      ...albums,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(albums.image).replace(/\\/g, '/'),
+    }));
+    return albumSongData;
+  }
 };
 const updateSingleMusic = async (
   id: string,
