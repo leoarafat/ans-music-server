@@ -130,14 +130,16 @@ const singleMusic = async (id: string) => {
     };
     return updatedResult;
   }
-  // const album = await Album.findById(id);
-  // if (album) {
-  //   const updatedResult = {
-  //     ...result.toObject(),
-  //     image: updateImageUrl(result.image).replace(/\\/g, '/'),
-  //     audio: updateImageUrl(result.audio.path).replace(/\\/g, '/'),
-  //   };
-  //   return updatedResult;
+  // const albums = await Album.findById(id);
+  // if (albums) {
+  //   const albumSongData = result.flatMap(album =>
+  //     album.audio.map(audioItem => ({
+  //       ...album,
+  //       audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+  //       image: updateImageUrl(album.image).replace(/\\/g, '/'),
+  //     })),
+  //   );
+  //   return albumSongData;
   // }
 };
 const updateSingleMusic = async (

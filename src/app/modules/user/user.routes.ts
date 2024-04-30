@@ -107,7 +107,7 @@ router.get(
 );
 router.get(
   '/single-music/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(ENUM_USER_ROLE.USER),
   SingleMusicController.singleMusic,
 );
 //! Analytics
