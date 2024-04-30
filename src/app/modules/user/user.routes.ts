@@ -6,6 +6,7 @@ import { ENUM_USER_ROLE } from '../../../enums/user';
 import { YoutubeRequestController } from '../youtube-request/youtube-request.controller';
 import auth from '../../middlewares/auth';
 import { StaticsController } from '../statics/statics.controller';
+import { SingleMusicController } from '../single-track/single.controller';
 
 const router = express.Router();
 //!User
@@ -103,6 +104,11 @@ router.get(
   '/correction-release/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   UserController.myCorrectionRelease,
+);
+router.get(
+  '/single-music/:id',
+  auth(ENUM_USER_ROLE.ADMIN),
+  SingleMusicController.singleMusic,
 );
 //! Analytics
 router.get(

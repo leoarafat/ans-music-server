@@ -122,12 +122,23 @@ const singleMusic = async (id: string) => {
   if (!result) {
     throw new ApiError(404, 'Song not found');
   }
-  const updatedResult = {
-    ...result.toObject(),
-    image: updateImageUrl(result.image).replace(/\\/g, '/'),
-    audio: updateImageUrl(result.audio.path).replace(/\\/g, '/'),
-  };
-  return updatedResult;
+  if (result) {
+    const updatedResult = {
+      ...result.toObject(),
+      image: updateImageUrl(result.image).replace(/\\/g, '/'),
+      audio: updateImageUrl(result.audio.path).replace(/\\/g, '/'),
+    };
+    return updatedResult;
+  }
+  const album = await Album.findById(id);
+  if (album) {
+    const updatedResult = {
+      ...result.toObject(),
+      image: updateImageUrl(result.image).replace(/\\/g, '/'),
+      audio: updateImageUrl(result.audio.path).replace(/\\/g, '/'),
+    };
+    return updatedResult;
+  }
 };
 const updateSingleMusic = async (
   id: string,
