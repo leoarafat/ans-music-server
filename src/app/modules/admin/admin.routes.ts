@@ -12,6 +12,7 @@ import { inspectionController } from '../Inspection/Inspection.controller';
 import { paymentController } from '../payments/payments.controller';
 import { NewsController } from '../news/news.controller';
 import { UserController } from '../user/user.controller';
+import { SingleMusicController } from '../single-track/single.controller';
 
 const router = express.Router();
 router.get(
@@ -222,6 +223,11 @@ router.get(
   '/total-song/:id',
   auth(ENUM_USER_ROLE.ADMIN),
   inspectionController.userTotalSong,
+);
+router.get(
+  '/single-music/:id',
+  auth(ENUM_USER_ROLE.ADMIN),
+  SingleMusicController.singleMusic,
 );
 
 //!Payment

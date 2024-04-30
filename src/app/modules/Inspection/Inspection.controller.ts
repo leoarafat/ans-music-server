@@ -30,6 +30,15 @@ const userTotalSong = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+// const singleTracks = catchAsync(async (req: Request, res: Response) => {
+//   const result = await inspectionService.singleTracks(req.params.id);
+//   sendResponse(res, {
+//     statusCode: 200,
+//     success: true,
+//     message: 'Successful',
+//     data: result,
+//   });
+// });
 
 export const inspectionController = {
   userInspection,

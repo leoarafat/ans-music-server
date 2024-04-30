@@ -143,9 +143,42 @@ const userTotalSong = async (id: string) => {
 
   return totalSongs;
 };
+const singleSongs = async (id: string) => {
+  const user = await User.findById(id);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
 
+  // Find both single tracks and albums for the user
+  const singleTracks = await SingleTrack.find({ user: id })
+    .populate('label')
+    .populate('primaryArtist')
+    .lean();
+  const albums = await Album.find({ user: id })
+    .populate('label')
+    .populate('primaryArtist')
+    .lean();
+  const singleSongData = singleTracks.map(song => ({
+    ...song,
+    audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+    image: updateImageUrl(song.image).replace(/\\/g, '/'),
+  }));
+
+  const albumSongData = albums.flatMap(album =>
+    album.audio.map(audioItem => ({
+      ...album,
+      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+    })),
+  );
+  // Combine single tracks and albums
+  const totalSongs = [...singleSongData, ...albumSongData];
+
+  return totalSongs;
+};
 export const inspectionService = {
   userInspection,
   songInspection,
   userTotalSong,
+  singleSongs,
 };
