@@ -27,7 +27,7 @@ import { updateImageUrl } from '../../../utils/url-modifier';
 // };
 //!
 const userInspection = async (id: string) => {
-  const user = await User.findById(id);
+  const user = await User.findById(id).lean();
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -78,10 +78,11 @@ const userInspection = async (id: string) => {
 const songInspection = async (id: string) => {
   const song = await SingleTrack.findById(id)
     .populate('label')
-    .populate('primaryArtist');
+    .populate('primaryArtist')
+    .lean();
   if (song) {
     const updatedResult = {
-      ...song.toObject(),
+      ...song,
       audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
       image: updateImageUrl(song.image).replace(/\\/g, '/'),
     };
@@ -89,7 +90,8 @@ const songInspection = async (id: string) => {
   }
   const album = await Album.findById(id)
     .populate('label')
-    .populate('primaryArtist');
+    .populate('primaryArtist')
+    .lean();
   if (album) {
     const data = album.audio.map(audioItem => ({
       ...album,
