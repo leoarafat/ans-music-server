@@ -146,16 +146,25 @@ const updateSingleMusic = async (
 ) => {
   const { ...musicData } = payload;
   const isExists = await SingleTrack.findById(id);
-  if (!isExists) {
-    throw new ApiError(404, 'Song not found');
+  const album = await Album.findById(id);
+  if (isExists) {
+    const result = await SingleTrack.findOneAndUpdate({ _id: id }, musicData, {
+      new: true,
+      runValidators: true,
+    })
+      .populate('label')
+      .populate('primaryArtist');
+    return result;
   }
-  const result = await SingleTrack.findOneAndUpdate({ _id: id }, musicData, {
-    new: true,
-    runValidators: true,
-  })
-    .populate('label')
-    .populate('primaryArtist');
-  return result;
+  if (album) {
+    const result = await Album.findOneAndUpdate({ _id: id }, musicData, {
+      new: true,
+      runValidators: true,
+    })
+      .populate('label')
+      .populate('primaryArtist');
+    return result;
+  }
 };
 const deleteSingleMusic = async (id: string) => {
   const isExists = await SingleTrack.findById(id);

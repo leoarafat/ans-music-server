@@ -110,6 +110,11 @@ router.get(
   auth(ENUM_USER_ROLE.USER),
   SingleMusicController.singleMusic,
 );
+router.patch(
+  '/update-music/:id',
+  auth(ENUM_USER_ROLE.USER),
+  SingleMusicController.updateSingleMusic,
+);
 //! Analytics
 router.get(
   '/correction-album/:id',
