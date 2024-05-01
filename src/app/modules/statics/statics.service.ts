@@ -95,7 +95,9 @@ const generateAnalytics = async (id: string) => {
 
 const getCorrectionRequestAlbum = async (id: string) => {
   const albums = await Album.find({ user: id }).lean();
-
+  if (!albums) {
+    throw new ApiError(404, 'Album not found');
+  }
   const albumsWithIsFalse = albums.filter(album => {
     //@ts-ignore
     return album.correctionNote.some(note => !note.isRead);
@@ -105,7 +107,9 @@ const getCorrectionRequestAlbum = async (id: string) => {
 
 const getCorrectionRequestSingle = async (id: string) => {
   const singleSongs = await SingleTrack.find({ user: id }).lean();
-
+  if (!singleSongs) {
+    throw new ApiError(404, 'Song not found');
+  }
   const singleSongsWithIsFalse = singleSongs.filter(singleSong => {
     //@ts-ignore
     return singleSong.correctionNote.some(note => !note.isRead);

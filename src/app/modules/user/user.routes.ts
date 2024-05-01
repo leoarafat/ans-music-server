@@ -131,5 +131,10 @@ router.get(
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   StaticsController.lastSixApprovedTracks,
 );
+router.get(
+  '/analytics/:id',
+  auth(ENUM_USER_ROLE.USER),
+  StaticsController.generateAnalytics,
+);
 
 export const UserRoutes = router;
