@@ -126,5 +126,10 @@ router.get(
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   StaticsController.getCorrectionRequestSingle,
 );
+router.get(
+  '/last-six-approved-track/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
+  StaticsController.lastSixApprovedTracks,
+);
 
 export const UserRoutes = router;

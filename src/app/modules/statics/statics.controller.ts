@@ -58,10 +58,22 @@ const getNews = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const lastSixApprovedTracks = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await StaticsService.lastSixApprovedTracks(req.params.id);
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: ' Successful',
+      data: result,
+    });
+  },
+);
 export const StaticsController = {
   insertIntoDB,
   generateAnalytics,
   getCorrectionRequestAlbum,
   getCorrectionRequestSingle,
   getNews,
+  lastSixApprovedTracks,
 };
