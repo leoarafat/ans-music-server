@@ -75,7 +75,7 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
 };
 //!
 const updateAdmin = async (id: string, req: Request) => {
-  const isExist = await User.findOne({ _id: id });
+  const isExist = await Admin.findOne({ _id: id });
   //@ts-ignore
   const { files } = req;
   //@ts-ignore
