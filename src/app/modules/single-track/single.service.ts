@@ -118,17 +118,18 @@ const myAllMusic = async (id: string, query: Record<string, unknown>) => {
 const singleMusic = async (id: string) => {
   const result = await SingleTrack.findById(id)
     .populate('label')
-    .populate('primaryArtist');
+    .populate('primaryArtist')
+    .lean();
 
   if (result) {
     const updatedResult = {
-      ...result.toObject(),
+      ...result,
       image: updateImageUrl(result.image).replace(/\\/g, '/'),
       audio: updateImageUrl(result.audio.path).replace(/\\/g, '/'),
     };
     return updatedResult;
   }
-  const albums = await Album.findById(id);
+  const albums = await Album.findById(id).lean();
   if (albums) {
     const albumSongData = albums.audio.map(audioItem => ({
       ...albums,
