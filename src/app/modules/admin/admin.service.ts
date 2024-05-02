@@ -74,6 +74,9 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
   };
   return updatedResult;
 };
+const getAllAdmin = async () => {
+  return await Admin.find({});
+};
 //!
 // const updateAdmin = async (id: string, req: Request) => {
 //   const isExist = await Admin.findOne({ _id: id });
@@ -110,11 +113,11 @@ const updateAdmin = async (
 ): Promise<IAdmin | null> => {
   //@ts-ignore
   const { files } = req;
-  if (files?.length) {
+  if (files?.image?.length) {
     const result = await Admin.findOneAndUpdate(
       { _id: id },
       //@ts-ignore
-      { image: files.image[0] },
+      { image: files.image[0].path },
       {
         new: true,
         runValidators: true,
@@ -124,14 +127,20 @@ const updateAdmin = async (
     return result;
   } else {
     //@ts-ignore
-    const data = JSON.parse(req.body.data);
+    const data = req.body.data;
+    if (!data) {
+      throw new Error('Data is missing in the request body!');
+    }
+
+    const parsedData = JSON.parse(data); // Parse the data if it exists
+
     const isExist = await Admin.findOne({ _id: id });
 
     if (!isExist) {
       throw new ApiError(404, 'Admin not found !');
     }
 
-    const { ...AdminData } = data;
+    const { ...AdminData } = parsedData;
 
     const updatedAdminData: Partial<IAdmin> = { ...AdminData };
 
@@ -141,6 +150,7 @@ const updateAdmin = async (
     return result;
   }
 };
+
 //!
 const deleteUser = async (id: string): Promise<IUser | null> => {
   const result = await User.findByIdAndDelete(id);
@@ -473,7 +483,14 @@ const UnlockUserAccount = async (payload: { userId: string }) => {
   );
 };
 const myProfile = async (id: string) => {
-  return await Admin.findById(id);
+  const result = await Admin.findById(id);
+  if (result) {
+    const updatedResult = {
+      ...result,
+      image: updateImageUrl(result.image).replace(/\\/g, '/'),
+    };
+    return updatedResult;
+  }
 };
 //!
 // const latestRelease = async () => {
@@ -570,4 +587,5 @@ export const AdminService = {
   myProfile,
   UnlockUserAccount,
   latestRelease,
+  getAllAdmin,
 };

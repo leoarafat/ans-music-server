@@ -20,6 +20,11 @@ router.get(
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER, ENUM_USER_ROLE.ADMIN),
   UserController.getAllUsers,
 );
+router.get(
+  '/admins',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER, ENUM_USER_ROLE.ADMIN),
+  AdminController.getAllAdmin,
+);
 router.post(
   '/add-user',
   auth(ENUM_USER_ROLE.ADMIN),
