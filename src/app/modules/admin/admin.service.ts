@@ -474,12 +474,14 @@ const latestRelease = async () => {
   })
     .lean()
     .populate('label')
-    .populate('primaryArtist');
+    .populate('primaryArtist')
+    .limit(5);
 
   const albumSongs = await Album.find({ isApproved: 'approved' })
     .lean()
     .populate('label')
-    .populate('primaryArtist');
+    .populate('primaryArtist')
+    .limit(5);
 
   const singleSongData = singleSongs.map(song => ({
     ...song,
