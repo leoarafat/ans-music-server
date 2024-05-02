@@ -27,6 +27,7 @@ import { Album } from '../album/album.model';
 import QueryBuilder from '../../../builder/QueryBuilder';
 import { IGenericResponse } from '../../../interfaces/paginations';
 import { updateImageUrl } from '../../../utils/url-modifier';
+import { IAdmin } from './admin.interface';
 
 //!
 const registrationUser = async (payload: IRegistration) => {
@@ -74,33 +75,71 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
   return updatedResult;
 };
 //!
-const updateAdmin = async (id: string, req: Request) => {
-  const isExist = await Admin.findOne({ _id: id });
+// const updateAdmin = async (id: string, req: Request) => {
+//   const isExist = await Admin.findOne({ _id: id });
+//   //@ts-ignore
+//   const { files } = req;
+//   //@ts-ignore
+//   const data = JSON.parse(req.body.data);
+//   //@ts-ignore
+//   const imageFile = files.image[0];
+//   if (!isExist) {
+//     throw new ApiError(404, 'Admin not found!');
+//   }
+
+//   const { ...userData } = data;
+
+//   const result = await Admin.findOneAndUpdate(
+//     { _id: id },
+//     {
+//       ...userData,
+//       image: imageFile.path,
+//     },
+//     {
+//       new: true,
+//       runValidators: true,
+//     },
+//   );
+
+//   return result;
+// };
+//!
+const updateAdmin = async (
+  id: string,
+  req: Request,
+): Promise<IAdmin | null> => {
   //@ts-ignore
   const { files } = req;
-  //@ts-ignore
-  const data = JSON.parse(req.body.data);
-  //@ts-ignore
-  const imageFile = files.image[0];
-  if (!isExist) {
-    throw new ApiError(404, 'Admin not found!');
-  }
+  if (files?.length) {
+    const result = await Admin.findOneAndUpdate(
+      { _id: id },
+      //@ts-ignore
+      { image: files.image[0] },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
-  const { ...userData } = data;
+    return result;
+  } else {
+    //@ts-ignore
+    const data = JSON.parse(req.body.data);
+    const isExist = await Admin.findOne({ _id: id });
 
-  const result = await Admin.findOneAndUpdate(
-    { _id: id },
-    {
-      ...userData,
-      image: imageFile.path,
-    },
-    {
+    if (!isExist) {
+      throw new ApiError(404, 'Admin not found !');
+    }
+
+    const { ...AdminData } = data;
+
+    const updatedAdminData: Partial<IAdmin> = { ...AdminData };
+
+    const result = await Admin.findOneAndUpdate({ _id: id }, updatedAdminData, {
       new: true,
-      runValidators: true,
-    },
-  );
-
-  return result;
+    });
+    return result;
+  }
 };
 //!
 const deleteUser = async (id: string): Promise<IUser | null> => {
