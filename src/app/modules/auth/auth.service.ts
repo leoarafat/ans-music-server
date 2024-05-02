@@ -105,7 +105,7 @@ const changePassword = async (
   payload: IChangePassword,
 ): Promise<void> => {
   //@ts-ignore
-  const { userId, oldPassword } = payload;
+  const { userId, oldPassword, newPassword } = payload;
   const isUserExist = await User.findOne({ _id: userId }).select('+password');
   if (!isUserExist) {
     throw new ApiError(404, 'User does not exist');
@@ -116,7 +116,7 @@ const changePassword = async (
   ) {
     throw new ApiError(402, 'Old password is incorrect');
   }
-
+  isUserExist.password = newPassword;
   isUserExist.save();
 };
 //!

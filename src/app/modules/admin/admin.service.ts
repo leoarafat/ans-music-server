@@ -250,8 +250,10 @@ const changePassword = async (
   id: string | null,
   payload: IChangePassword,
 ): Promise<void> => {
-  const { oldPassword } = payload;
+  const { oldPassword, newPassword } = payload;
+
   const isAdminExist = await Admin.findOne({ _id: id }).select('+password');
+
   if (!isAdminExist) {
     throw new ApiError(404, 'Admin does not exist');
   }
@@ -261,7 +263,7 @@ const changePassword = async (
   ) {
     throw new ApiError(402, 'Old password is incorrect');
   }
-
+  isAdminExist.password = newPassword;
   isAdminExist.save();
 };
 //!
