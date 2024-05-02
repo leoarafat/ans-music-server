@@ -119,9 +119,7 @@ const singleMusic = async (id: string) => {
   const result = await SingleTrack.findById(id)
     .populate('label')
     .populate('primaryArtist');
-  if (!result) {
-    throw new ApiError(404, 'Song not found');
-  }
+
   if (result) {
     const updatedResult = {
       ...result.toObject(),
