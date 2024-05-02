@@ -5,7 +5,62 @@ import { Album } from '../album/album.model';
 import { Bulk } from '../builk/bulk.model';
 import { ISingleTrack } from '../single-track/single.interface';
 import { SingleTrack } from '../single-track/single.model';
+//!
+// const releaseSongs = async (
+//   query: Record<string, unknown>,
+// ): Promise<ISingleTrack[]> => {
+//   const singleSongs = new QueryBuilder(
+//     SingleTrack.find({ isApproved: 'approved' })
+//       .lean()
+//       .populate('user')
+//       .populate('label')
+//       .populate('primaryArtist')
+//       .lean(),
+//     query,
+//   )
+//     .search(['releaseTitle'])
+//     .filter()
+//     .sort()
+//     .paginate()
+//     .fields();
 
+//   const singleTracks = await singleSongs.modelQuery;
+//   const albumSong = new QueryBuilder(
+//     Album.find({ isApproved: 'approved' })
+//       .lean()
+//       .populate('user')
+//       .populate('label')
+//       .populate('primaryArtist')
+//       .lean(),
+//     query,
+//   )
+//     .search(['releaseTitle'])
+//     .filter()
+//     .sort()
+//     .paginate()
+//     .fields();
+
+//   const albums = await albumSong.modelQuery;
+
+//   // const bulkSongs = await Bulk.find({});
+//   const singleSongData = singleTracks?.map(song => ({
+//     ...song,
+//     audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+//     image: updateImageUrl(song.image).replace(/\\/g, '/'),
+//   }));
+
+//   const albumSongData = albums?.flatMap(album =>
+//     album.audio.map(audioItem => ({
+//       ...album,
+//       audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+//       image: updateImageUrl(album.image).replace(/\\/g, '/'),
+//     })),
+//   );
+
+//   const combinedData = [...singleSongData, ...albumSongData];
+
+//   return combinedData;
+// };
 const releaseSongs = async (
   query: Record<string, unknown>,
 ): Promise<ISingleTrack[]> => {
@@ -25,6 +80,7 @@ const releaseSongs = async (
     .fields();
 
   const singleTracks = await singleSongs.modelQuery;
+
   const albumSong = new QueryBuilder(
     Album.find({ isApproved: 'approved' })
       .lean()
@@ -42,25 +98,81 @@ const releaseSongs = async (
 
   const albums = await albumSong.modelQuery;
 
-  // const bulkSongs = await Bulk.find({});
   const singleSongData = singleTracks?.map(song => ({
     ...song,
     audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
     image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
-  const albumSongData = albums?.flatMap(album =>
-    album.audio.map(audioItem => ({
-      ...album,
-      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
-      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+  const albumSongData = albums?.map(album => ({
+    ...album,
+    audio: album.audio.map(audioItem => ({
+      path: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      title: audioItem.title,
+      artist: audioItem.artist,
     })),
-  );
+    image: updateImageUrl(album.image).replace(/\\/g, '/'),
+  }));
 
   const combinedData = [...singleSongData, ...albumSongData];
 
   return combinedData;
 };
+
+//!
+// const tracks = async (query: Record<string, unknown>) => {
+//   const singleSongs = new QueryBuilder(
+//     SingleTrack.find({})
+//       .lean()
+//       .populate('user')
+//       .populate('label')
+//       .populate('primaryArtist')
+//       .lean(),
+//     query,
+//   )
+//     .search(['releaseTitle'])
+//     .filter()
+//     .sort()
+//     .paginate()
+//     .fields();
+
+//   const singleTracks = await singleSongs.modelQuery;
+//   const albumSong = new QueryBuilder(
+//     Album.find({})
+//       .lean()
+//       .populate('user')
+//       .populate('label')
+//       .populate('primaryArtist')
+//       .lean(),
+//     query,
+//   )
+//     .search(['releaseTitle'])
+//     .filter()
+//     .sort()
+//     .paginate()
+//     .fields();
+
+//   const albums = await albumSong.modelQuery;
+//   const bulkSongs = await Bulk.find({});
+//   const singleSongData = singleTracks?.map(song => ({
+//     ...song,
+//     audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+//     image: updateImageUrl(song.image).replace(/\\/g, '/'),
+//   }));
+
+//   const albumSongData = albums?.flatMap(album =>
+//     album.audio.map(audioItem => ({
+//       ...album,
+//       audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+//       image: updateImageUrl(album.image).replace(/\\/g, '/'),
+//     })),
+//   );
+
+//   const combinedData = [...singleSongData, ...albumSongData, ...bulkSongs];
+
+//   return combinedData;
+// };
+//!
 const tracks = async (query: Record<string, unknown>) => {
   const singleSongs = new QueryBuilder(
     SingleTrack.find({})
@@ -78,6 +190,7 @@ const tracks = async (query: Record<string, unknown>) => {
     .fields();
 
   const singleTracks = await singleSongs.modelQuery;
+
   const albumSong = new QueryBuilder(
     Album.find({})
       .lean()
@@ -94,25 +207,30 @@ const tracks = async (query: Record<string, unknown>) => {
     .fields();
 
   const albums = await albumSong.modelQuery;
+
   const bulkSongs = await Bulk.find({});
+
   const singleSongData = singleTracks?.map(song => ({
     ...song,
     audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
     image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
-  const albumSongData = albums?.flatMap(album =>
-    album.audio.map(audioItem => ({
-      ...album,
-      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
-      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+  const albumSongData = albums?.map(album => ({
+    ...album,
+    audio: album.audio.map(audioItem => ({
+      path: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      title: audioItem.title,
+      artist: audioItem.artist,
     })),
-  );
+    image: updateImageUrl(album.image).replace(/\\/g, '/'),
+  }));
 
   const combinedData = [...singleSongData, ...albumSongData, ...bulkSongs];
 
   return combinedData;
 };
+
 const artists = async () => {
   const songs = await SingleTrack.find({})
     .populate('label')

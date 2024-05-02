@@ -436,14 +436,47 @@ const UnlockUserAccount = async (payload: { userId: string }) => {
 const myProfile = async (id: string) => {
   return await Admin.findById(id);
 };
+//!
+// const latestRelease = async () => {
+//   const singleSongs = await SingleTrack.find({
+//     isApproved: 'success',
+//   })
+//     .lean()
+//     .populate('label')
+//     .populate('primaryArtist');
+//   const albumSongs = await Album.find({ isApproved: 'success' })
+//     .lean()
+//     .populate('label')
+//     .populate('primaryArtist');
+
+//   const singleSongData = singleSongs.map(song => ({
+//     ...song,
+//     audio: updateImageUrl(song.audio.path).replace(/\\/g, '/'),
+//     image: updateImageUrl(song.image).replace(/\\/g, '/'),
+//   }));
+
+//   const albumSongData = albumSongs.flatMap(album =>
+//     album.audio.map(audioItem => ({
+//       ...album,
+//       audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+//       image: updateImageUrl(album.image).replace(/\\/g, '/'),
+//     })),
+//   );
+
+//   const combinedData = [...singleSongData, ...albumSongData];
+
+//   return combinedData;
+// };
+//!
 const latestRelease = async () => {
   const singleSongs = await SingleTrack.find({
-    isApproved: 'success',
+    isApproved: 'approved',
   })
     .lean()
     .populate('label')
     .populate('primaryArtist');
-  const albumSongs = await Album.find({ isApproved: 'success' })
+
+  const albumSongs = await Album.find({ isApproved: 'approved' })
     .lean()
     .populate('label')
     .populate('primaryArtist');
@@ -454,18 +487,21 @@ const latestRelease = async () => {
     image: updateImageUrl(song.image).replace(/\\/g, '/'),
   }));
 
-  const albumSongData = albumSongs.flatMap(album =>
-    album.audio.map(audioItem => ({
-      ...album,
-      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
-      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+  const albumSongData = albumSongs.flatMap(album => ({
+    ...album,
+    audio: album.audio.map(audioItem => ({
+      path: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      title: audioItem.title,
+      artist: audioItem.artist,
     })),
-  );
+    image: updateImageUrl(album.image).replace(/\\/g, '/'),
+  }));
 
   const combinedData = [...singleSongData, ...albumSongData];
 
   return combinedData;
 };
+
 export const AdminService = {
   createUser,
   getAllUsers,
