@@ -129,13 +129,17 @@ const singleMusic = async (id: string) => {
     };
     return updatedResult;
   }
-  const albums = await Album.findById(id).lean();
-  if (albums) {
-    const albumSongData = albums.audio.map(audioItem => ({
-      ...albums,
-      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
-      image: updateImageUrl(albums.image).replace(/\\/g, '/'),
-    }));
+  const album = await Album.findById(id).lean();
+  if (album) {
+    const albumSongData = {
+      ...album,
+      audio: album.audio.map(audioItem => ({
+        path: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+        title: audioItem.title,
+        artist: audioItem.artist,
+      })),
+      image: updateImageUrl(album.image).replace(/\\/g, '/'),
+    };
     return albumSongData;
   }
 };
