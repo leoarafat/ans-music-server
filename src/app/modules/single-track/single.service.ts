@@ -143,14 +143,57 @@ const singleMusic = async (id: string) => {
     return albumSongData;
   }
 };
-const updateSingleMusic = async (
-  id: string,
-  payload: Partial<ISingleTrack>,
-) => {
+//!
+// const updateSingleMusic = async (
+//   id: string,
+//   payload: Partial<ISingleTrack>,
+// ) => {
+//   const { ...musicData } = payload;
+//   const isExists = await SingleTrack.findById(id);
+//   const album = await Album.findById(id);
+//   if (isExists) {
+//     const result = await SingleTrack.findOneAndUpdate({ _id: id }, musicData, {
+//       new: true,
+//       runValidators: true,
+//     })
+//       .populate('label')
+//       .populate('primaryArtist');
+//     return result;
+//   }
+//   if (album) {
+//     const result = await Album.findOneAndUpdate({ _id: id }, musicData, {
+//       new: true,
+//       runValidators: true,
+//     })
+//       .populate('label')
+//       .populate('primaryArtist');
+//     return result;
+//   }
+// };
+//!
+const updateSingleMusic = async (id: string, payload: any) => {
   const { ...musicData } = payload;
   const isExists = await SingleTrack.findById(id);
   const album = await Album.findById(id);
+
   if (isExists) {
+    if (payload.primaryArtist) {
+      musicData.primaryArtist = payload.primaryArtist.map(
+        (artistId: { toString: () => any }) => artistId.toString(),
+      );
+    }
+    if (payload.writer) {
+      musicData.writer = payload.writer;
+    }
+    if (payload.composer) {
+      musicData.composer = payload.composer;
+    }
+    if (payload.musicDirector) {
+      musicData.musicDirector = payload.musicDirector;
+    }
+    if (payload.producer) {
+      musicData.producer = payload.producer;
+    }
     const result = await SingleTrack.findOneAndUpdate({ _id: id }, musicData, {
       new: true,
       runValidators: true,
@@ -159,7 +202,25 @@ const updateSingleMusic = async (
       .populate('primaryArtist');
     return result;
   }
+
   if (album) {
+    if (payload.primaryArtist) {
+      musicData.primaryArtist = payload.primaryArtist.map(
+        (artistId: { toString: () => any }) => artistId.toString(),
+      );
+    }
+    if (payload.writer) {
+      musicData.writer = payload.writer;
+    }
+    if (payload.composer) {
+      musicData.composer = payload.composer;
+    }
+    if (payload.musicDirector) {
+      musicData.musicDirector = payload.musicDirector;
+    }
+    if (payload.producer) {
+      musicData.producer = payload.producer;
+    }
     const result = await Album.findOneAndUpdate({ _id: id }, musicData, {
       new: true,
       runValidators: true,
@@ -169,6 +230,7 @@ const updateSingleMusic = async (
     return result;
   }
 };
+
 const deleteSingleMusic = async (id: string) => {
   const isExists = await SingleTrack.findById(id);
   if (!isExists) {

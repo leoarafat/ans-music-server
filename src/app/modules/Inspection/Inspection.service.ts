@@ -88,17 +88,33 @@ const songInspection = async (id: string) => {
     };
     return updatedResult;
   }
+  // const album = await Album.findById(id)
+  //   .populate('label')
+  //   .populate('primaryArtist')
+  //   .lean();
+  // if (album) {
+  //   const data = album.audio.map(audioItem => ({
+  //     ...album,
+  //     audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+  //     image: updateImageUrl(album.image).replace(/\\/g, '/'),
+  //   }));
+  //   return data;
+  // }
   const album = await Album.findById(id)
     .populate('label')
     .populate('primaryArtist')
     .lean();
   if (album) {
-    const data = album.audio.map(audioItem => ({
+    const albumSongData = {
       ...album,
-      audio: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+      audio: album.audio.map(audioItem => ({
+        path: updateImageUrl(audioItem.path).replace(/\\/g, '/'),
+        title: audioItem.title,
+        artist: audioItem.artist,
+      })),
       image: updateImageUrl(album.image).replace(/\\/g, '/'),
-    }));
-    return data;
+    };
+    return albumSongData;
   }
 };
 //!
