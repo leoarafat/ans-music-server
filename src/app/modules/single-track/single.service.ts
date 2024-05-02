@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { SingleTrack } from './single.model';
 import ApiError from '../../../errors/ApiError';
 import { formatDuration, getAudioDuration } from '../../../utils/utils';
-import { ISingleTrack } from './single.interface';
+// import { ISingleTrack } from './single.interface';
 import { generateArtistId } from '../../../utils/uniqueId';
 import User from '../user/user.model';
 import { updateImageUrl } from '../../../utils/url-modifier';
