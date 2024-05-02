@@ -169,7 +169,10 @@ const updatePrimaryArtist = async (id: string, payload: any) => {
   });
 };
 const getPrimaryArtist = async (id: string, query: Record<string, unknown>) => {
-  const artistQuery = new QueryBuilder(PrimaryArtist.find({ user: id }), query)
+  const artistQuery = new QueryBuilder(
+    PrimaryArtist.find({ user: id }).lean(),
+    query,
+  )
     .search(['primaryArtistName'])
     .filter()
     .sort()

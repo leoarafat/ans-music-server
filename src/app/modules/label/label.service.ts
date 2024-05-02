@@ -20,7 +20,7 @@ const updateLabel = async (id: string, payload: any) => {
   });
 };
 const getLabel = async (id: string, query: Record<string, unknown>) => {
-  const labelQuery = new QueryBuilder(Label.find({ user: id }), query)
+  const labelQuery = new QueryBuilder(Label.find({ user: id }).lean(), query)
     .search(['labelName'])
     .filter()
     .sort()

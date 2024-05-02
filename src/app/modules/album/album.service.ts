@@ -76,7 +76,8 @@ const uploadMultiple = async (req: Request, res: Response) => {
 const myAllAlbum = async (id: string) => {
   const result = await Album.find({ user: id })
     .populate('Label')
-    .populate('PrimaryArtist');
+    .populate('PrimaryArtist')
+    .lean();
   const albumSongData = result.flatMap(album =>
     album.audio.map(audioItem => ({
       ...album,
@@ -89,7 +90,8 @@ const myAllAlbum = async (id: string) => {
 const SingleAlbum = async (id: string) => {
   const result = await Album.findById(id)
     .populate('Label')
-    .populate('PrimaryArtist');
+    .populate('PrimaryArtist')
+    .lean();
   return result;
 };
 const updateAlbum = async (id: string, payload: any) => {

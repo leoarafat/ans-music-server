@@ -14,7 +14,8 @@ const releaseSongs = async (
       .lean()
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])
@@ -29,7 +30,8 @@ const releaseSongs = async (
       .lean()
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])
@@ -65,7 +67,8 @@ const tracks = async (query: Record<string, unknown>) => {
       .lean()
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])
@@ -80,7 +83,8 @@ const tracks = async (query: Record<string, unknown>) => {
       .lean()
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])

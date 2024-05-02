@@ -360,7 +360,8 @@ const mySuccessRelease = async (id: string, query: Record<string, unknown>) => {
     SingleTrack.find({ user: id, isApproved: 'approved' })
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])
@@ -375,7 +376,8 @@ const mySuccessRelease = async (id: string, query: Record<string, unknown>) => {
     Album.find({ user: id, isApproved: 'approved' })
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])
@@ -411,7 +413,8 @@ const myPendingRelease = async (id: string, query: Record<string, unknown>) => {
     SingleTrack.find({ user: id, isApproved: 'pending' })
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])
@@ -426,7 +429,8 @@ const myPendingRelease = async (id: string, query: Record<string, unknown>) => {
     Album.find({ user: id, isApproved: 'pending' })
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])
@@ -475,7 +479,8 @@ const myCorrectionRelease = async (
     SingleTrack.find({ user: id })
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])
@@ -490,7 +495,8 @@ const myCorrectionRelease = async (
     Album.find({ user: id })
       .populate('user')
       .populate('label')
-      .populate('primaryArtist'),
+      .populate('primaryArtist')
+      .lean(),
     query,
   )
     .search(['releaseTitle'])

@@ -79,6 +79,6 @@ const createBulk = async (req: Request) => {
   return jsonData;
 };
 const getBulkData = async () => {
-  return await Bulk.find({});
+  return await Bulk.find({}).lean();
 };
 export const bulkService = { createBulk, getBulkData };
