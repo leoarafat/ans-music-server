@@ -217,28 +217,45 @@ const updateProfile = async (
   id: string,
   req: Request,
 ): Promise<IUser | null> => {
+  //@ts-ignore
   const { files } = req;
-  const data = JSON.parse(req.body.data);
-  const isExist = await User.findOne({ _id: id });
+  //@ts-ignore
+  if (files?.image?.length) {
+    const result = await User.findOneAndUpdate(
+      { _id: id },
+      //@ts-ignore
+      { image: files.image[0].path },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
-  if (!isExist) {
-    throw new ApiError(404, 'User not found !');
-  }
-
-  const { ...UserData } = data;
-
-  const updatedUserData: Partial<IUser> = { ...UserData };
-
-  const result = await User.findOneAndUpdate(
-    { _id: id },
+    return result;
+  } else {
     //@ts-ignore
-    { ...updatedUserData, image: files[0].path },
-    {
+    const data = req.body.data;
+    if (!data) {
+      throw new Error('Data is missing in the request body!');
+    }
+
+    const parsedData = JSON.parse(data); // Parse the data if it exists
+
+    const isExist = await User.findOne({ _id: id });
+
+    if (!isExist) {
+      throw new ApiError(404, 'User not found !');
+    }
+
+    const { ...UserData } = parsedData;
+
+    const updatedUserData: Partial<IUser> = { ...UserData };
+
+    const result = await User.findOneAndUpdate({ _id: id }, updatedUserData, {
       new: true,
-      runValidators: true,
-    },
-  );
-  return result;
+    });
+    return result;
+  }
 };
 //!
 const deleteUser = async (id: string): Promise<IUser | null> => {
