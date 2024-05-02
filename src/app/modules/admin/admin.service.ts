@@ -75,8 +75,20 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
   return updatedResult;
 };
 const getAllAdmin = async () => {
-  return await Admin.find({});
+  const results = await Admin.find({}).lean();
+  const updatedResults = results.map(result => {
+    if (result) {
+      const updatedResult = {
+        ...result,
+        image: updateImageUrl(result.image).replace(/\\/g, '/'),
+      };
+      return updatedResult;
+    }
+    return result;
+  });
+  return updatedResults;
 };
+
 //!
 // const updateAdmin = async (id: string, req: Request) => {
 //   const isExist = await Admin.findOne({ _id: id });
@@ -483,7 +495,7 @@ const UnlockUserAccount = async (payload: { userId: string }) => {
   );
 };
 const myProfile = async (id: string) => {
-  const result = await Admin.findById(id);
+  const result = await Admin.findById(id).lean();
   if (result) {
     const updatedResult = {
       ...result,
