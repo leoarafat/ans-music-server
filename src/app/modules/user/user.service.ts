@@ -47,7 +47,7 @@ const registrationUser = async (payload: IRegistration) => {
   const activationCode = activationToken.activationCode;
   const data = { user: { name: user.name }, activationCode };
   try {
-    await sendEmail({
+    sendEmail({
       email: user.email,
       subject: 'Activate Your Account',
       html: registrationSuccessEmailBody(data),
@@ -156,17 +156,48 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
 const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
   const isExist = await User.findOne({ _id: id });
   const { files } = req;
+
   const data = JSON.parse(req.body.data);
   //@ts-ignore
-  const nidFrontImage = files.nidFront[0];
+  // const nidFrontImage = files.nidFront[0];
+  let nidFrontImage = undefined;
   //@ts-ignore
-  const nidBackImage = files.nidBack[0];
+  if (files && files?.nidFront) {
+    //@ts-ignore
+    nidFrontImage = files?.nidFront[0].path;
+  }
   //@ts-ignore
-  const imageFile = files.image[0];
+  // const nidBackImage = files.nidBack[0];
+  let nidBackImage = undefined;
   //@ts-ignore
-  const copyrightNoticeImageFile = files.copyrightNoticeImage[0];
+  if (files && files?.nidBack) {
+    //@ts-ignore
+    nidBackImage = files?.nidBack[0].path;
+  }
   //@ts-ignore
-  const dashboardScreenShotFile = files.dashboardScreenShot[0];
+  // const imageFile = files.image[0];
+  let imageFile = undefined;
+  //@ts-ignore
+  if (files && files?.image) {
+    //@ts-ignore
+    imageFile = files?.image[0].path;
+  }
+  //@ts-ignore
+  // const copyrightNoticeImageFile = files.copyrightNoticeImage[0];
+  let copyrightNoticeImageFile = undefined;
+  //@ts-ignore
+  if (files && files?.copyrightNoticeImage) {
+    //@ts-ignore
+    copyrightNoticeImageFile = files?.copyrightNoticeImage[0].path;
+  }
+  //@ts-ignore
+  // const dashboardScreenShotFile = files.dashboardScreenShot[0];
+  let dashboardScreenShotFile = undefined;
+  //@ts-ignore
+  if (files && files?.dashboardScreenShot) {
+    //@ts-ignore
+    dashboardScreenShotFile = files?.dashboardScreenShot[0].path;
+  }
   if (!isExist) {
     throw new ApiError(404, 'User not found!');
   }
@@ -177,11 +208,11 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
     { _id: id },
     {
       ...userData,
-      image: imageFile.path,
-      nidFront: nidFrontImage.path,
-      nidBack: nidBackImage.path,
-      copyrightNoticeImage: copyrightNoticeImageFile.path,
-      dashboardScreenShot: dashboardScreenShotFile.path,
+      image: imageFile,
+      nidFront: nidFrontImage,
+      nidBack: nidBackImage,
+      copyrightNoticeImage: copyrightNoticeImageFile,
+      dashboardScreenShot: dashboardScreenShotFile,
     },
     {
       new: true,
@@ -192,9 +223,7 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
       Boolean(result.name) &&
       Boolean(result.email) &&
       Boolean(result.phoneNumber) &&
-      Boolean(result.password) &&
       Boolean(result.address) &&
-      Boolean(result.role) &&
       Boolean(result.image) &&
       Boolean(result.nidFront) &&
       Boolean(result.nidBack) &&
@@ -208,6 +237,12 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
       Boolean(result.videosCount);
     //@ts-ignore
     result.isVerified = isComplete;
+    if (result.isVerified == false) {
+      throw new ApiError(
+        500,
+        'Verify failed. Please provide all the required data',
+      );
+    }
     await result.save();
   }
   return result;

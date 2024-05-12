@@ -92,6 +92,52 @@ const generateAnalytics = async (id: string) => {
     throw error; // Rethrow the error for the caller to handle
   }
 };
+// const generateAnalytics = async (id: string, timeframe: string) => {
+//   try {
+//     let dateFilter = {};
+
+//     // Determine the date filter based on the selected timeframe
+//     if (timeframe === 'week') {
+//       const currentDate = new Date();
+//       const lastWeekDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 7);
+//       dateFilter = { $gte: lastWeekDate, $lte: currentDate };
+//     } else if (timeframe === 'month') {
+//       const currentDate = new Date();
+//       const lastMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+//       const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+//       const lastMonthEndDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, lastDayOfMonth);
+//       dateFilter = { $gte: lastMonthDate, $lte: lastMonthEndDate };
+//     } else if (timeframe === 'year') {
+//       const currentDate = new Date();
+//       const lastYearDate = new Date(currentDate.getFullYear() - 1, 0, 1);
+//       const lastYearEndDate = new Date(currentDate.getFullYear() - 1, 11, 31);
+//       dateFilter = { $gte: lastYearDate, $lte: lastYearEndDate };
+//     }
+
+//     // Aggregate statistics based on the date filter
+//     const statistics = await Statics.aggregate([
+//       {
+//         $match: {
+//           isrc: { $in: userISRCs },
+//           date: dateFilter // Apply date filter
+//         },
+//       },
+//       {
+//         $group: {
+//           _id: '$isrc',
+//           count: { $sum: 1 },
+//           totalRevenue: { $sum: { $toDouble: '$revenue' } },
+//           totalStreams: { $sum: { $toInt: '$stream_quantity' } },
+//         },
+//       },
+//     ]);
+
+//     return statistics;
+//   } catch (error) {
+//     console.error('Error generating analytics:', error);
+//     throw error; // Rethrow the error for the caller to handle
+//   }
+// };
 
 const getCorrectionRequestAlbum = async (id: string) => {
   const albums = await Album.find({ user: id }).lean();
