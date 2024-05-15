@@ -28,7 +28,7 @@ const addClaimRequest = async (req: Request, payload: IClaimRequest) => {
   const data = { url: result.url, id: paddedId, type: 'Claim' };
 
   try {
-    await sendEmail({
+    sendEmail({
       email: 'support@ansmusiclimited.com',
       subject: 'New claim request',
       html: youtubeRequestEmailBody(data),
@@ -66,7 +66,7 @@ const addArtistChannelRequest = async (
   };
 
   try {
-    await sendEmail({
+    sendEmail({
       email: 'support@ansmusiclimited.com',
       subject: 'New Artist Channel Request',
       html: youtubeRequestEmailBody(data),
@@ -94,7 +94,7 @@ const addWhitelistRequest = async (
   const data = { url: result.url, id: paddedId, type: 'Whitelist Request' };
 
   try {
-    await sendEmail({
+    sendEmail({
       email: 'support@ansmusiclimited.com',
       subject: 'New Whitelist Request',
       html: youtubeRequestEmailBody(data),
