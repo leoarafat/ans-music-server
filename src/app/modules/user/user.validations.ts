@@ -29,17 +29,65 @@ const create = z.object({
 });
 const updateUserZodSchema = z.object({
   body: z.object({
-    name: z
-      .object({
-        firstName: z.string({}).optional(),
-        lastName: z.string({}).optional(),
-      })
-      .optional(),
-    phoneNumber: z.string({}).optional(),
-    email: z.string({}).optional(),
-    password: z.string({}).optional(),
-    address: z.string({}).optional(),
-    role: z.string({}).optional(),
+    data: z.object({
+      phoneNumber: z.string({
+        required_error: 'phoneNumber is required',
+      }),
+      address: z.string({
+        required_error: 'address is required',
+      }),
+      country: z.string({
+        required_error: 'country is required',
+      }),
+      state: z.string({
+        required_error: 'state is required',
+      }),
+      city: z.string({
+        required_error: 'city is required',
+      }),
+      postCode: z.string({
+        required_error: 'postCode is required',
+      }),
+      channelName: z.string({
+        required_error: 'channelName is required',
+      }),
+      channelUrl: z.string({
+        required_error: 'channelUrl is required',
+      }),
+      subscribeCount: z
+        .number({
+          required_error: 'subscribeCount is required',
+        })
+        .int(),
+      videosCount: z
+        .number({
+          required_error: 'videosCount is required',
+        })
+        .int(),
+    }),
+  }),
+  files: z.object({
+    image: z
+      .array(
+        z.object({}).refine(() => true, {
+          message: 'Image is required',
+        }),
+      )
+      .nonempty({ message: 'Profile Image array cannot be empty' }),
+    nidFront: z
+      .array(
+        z.object({}).refine(() => true, {
+          message: 'nidFront is required',
+        }),
+      )
+      .nonempty({ message: 'nidFront array cannot be empty' }),
+    nidBack: z
+      .array(
+        z.object({}).refine(() => true, {
+          message: 'nidBack is required',
+        }),
+      )
+      .nonempty({ message: 'nidBack array cannot be empty' }),
   }),
 });
 const loginZodSchema = z.object({

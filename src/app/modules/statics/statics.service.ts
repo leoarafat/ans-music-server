@@ -44,22 +44,6 @@ const insertIntoDB = async (req: Request) => {
 };
 //!
 
-// const generateAnalytics = async (id: string) => {
-//   const findSingleMySong = await SingleTrack.find({ user: id });
-//   const findMyAlbumSong = await Album.find({ user: id });
-
-//   const statistics = await Statics.aggregate([
-//     {
-//       $group: {
-//         _id: '$isrc',
-//         count: { $sum: 1 },
-//         totalRevenue: { $sum: { $toDouble: '$revenue' } },
-//         totalStreams: { $sum: { $toInt: '$stream_quantity' } },
-//       },
-//     },
-//   ]);
-//   return statistics;
-// };
 const generateAnalytics = async (id: string) => {
   try {
     const singleTrackISRCs = await SingleTrack.find({ user: id }).distinct(

@@ -1,16 +1,17 @@
 import express from 'express';
-import { upload } from '../../../utils/multer';
+// import { upload } from '../../../utils/multer';
 import { AlbumService } from '../album/album.service';
 import { AlbumController } from './album.controller';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
+import { uploadFile } from '../../middlewares/fileUpload';
 
 const router = express.Router();
 
 router.post(
   '/upload',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
-  upload,
+  uploadFile(),
   AlbumService.uploadMultiple,
 );
 router.get(

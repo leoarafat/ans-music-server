@@ -1,15 +1,16 @@
 import express from 'express';
 
-import { uploadSingle } from '../../../utils/multer';
+// import { uploadSingle } from '../../../utils/multer';
 import { SingleMusicController } from './single.controller';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
+import { uploadFile } from '../../middlewares/fileUpload';
 const router = express.Router();
 
 router.post(
   '/upload',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
-  uploadSingle,
+  uploadFile(),
   SingleMusicController.uploadSingle,
 );
 router.get(

@@ -1,12 +1,15 @@
 import express from 'express';
 import { UserController } from './user.controller';
-import { upload } from '../../../utils/multer';
+// import { upload } from '../../../utils/multer';
 import { SubUserController } from '../sub-user/sub-user.controller';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import { YoutubeRequestController } from '../youtube-request/youtube-request.controller';
 import auth from '../../middlewares/auth';
 import { StaticsController } from '../statics/statics.controller';
 import { SingleMusicController } from '../single-track/single.controller';
+import { validateRequest } from '../../middlewares/validateRequest';
+import { UserValidation } from './user.validations';
+import { uploadFile } from '../../middlewares/fileUpload';
 
 const router = express.Router();
 //!User
@@ -42,8 +45,13 @@ router.post(
 
 //!IDS Work
 router.get('/profile/:id', UserController.getSingleUser);
-router.patch('/verify-profile/:id', upload, UserController.updateUser);
-router.patch('/edit-profile/:id', upload, UserController.updateProfile);
+router.patch(
+  '/verify-profile/:id',
+  uploadFile(),
+  validateRequest(UserValidation.updateUserZodSchema),
+  UserController.updateUser,
+);
+router.patch('/edit-profile/:id', uploadFile(), UserController.updateProfile);
 
 //!NEWS
 router.get(
@@ -70,7 +78,7 @@ router.get(
 router.patch(
   '/verify-sub-user/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
-  upload,
+  uploadFile(),
   SubUserController.updateUser,
 );
 router.get(
