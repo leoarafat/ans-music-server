@@ -17,8 +17,8 @@ const uploadMultiple = async (req: Request, res: Response) => {
     // console.log(artists, 'artists');
     //@ts-ignore
     const albumImage = req.files.image[0];
-    const albumData = req.body.data;
-    // const albumData = JSON.parse(req.body.data);
+    // const albumData = req.body.data;
+    const albumData = JSON.parse(req.body.data);
     albumData.releaseId = generateArtistId();
 
     await Promise.all(
