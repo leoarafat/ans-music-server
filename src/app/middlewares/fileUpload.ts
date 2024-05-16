@@ -32,7 +32,9 @@ export const uploadFile = () => {
         file.mimetype === 'image/jpeg' ||
         file.mimetype === 'image/png' ||
         file.mimetype === 'image/jpg' ||
-        file.mimetype === 'video/mp4'
+        file.mimetype === 'video/mp4' ||
+        file.mimetype === 'audio/mp3' ||
+        file.mimetype === 'audio/mpeg'
       ) {
         cb(null, uploadPath);
       } else {
@@ -69,7 +71,9 @@ export const uploadFile = () => {
         file.mimetype === 'image/jpeg' ||
         file.mimetype === 'image/png' ||
         file.mimetype === 'image/jpg' ||
-        file.mimetype === 'video/mp4'
+        file.mimetype === 'video/mp4' ||
+        file.mimetype === 'audio/mp3' ||
+        file.mimetype === 'audio/mpeg'
       ) {
         cb(null, true);
       } else {

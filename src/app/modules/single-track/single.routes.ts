@@ -5,12 +5,15 @@ import { SingleMusicController } from './single.controller';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import { uploadFile } from '../../middlewares/fileUpload';
+import { validateRequest } from '../../middlewares/validateRequest';
+import { SingleTrackZodSchema } from './single.validations';
 const router = express.Router();
 
 router.post(
   '/upload',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   uploadFile(),
+  validateRequest(SingleTrackZodSchema.singleTrackSchema),
   SingleMusicController.uploadSingle,
 );
 router.get(

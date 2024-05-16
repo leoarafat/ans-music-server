@@ -89,36 +89,7 @@ const singleMusicSchema = new Schema<ISingleTrack>(
       },
     },
     //!
-    // primaryArtist: {
-    //   type: [
-    //     {
-    //       primaryArtistName: {
-    //         type: String,
-    //         required: true,
-    //       },
-    //       primaryArtistId: {
-    //         type: String,
-    //         required: true,
-    //       },
-    //       primaryArtistSpotifyId: {
-    //         type: String,
-    //       },
 
-    //       primaryArtistAppleId: {
-    //         type: String,
-    //       },
-
-    //       primaryArtistFacebookId: {
-    //         type: String,
-    //       },
-
-    //       primaryArtistYoutubeId: {
-    //         type: String,
-    //       },
-    //     },
-    //   ],
-    //   required: true,
-    // },
     //!
     writer: {
       type: [
@@ -240,7 +211,7 @@ const singleMusicSchema = new Schema<ISingleTrack>(
 
     isrc: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     catalogNumber: {

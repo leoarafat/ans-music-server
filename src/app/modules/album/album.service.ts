@@ -10,11 +10,15 @@ const uploadMultiple = async (req: Request, res: Response) => {
   try {
     //@ts-ignore
     const audioFiles = req.files['audio'];
+    // console.log(audioFiles, 'audioFiles');
     const titles = req.body['title'];
+    // console.log(titles, 'titles');
     const artists = req.body['artist'];
+    // console.log(artists, 'artists');
     //@ts-ignore
     const albumImage = req.files.image[0];
-    const albumData = JSON.parse(req.body.data);
+    const albumData = req.body.data;
+    // const albumData = JSON.parse(req.body.data);
     albumData.releaseId = generateArtistId();
 
     await Promise.all(

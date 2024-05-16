@@ -12,6 +12,7 @@ router.post(
   '/upload',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.SUB_USER),
   uploadFile(),
+  // validateRequest(AlbumValidation.albumZodSchema),
   AlbumService.uploadMultiple,
 );
 router.get(

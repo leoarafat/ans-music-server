@@ -13,7 +13,8 @@ import QueryBuilder from '../../../builder/QueryBuilder';
 const uploadSingle = async (req: Request) => {
   const { files } = req;
 
-  const data = JSON.parse(req.body.data);
+  const data = req.body.data;
+  // const data = JSON.parse(req.body.data);
   const user = data?.user;
   const checkUser = await User.findById(user);
   if (!checkUser) {
