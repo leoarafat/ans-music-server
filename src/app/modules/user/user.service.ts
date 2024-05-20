@@ -156,9 +156,10 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
 const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
   const isExist = await User.findOne({ _id: id });
   const { files } = req;
+  // console.log(req.body.data);
+  // const data = req.body.data;
+  const data = JSON.parse(req.body.data);
 
-  const data = req.body.data;
-  // const data = JSON.parse(req.body.data);
   //@ts-ignore
   // const nidFrontImage = files.nidFront[0];
   let nidFrontImage = undefined;
@@ -236,6 +237,7 @@ const updateUser = async (id: string, req: Request): Promise<IUser | null> => {
       Boolean(result.channelUrl) &&
       Boolean(result.subscribeCount) &&
       Boolean(result.videosCount);
+
     //@ts-ignore
     result.isVerified = isComplete;
     if (result.isVerified == false) {

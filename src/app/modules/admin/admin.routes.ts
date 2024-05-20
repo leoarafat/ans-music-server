@@ -3,7 +3,7 @@ import express from 'express';
 import { AdminController } from './admin.controller';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
-import { upload, uploadStatics } from '../../../utils/multer';
+
 import { StaticsController } from '../statics/statics.controller';
 import { catalogMusicController } from '../catalog-music/catalog-music.controller';
 import { activityController } from '../activity/activity.controller';
@@ -13,6 +13,7 @@ import { paymentController } from '../payments/payments.controller';
 import { NewsController } from '../news/news.controller';
 import { UserController } from '../user/user.controller';
 import { SingleMusicController } from '../single-track/single.controller';
+import { uploadFile } from '../../middlewares/fileUpload';
 
 const router = express.Router();
 router.get(
@@ -35,7 +36,7 @@ router.post('/login', AdminController.login);
 router.post('/refresh-token', AdminController.refreshToken);
 router.patch('/change-password/:id', AdminController.changePassword);
 //!Analytics management
-router.post('/statics', uploadStatics, StaticsController.insertIntoDB);
+router.post('/statics', uploadFile(), StaticsController.insertIntoDB);
 router.get('/latest-release', AdminController.latestRelease);
 //!Youtube requests
 router.get(
@@ -248,6 +249,6 @@ router.delete(
 //! Statics Analytics
 router.get('/analytics/:id', StaticsController.generateAnalytics);
 //! Admin Update
-router.patch('/edit-profile/:id', upload, AdminController.updateAdmin);
+router.patch('/edit-profile/:id', uploadFile(), AdminController.updateAdmin);
 router.get('/me/:id', auth(ENUM_USER_ROLE.ADMIN), AdminController.myProfile);
 export const AdminRoutes = router;

@@ -11,7 +11,7 @@ export const uploadFile = () => {
         uploadPath = 'uploads/images/nid';
       } else if (
         file.fieldname === 'dashboardScreenShot' ||
-        file.filename === 'copyrightNoticeImage'
+        file.fieldname === 'copyrightNoticeImage'
       ) {
         uploadPath = 'uploads/images/dashboard';
       } else if (file.fieldname === 'video') {
@@ -34,7 +34,8 @@ export const uploadFile = () => {
         file.mimetype === 'image/jpg' ||
         file.mimetype === 'video/mp4' ||
         file.mimetype === 'audio/mp3' ||
-        file.mimetype === 'audio/mpeg'
+        file.mimetype === 'audio/mpeg' ||
+        file.mimetype === 'image/webp'
       ) {
         cb(null, uploadPath);
       } else {
@@ -73,7 +74,8 @@ export const uploadFile = () => {
         file.mimetype === 'image/jpg' ||
         file.mimetype === 'video/mp4' ||
         file.mimetype === 'audio/mp3' ||
-        file.mimetype === 'audio/mpeg'
+        file.mimetype === 'audio/mpeg' ||
+        file.mimetype === 'image/webp'
       ) {
         cb(null, true);
       } else {
@@ -88,13 +90,13 @@ export const uploadFile = () => {
     storage: storage,
     fileFilter: fileFilter,
   }).fields([
-    { name: 'image', maxCount: 1 },
-    { name: 'nidFront', maxCount: 1 },
-    { name: 'nidBack', maxCount: 1 },
-    { name: 'dashboardScreenShot', maxCount: 1 },
-    { name: 'copyrightNoticeImage', maxCount: 1 },
-    { name: 'bulk', maxCount: 1 },
-    { name: 'statics', maxCount: 1 },
+    { name: 'image', maxCount: 5 },
+    { name: 'nidFront', maxCount: 5 },
+    { name: 'nidBack', maxCount: 5 },
+    { name: 'dashboardScreenShot', maxCount: 5 },
+    { name: 'copyrightNoticeImage', maxCount: 5 },
+    { name: 'bulk', maxCount: 5 },
+    { name: 'statics', maxCount: 5 },
     { name: 'audio' },
     { name: 'title' },
     { name: 'artist' },

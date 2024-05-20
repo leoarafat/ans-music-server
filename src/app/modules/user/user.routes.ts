@@ -7,9 +7,10 @@ import { YoutubeRequestController } from '../youtube-request/youtube-request.con
 import auth from '../../middlewares/auth';
 import { StaticsController } from '../statics/statics.controller';
 import { SingleMusicController } from '../single-track/single.controller';
-import { validateRequest } from '../../middlewares/validateRequest';
-import { UserValidation } from './user.validations';
+
 import { uploadFile } from '../../middlewares/fileUpload';
+
+// import { upload } from '../../../utils/multer';
 
 const router = express.Router();
 //!User
@@ -48,7 +49,7 @@ router.get('/profile/:id', UserController.getSingleUser);
 router.patch(
   '/verify-profile/:id',
   uploadFile(),
-  validateRequest(UserValidation.updateUserZodSchema),
+
   UserController.updateUser,
 );
 router.patch('/edit-profile/:id', uploadFile(), UserController.updateProfile);
